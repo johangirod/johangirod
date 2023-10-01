@@ -3,10 +3,15 @@
   import Message from '$lib/ui/Message.svelte';
 </script>
 
+
+<svelte:head>
+	<title>Express TP - Johan Girod</title>
+</svelte:head>
 # Express
 
 ## Objectifs
 
+- Avoir une première experience avec l'architecture MVC
 - Savoir créer un serveur web avec Express et utiliser le routeur
 - Savoir lancer des tests et interpréter les erreurs
 - Servir les fichiers statiques
@@ -14,7 +19,6 @@
 - Savoir se servir d'un layout
 - Savoir traiter un formulaire HTML avec Express
 - Comprendre le principe du middleware, et l'utiliser pour gérer les erreurs
-- Avoir une première experience avec l'architecture MVC
 
 ## Sommaire
 
@@ -125,7 +129,7 @@ Il vous faudra importer la bibliothèque express, créer une instance de l'appli
 1. Optionnel : ouvrez votre navigateur et allez sur `http://localhost:3000/ping`
 
 <details>
-  <summary>Voir la Voir la solution</summary>
+  <summary>Voir la solution</summary>
 
 ```typescript
 import express from "express";
