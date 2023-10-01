@@ -46,5 +46,10 @@
 				target="_blank">Consulter mon CV sur Linkedin</a
 			>
 		</li>
+		<li>
+			<a href="/cours" aria-label="Voir les cours, nouvelle fenêtre" target="_blank"
+				>Accéder aux cours</a
+			>
+		</li>
 	</ul>
 </main>
