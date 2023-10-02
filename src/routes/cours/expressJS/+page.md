@@ -1,13 +1,17 @@
 
 <script>
-  import Message from '$lib/ui/Message.svelte';
+  import Message from '$lib/Message.svelte';
+  import Solution from '$lib/Solution.svelte';
 </script>
 
 
 <svelte:head>
 	<title>Express TP - Johan Girod</title>
 </svelte:head>
-# Express
+# ExpressJS
+
+Ce TP vous permettra de vous familariser avec un framework web ([`expressjs`](https://expressjs.com)), en créant un site web pour un restaurant. 
+Ce site contiendra une page d'accueil, une page pour afficher les menus, et une page pour commander un menu.
 
 ## Objectifs
 
@@ -116,6 +120,16 @@ Le fichier `index.html` contient la page d'accueil du site. Nous allons maintena
 
 Nous allons créer une route `/ping` qui renverra un statut 200.
 
+<Message>
+<div slot='title'>Codes de réponse HTTP</div>
+
+Le statut HTTP est un code numérique qui est renvoyé par le serveur pour indiquer le résultat de la requête au client. Le code 200 signifie que la requête a été traitée avec succès. Le code 404 signifie que la ressource demandée n'a pas été trouvée. Nous verrons d'autres codes de statut HTTP plus tard dans ce TP.
+
+[En savoir plus](https://developer.mozilla.org/fr/docs/Web/HTTP/Status)
+
+</Message>
+
+
 Il vous faudra importer la bibliothèque express, créer une instance de l'application, et ajouter une route `/ping` qui renvoie un statut 200.
 
 
@@ -128,8 +142,7 @@ Il vous faudra importer la bibliothèque express, créer une instance de l'appli
 1. Lancez les tests avec `npm test`
 1. Optionnel : ouvrez votre navigateur et allez sur `http://localhost:3000/ping`
 
-<details>
-  <summary>Voir la solution</summary>
+<Solution code="UEF">
 
 ```typescript
 import express from "express";
@@ -137,26 +150,16 @@ const app = express();
 
 app.get("/ping", (req, res) => res.sendStatus(200));
 
-app.listen(3000, () => console.log("Server started"));
+app.listen(3000, () => console.log("Server started on http://localhost:3000"));
 ```
 
-Testez le serveur en allant sur `http://localhost:3000`.
 
 - `app.get` prend en paramètre un chemin et une fonction de callback qui sera appelée lorsqu'un client se rendra sur ce chemin
 - La fonction de callback prend en paramètre un objet `req` qui contient la requête HTTP, et un objet `res` qui contient la réponse HTTP. Ici, nous utilisons la méthode `sendStatus` de l'objet `res` pour envoyer un statut 200.
 - `app.listen` permet de lancer le serveur sur le port 3000
 
-<Message>
-<div slot='title'>Codes de réponse HTTP</div>
+</Solution>
 
-Le statut HTTP est un code numérique qui est renvoyé par le serveur pour indiquer le résultat de la requête au client. Le code 200 signifie que la requête a été traitée avec succès. Le code 404 signifie que la ressource demandée n'a pas été trouvée. Nous verrons d'autres codes de statut HTTP plus tard dans ce TP.
-
-[En savoir plus](https://developer.mozilla.org/fr/docs/Web/HTTP/Status)
-
-</Message>
-
-
-</details>
 
 ### Servir la page d'accueil
 
@@ -166,8 +169,7 @@ Pour cela, vous utiliserez la méthode [`sendFile`](https://expressjs.com/fr/4x/
 
 Pour construire le chemin du fichier, vous utiliserez la méthode [`join`](https://nodejs.org/api/path.html#path_path_join_paths) du module `path`. Et pour récupérer le chemin du dossier `pages`, vous utiliserez la variable `__dirname`.
 
-<details>
-  <summary>Voir la solution</summary>
+<Solution code="OJF">
 
 ```typescript
 import path from "path";
@@ -197,7 +199,7 @@ Ce dernier est transmis via l'en-tête HTTP `Content-Type`.
 
 </Message>
 
-</details>
+</Solution>
 
 ### Servir les fichiers statiques (images, css, etc.)
 
@@ -205,13 +207,12 @@ Tous les fichiers statiques (images, css, etc.) se trouvent dans le dossier `ass
 
 Pour cela vous utiliserez la méthode [`express.static`](https://expressjs.com/fr/4x/api.html#express.static).
 
-<details>
-  <summary>Voir la solution</summary>
+<Solution code="ard">
 
 ```typescript
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 ```
-</details>
+</Solution>
 
 ### Tester le serveur
 
@@ -246,8 +247,8 @@ Un moteur de template est un outil qui permet de générer des pages HTML à par
 1. Installez le moteur de template handlebars pour express `express-handlebars` en suivant les instructions de la [documentation](https://github.com/express-handlebars/express-handlebars#installation)
 1. Vérifiez que les tests de l'exercice 1 passent toujours grâce à la commande `npm test exercice-1`. Si ce n'est pas le cas, corrigez le code.
 
-<details>
-  <summary>Voir la solution</summary>
+
+<Solution code="BDH">
 
 ```typescript
 import { engine } from 'express-handlebars';
@@ -261,7 +262,7 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 ```
-</details>
+</Solution>
 
 ### Changer le nom et la description du restaurant
 
@@ -269,8 +270,7 @@ app.get('/', (req, res) => {
 1. Dans le fichier `index.ts`, importez le fichier `restaurant.ts` avec `import restaurant from "./models/restaurant"`
 1. Passez les données du restaurant au moteur de template via [`res.render`](https://expressjs.com/fr/4x/api.html#res.render)
 
-<details>
-  <summary>Voir la solution</summary>
+<Solution code="YBN">
 
 ```typescript
 import restaurant from "./models/restaurant";
@@ -281,7 +281,7 @@ app.get('/', (req, res) => {
 });
 ```
 
-</details>
+</Solution>
 
 
 ### Utiliser les layouts
@@ -293,8 +293,7 @@ Un layout est un fichier qui contient le squelette de la page. Il permet de fact
 1. Changez le titre de la page d'accueil (balise `<title>`) par `<nom du restaurant>`
 1. Faire en sorte que les tests « Exercice 1 - Home » passent
 
-<details>
-  <summary>Voir la solution</summary>
+<Solution code="NAV">
 **`main.handlebars`**
 ```handlebars
 <html lang="en">
@@ -336,7 +335,7 @@ Un layout est un fichier qui contient le squelette de la page. Il permet de fact
 </html>
 ```
 
-</details>
+</Solution>
 
 ### Créer une page pour afficher le menu
 
@@ -365,8 +364,7 @@ Voici le container pour afficher les menus :
 Créez une nouvelle page `menu.handlebars`, servi sur l'URL `/menu` qui affiche les menus du restaurant présents dans `models/menus`. Pour éviter de dupliquer le code HTML, vous le bloc handlebars [`{{#each}}`](https://handlebarsjs.com/guide/builtin-helpers.html#each) pour afficher tous les plats du menu. Cette page aura un titre `<h1>` « Menus » et pour titre de page (balise `<title>`) `Menus - <nom du restaurant>`
 
 
-<details>
-  <summary>Voir la solution</summary>
+<Solution code="IOM">
 
 
 
@@ -400,7 +398,7 @@ app.get('/menus', (req, res) => {
 </div>
 ```
 
-</details>
+</Solution>
 
 ## Créer une page pour commander un menu
 
@@ -419,8 +417,7 @@ Il est possible de récuperer les paramètres d'une requête HTTP avec la propri
 
 *Aide : vous pourrez utiliser la méthode `Array.find` pour retrouver le bon menu à partir de l'identifiant* 
 
-<details>
-  <summary>Voir la solution</summary>
+<Solution code="QKW">
 
 **`menus.handlebars`**
 ```handlebars
@@ -441,7 +438,7 @@ Il est possible de récuperer les paramètres d'une requête HTTP avec la propri
 ```handlebars
 <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
   Votre commande : menu
-  {{name}}
+  {{menu.name}}
 </h1>
 ```
 
@@ -456,7 +453,7 @@ app.get("/commander", (req, res) => {
     return;
   }
   res.render("commander", {
-    name: menu?.name,
+    menu: menu,
     title: `Commander - ${restaurant.name}`,
   });
 });
@@ -470,15 +467,15 @@ Pour identifier un menu, nous pourrions utiliser son nom. Cependant, il est pré
 
 De manière générale, en web, on utilise des identifiants uniques pour identifier les ressources.
 </Message>
-</details>
+</Solution>
 
-Avant de passer à l'exercice suivant, vérifiez que touts les tests passent avec `npm test`.
+Avant de passer à l'exercice suivant, vérifiez que les tests passent avec `npm test`.
 
 <div id="exercice-3"></div>
 
 ## Exercice 3 : traiter un formulaire HTTP
 
-Nous allons maintenant créer un formulaire pour commander un menu. Ce formulaire contiendra un champ pour le nom, un champ pour l'adresse, et un champ pour le numéro de téléphone. Lorsque l'utilisateur soumettra le formulaire, un message de confirmation s'affichera sur la page, contenant les données du formulaire.
+Nous allons maintenant créer un formulaire pour commander un menu. Ce formulaire contiendra un champ pour le nom, un champ pour l'adresse, et un champ pour le numéro de téléphone. Lorsque l'utilisateur soumettra le formulaire, un message de confirmation s'affichera, lui rappelant ses informations saisies.
 
 
 ### Créer le formulaire
@@ -486,14 +483,94 @@ Nous allons maintenant créer un formulaire pour commander un menu. Ce formulair
 1. Sur la page `commander.handlebars`, créez un formulaire qui contient les champs suivants :
    - un champ `name` de type `text` avec le label « Nom »
    - un champ `address` de type `text` avec le label « Adresse »
-   - un champ `phone` de type `text` avec le label « Téléphone »
+   - un champ `phone` de type `tel` avec le label « Téléphone »
    - un bouton « Commander » de type `submit`
-2. Créez une route `/commander` en post qui extrait les données du formulaire et les fourni à la vue `commander.handlebars`
-3. Modifier la vue `commander.handlebars` pour ajouter un message de confirmation lorsque les données du formualire sont présentes. La balise HTML contenant le message de confirmation devra avoir l'attribut `data-test-confirmation` pour que les tests puissent la trouver.
+2. Créez une route `/commander` en `post` qui extrait les données du formulaire et les fourni à la vue `commander.handlebars`
+3. Modifier la vue `commander.handlebars` pour ajouter un message de confirmation lorsque les données du formulaire sont présentes. Ce message doit contenir le nom, l'adresse et le téléphone du client.
+4. Veillez à ce que la page continue d'afficher le nom du menu commandé
+
+<Message>
+  <div slot='title'>POST vs GET</div>
+
+Il existe plusieurs méthodes HTTP, permettant d'indiquer une intention au serveur. Les deux plus courantes sont `GET` et `POST`. 
+
+- La méthode `GET` est utilisée pour récupérer des données. Lorsque l'on saisi une URL dans le navigateur, ce dernier utilise la méthode `GET`.
+- La méthode `POST` est utilisée pour envoyer des données. Elle signifie que l'on souhaite effectuer une action qui va modifier un état sur le serveur.
+
+[En savoir plus](https://developer.mozilla.org/fr/docs/Web/HTTP/Methods)
+
+</Message>
+
+*Astuce : vous pourriez avoir besoin de [`<input type="hidden">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/hidden), de [`<form method="post">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form) et de [`express.urlencoded`](https://expressjs.com/en/5x/api.html#express.urlencoded)*
+
+<Solution code="UGW"> 
+
+**`commander.handlebars`**
+```handlebars
+<h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
+  Votre commande : menu {{menu.name}}
+</h1>
+{{#if commandeInfo}}
+<div class="alert alert-success mt-3" role="alert" data-test-confirmation>
+  <h4 class="alert-heading">Commande validée !</h4>
+  <dl>
+    <dt>Nom</dt>
+    <dd>{{commandeInfo.name}}</dd>
+    <dt>Adresse</dt>
+    <dd>{{commandeInfo.address}}</dd>
+    <dt>Téléphone</dt>
+    <dd>{{commandeInfo.phone}}</dd>
+  </dl>
+</div>
+{{/if}}
+
+<form method="POST">
+  <input type="hidden" name="menuId" value="{{menu.id}}">
+  <div class="mb-3">
+    <label for="name_input" class="form-label">Nom</label>
+    <input type="texte" name="name" class="form-control" id="name_input">
+  </div>
+  <div class="mb-3">
+    <label for="address_input" class="form-label">Adresse</label>
+    <input type="texte" name="address" class="form-control" id="address_input">
+  </div>
+  <div class="mb-3">
+    <label for="phone_input" name="phone" class="form-label">Téléphone</label>
+    <input type="tel" class="form-control" id="phone_input">
+  </div>
+  <button type="submit" class="btn btn-primary">Payer</button>
+</form>
+
+```
+
+**`index.ts`**
+```typescript
+app.use(express.urlencoded());
+// <...>
+app.post("/commander", (req, res) => {
+  const { name, address, phone, menuId } = req.body;
+  
+  const menu = menus.find((m) => m.id === menuId);
+  if (!menu) {
+    res.sendStatus(404);
+    return;
+  }
+  res.render("commander", {
+    commandeInfo: {
+      name,
+      address,
+      phone,
+    },
+    title: `Commander - ${restaurant.name}`,
+    menu,
+  });
+});
+```
+</Solution>
 
 <div id="exercice-4"></div>
 
-## Exercice 4 (bonus) : ajouter un middleware pour gérer les erreurs serveurs
+## Exercice 4 : ajouter un middleware pour gérer les erreurs serveurs
 
 ### Gérer les erreurs 404
 1. Créer une vue `erreur.handlebars` qui affiche un message « Page non trouvée » lorsque le code erreur est 404.
@@ -503,3 +580,21 @@ Nous allons maintenant créer un formulaire pour commander un menu. Ce formulair
 ### Gérer les erreurs 500
 1. Modifier la vue `erreur.handlebars` pour afficher le message « Erreur serveur » lorsque le code erreur est 500.
 2. Implémenter un middleware express qui affiche la vue avec les bons paramètres lorsqu'une erreur se produit
+
+## Exercice 5 : améliorations (bonus)
+
+### Post/Redirect/Get
+
+Après avoir saisi la commande, on reste sur la même url, ce qui signifie que si l'utilisateur rafraichit la page, le formulaire est renvoyé. Pour éviter cela, on peut utiliser le pattern [Post/Redirect/Get](https://fr.wikipedia.org/wiki/Post-Redirect-Get) : après avoir traité le formulaire, on redirige l'utilisateur vers une autre page. Il ne pourra donc pas renvoyer le formulaire en rafraichissant la page.
+
+### Utiliser un paramètre de l'URL
+
+Plutôt que d'utiliser un query string pour passer l'identifiant du menu, on peut utiliser un paramètre de l'URL. Cela éviterait d'avoir à se servir de input hidden. Par exemple, l'URL `/commander/1` permet de passer l'identifiant du menu `1`. Pour cela, il faut utiliser un paramètre de l'URL, et non un query string. On peut utiliser la méthode [`app.param`](https://expressjs.com/fr/4x/api.html#app.param) pour récupérer le menu à partir de l'identifiant, et le passer à la vue.
+
+### Refacto
+
+Tout le code source est dans le fichier `index.ts`. Il serait préférable de séparer le code en plusieurs fichiers, par exemple un fichier `controllers.ts` qui contient les routes et laisser le fichier `index.ts` pour la configuration du serveur.
+
+### Validation du formulaire
+
+Lors de la soumission du formulaire, on pourrait vérifier que les champs sont bien remplis, et afficher un message d'erreur sur le champs concerné si ce n'est pas le cas. Par ailleurs, on pourrait vérifier que le numéro de téléphone est bien un numéro de téléphone valide.

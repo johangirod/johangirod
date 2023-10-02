@@ -6,4 +6,4 @@
 # Cours / TP 
 
 ## Technologie web 3
-- [Express](./cours/express)
+- [Utiliser un framework serveur web (ExpressJS)](./cours/expressJS)
