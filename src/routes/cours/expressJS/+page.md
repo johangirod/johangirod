@@ -1,16 +1,16 @@
-
 <script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
 </script>
 
-
 <svelte:head>
-	<title>Express TP - Johan Girod</title>
+
+<title>Express TP - Johan Girod</title>
 </svelte:head>
+
 # ExpressJS
 
-Ce TP vous permettra de vous familariser avec un framework web ([`expressjs`](https://expressjs.com)), en créant un site web pour un restaurant. 
+Ce TP vous permettra de vous familariser avec un framework web ([`expressjs`](https://expressjs.com)), en créant un site web pour un restaurant.
 Ce site contiendra une page d'accueil, une page pour afficher les menus, et une page pour commander un menu.
 
 ## Objectifs
@@ -69,7 +69,7 @@ npm install
 
 Ce projet se compose d'un fichier `index.ts` contenant le code source de votre serveur, et d'un dossier `test` contenant les tests (vous n'aurez pas à modifier ce dernier).
 
-À Le fichier `tsconfig.json` contient la configuration typescript.
+Le fichier `tsconfig.json` contient la configuration typescript.
 
 #### Eslint
 
@@ -115,7 +115,6 @@ git checkout -f exercice-1
 
 Le fichier `index.html` contient la page d'accueil du site. Nous allons maintenant créer un serveur web qui servira cette page.
 
-
 ### Ma première route
 
 Nous allons créer une route `/ping` qui renverra un statut 200.
@@ -129,12 +128,10 @@ Le statut HTTP est un code numérique qui est renvoyé par le serveur pour indiq
 
 </Message>
 
-
 Il vous faudra importer la bibliothèque express, créer une instance de l'application, et ajouter une route `/ping` qui renvoie un statut 200.
 
-
 1. Installez express avec la commande `npm install express`
-1. Installez les types typescript de express avec la commande `npm install -D @types/express` 
+1. Installez les types typescript de express avec la commande `npm install -D @types/express`
 1. Importez express dans le fichier `index.ts` avec `import express from 'express'`
 1. Créez une instance de l'application express avec `const app = express()`
 1. Ajoutez une route `/ping` qui renvoie un statut 200 avec la méthode [`app.get`](https://expressjs.com/fr/4x/api.html#app.get.method)
@@ -145,21 +142,19 @@ Il vous faudra importer la bibliothèque express, créer une instance de l'appli
 <Solution code="UEF">
 
 ```typescript
-import express from "express";
+import express from 'express';
 const app = express();
 
-app.get("/ping", (req, res) => res.sendStatus(200));
+app.get('/ping', (req, res) => res.sendStatus(200));
 
-app.listen(3000, () => console.log("Server started on http://localhost:3000"));
+app.listen(3000, () => console.log('Server started on http://localhost:3000'));
 ```
-
 
 - `app.get` prend en paramètre un chemin et une fonction de callback qui sera appelée lorsqu'un client se rendra sur ce chemin
 - La fonction de callback prend en paramètre un objet `req` qui contient la requête HTTP, et un objet `res` qui contient la réponse HTTP. Ici, nous utilisons la méthode `sendStatus` de l'objet `res` pour envoyer un statut 200.
 - `app.listen` permet de lancer le serveur sur le port 3000
 
 </Solution>
-
 
 ### Servir la page d'accueil
 
@@ -172,22 +167,17 @@ Pour construire le chemin du fichier, vous utiliserez la méthode [`join`](https
 <Solution code="OJF">
 
 ```typescript
-import path from "path";
+import path from 'path';
 // <...>
-app.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, "index.html")),
-);
-
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 ```
 
-- `__dirname`` est une variable globale qui contient le chemin du dossier courant
+- `\_\_dirname`` est une variable globale qui contient le chemin du dossier courant
 - `path.join` permet de construire un chemin à partir de plusieurs morceaux qui fonctionne sur tous les systèmes d'exploitation
 - `res.sendFile` permet d'envoyer un fichier au client, avec le bon type MIME
 
-
 <Message>
 <div slot='title'>Type MIME</div>
-
 
 Le type MIME est un standard qui permet d'indiquer au client comment interpréter la réponse. Par exemple, le type MIME d'un fichier HTML est `text/html`, celui d'une image PNG est `image/png`, et celui du JSON est `application/json`.
 
@@ -203,15 +193,16 @@ Ce dernier est transmis via l'en-tête HTTP `Content-Type`.
 
 ### Servir les fichiers statiques (images, css, etc.)
 
-Tous les fichiers statiques (images, css, etc.) se trouvent dans le dossier `assets`. Nous allons maintenant servir ces fichiers statiques, en montant le dossier `assets` sur le chemin `/assets`. 
+Tous les fichiers statiques (images, css, etc.) se trouvent dans le dossier `assets`. Nous allons maintenant servir ces fichiers statiques, en montant le dossier `assets` sur le chemin `/assets`.
 
 Pour cela vous utiliserez la méthode [`express.static`](https://expressjs.com/fr/4x/api.html#express.static).
 
 <Solution code="ard">
 
 ```typescript
-app.use("/assets", express.static(path.join(__dirname, "assets")));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 ```
+
 </Solution>
 
 ### Tester le serveur
@@ -224,7 +215,6 @@ Vérifiez que tout fonctionne en lançant les tests avec `npm test` avant de pas
 
 Nous allons à présent utiliser un moteur de template pour générer les pages HTML à partir des données de l'application. Il en existe [plusieurs](https://expressjs.com/fr/resources/template-engines.html), nous utiliserons [handlebars](https://handlebarsjs.com/).
 
-
 Pour commencer, allez sur la branche `exercice-2` du projet :
 
 ```bash
@@ -232,7 +222,6 @@ git checkout -f exercice-2
 ```
 
 Un nouveau dossier `models` a été créé, contenant un fichier `restaurant.ts` qui contient les données du restaurant. Nous allons utiliser ces données pour générer les pages du site qui seront situées dans le dossier `views`.
-
 
 <Message>
 <div slot='title'>Moteur de template</div>
@@ -247,7 +236,6 @@ Un moteur de template est un outil qui permet de générer des pages HTML à par
 1. Installez le moteur de template handlebars pour express `express-handlebars` en suivant les instructions de la [documentation](https://github.com/express-handlebars/express-handlebars#installation)
 1. Vérifiez que les tests de l'exercice 1 passent toujours grâce à la commande `npm test exercice-1`. Si ce n'est pas le cas, corrigez le code.
 
-
 <Solution code="BDH">
 
 ```typescript
@@ -259,9 +247,10 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.get('/', (req, res) => {
-    res.render('home');
+	res.render('home');
 });
 ```
+
 </Solution>
 
 ### Changer le nom et la description du restaurant
@@ -273,65 +262,65 @@ app.get('/', (req, res) => {
 <Solution code="YBN">
 
 ```typescript
-import restaurant from "./models/restaurant";
+import restaurant from './models/restaurant';
 // <...>
 
 app.get('/', (req, res) => {
-    res.render('home', restaurant);
+	res.render('home', restaurant);
 });
 ```
 
 </Solution>
 
-
 ### Utiliser les layouts
 
 Un layout est un fichier qui contient le squelette de la page. Il permet de factoriser le code HTML commun à toutes les pages du site, comme le header et le footer. Nous allons mettre à jour le layout par défaut `main.handlebars`, et laisser la possibilité de paramétrer le titre de la page.
 
-
-1. Déplacez le code HTML commun dans le fichier `main.handlebars` de telle sorte que le fichier `home.handlebars` ne contienne que le contenu spécifique à la page d'accueil (ce qui se trouve à l'intérieur de la balise `<div class="row ...">`)
+1. Déplacez le code HTML commun dans le fichier `main.handlebars` de telle sorte que le fichier `home.handlebars` ne contienne que le contenu spécifique à la page d'accueil (ce qui se trouve à l'intérieur de la balise `<div class="row ...">`).
 1. Changez le titre de la page d'accueil (balise `<title>`) par `<nom du restaurant>`
 1. Faire en sorte que les tests « Exercice 1 - Home » passent
 
 <Solution code="NAV">
-**`main.handlebars`**
-```handlebars
-<html lang="en">
-  <head>
-    <!-- META -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Bootstrap icons-->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      crossorigin="anonymous"
-    />
-    <!-- Google fonts-->
-    <link
-      href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <!-- TITLE -->
-    <title>{'{{'}title{'}}'}</title>
-  </head>
-  <body>
-    <main role="main">
-      <div class="container col-xxl-8 px-4 py-5">
-        {'{{{'}body{'}}}'}
-      </div>
-    </main>
-  </body>
+**`main.handlebars`**
+
+```handlebars
+<html lang='en'>
+	<head>
+		<!-- META -->
+		<meta charset='UTF-8' />
+		<meta name='viewport' content='width=device-width, initial-scale=1' />
+
+		<!-- Favicon-->
+		<link rel='icon' type='image/x-icon' href='assets/favicon.ico' />
+		<!-- Bootstrap icons-->
+		<link
+			href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css'
+			rel='stylesheet'
+			type='text/css'
+		/>
+		<link
+			href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css'
+			rel='stylesheet'
+			integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN'
+			crossorigin='anonymous'
+		/>
+		<!-- Google fonts-->
+		<link
+			href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic'
+			rel='stylesheet'
+			type='text/css'
+		/>
+		<!-- TITLE -->
+		<title>{{title}}</title>
+	</head>
+	<body>
+		<main role='main'>
+			<div class='container col-xxl-8 px-4 py-5'>
+				{{{body}}}
+			</div>
+		</main>
+	</body>
 </html>
 ```
 
@@ -342,59 +331,64 @@ Un layout est un fichier qui contient le squelette de la page. Il permet de fact
 Voici le template bootstrap proposé pour un menu :
 
 ```handlebars
-  <div class="col" data-test-menu>
-    <div class="card h-100" role="list-item">
-      <div class="card-body">
-        <h2 class="card-title">{'{{'}name{'}}'}</h5>
-        <p class="card-text">{'{{'}description{'}}'}</p>
-        <p class="card-text">{'{{'}price{'}}'}€</p>
-      </div>
+<div class="col" data-test-menu>
+  <div class="card h-100" role="list-item">
+    <div class="card-body">
+      <h2 class="card-title">{{name}}</h5>
+      <p class="card-text">{{description}}</p>
+      <p class="card-text">{{price}}€</p>
     </div>
   </div>
+</div>
 ```
 
 Voici le container pour afficher les menus :
 
 ```html
 <div class="row row-cols-1 row-cols-md-3 g-4">
-  <!-- Ici, on affichera les menus -->
+	<!-- Ici, on affichera les menus -->
 </div>
 ```
 
-Créez une nouvelle page `menu.handlebars`, servi sur l'URL `/menu` qui affiche les menus du restaurant présents dans `models/menus`. Pour éviter de dupliquer le code HTML, vous le bloc handlebars [`{{#each}}`](https://handlebarsjs.com/guide/builtin-helpers.html#each) pour afficher tous les plats du menu. Cette page aura un titre `<h1>` « Menus » et pour titre de page (balise `<title>`) `Menus - <nom du restaurant>`
+Créez une nouvelle page `menu.handlebars`, servi sur l'URL `/menus` qui affiche les menus du restaurant présents dans `models/menus`. Pour éviter de dupliquer le code HTML, vous le bloc handlebars [`{{#each}}`](https://handlebarsjs.com/guide/builtin-helpers.html#each) pour afficher tous les menu. Cette page aura un titre `<h1>` « Menus » et pour titre de page (balise `<title>`) `Menus - <nom du restaurant>`
 
+1. Creer la vue `menu.handlebars` dans le dossier `views`
+1. Servir cette page sur le route `/menus` grâce à `app.get` et `res.render`
+1. Passer la variable `menus` au moteur de template comme argument de `res.render`
+1. Utiliser `{{#each}}` dans la vue pour afficher tous les menus
 
 <Solution code="IOM">
 
-
-
 **`index.ts`**
+
 ```typescript
-import menus from "./models/menus";
+import menus from './models/menus';
 // <...>
 
 app.get('/menus', (req, res) => {
-    res.render('menus', {
-        title: `Menus - ${restaurant.name}`,
-        menus,
-    });
+	res.render('menus', {
+		title: `Menus - ${restaurant.name}`,
+		menus
+	});
 });
 ```
+
 **`menus.handlebars`**
+
 ```handlebars
 <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Menus</h1>
 <div class="row row-cols-1 row-cols-md-3 g-4">
-{'{{'}#each menus{'}}'}
-  <div class="col">
-    <div class="card h-100" role="list-item" data-test-menu>
+{{#each menus}}
+  <div class="col"  data-test-menu>
+    <div class="card h-100" role="list-item">
       <div class="card-body">
-        <h2 class="card-title">{'{{'}name{'}}'}</h5>
-        <p class="card-text">{'{{'}description{'}}'}</p>
-        <p class="card-text">{'{{'}price{'}}'}€</p>
+        <h2 class="card-title">{{name}}</h5>
+        <p class="card-text">{{description}}</p>
+        <p class="card-text">{{price}}€</p>
       </div>
     </div>
   </div>
-{'{{'}/each{'}}'}
+{{/each}}
 </div>
 ```
 
@@ -402,7 +396,18 @@ app.get('/menus', (req, res) => {
 
 ## Créer une page pour commander un menu
 
-Nous allons ajouter un bouton sur les menu pour pouvoir les commander. Ce bouton doit rediriger vers la page `/commander`. Pour passer au serveur l'identifiant du menu, nous allons utiliser un paramètre de l'URL (appelé `query string parameter`). Par exemple, pour le menu avec l'identifiant `1`, l'URL sera `/commander?menu=1`.
+Nous allons ajouter un bouton sur les menu pour pouvoir les commander. Ce bouton doit rediriger vers la page `/commander`. Pour passer au serveur l'identifiant du menu, nous allons utiliser un paramètre de l'URL (appelé `query string parameter`). Par exemple, pour le menu avec l'identifiant `xid327y`, l'URL sera `/commander?menu=xid327y`.
+
+Voici le code du bouton :
+
+```handlebars
+<!-- contenu du menu -->
+<!-- ... -->
+
+<div class='p-3'>
+	<a href='/commander?menu={{id}}' class='btn btn-secondary'>Commander</a>
+</div>
+```
 
 <Message>
 <div slot='title'>Query string</div>
@@ -414,17 +419,22 @@ Il est possible de récuperer les paramètres d'une requête HTTP avec la propri
 
 1. Ajoutez un bouton « Commander » sur chaque menu qui redirige vers la page `/commander` avec l'identifiant du menu en paramètre
 1. Créer une page `commande.handlebars` qui le nom du menu commandé. Cette page aura un titre `<h1>` « Votre commande : menu <nom du menu> » et pour titre de page (balise `<title>`) `Commander - <nom du restaurant>`
+1. Servez cette vue sur la route `/commander` grâce à `app.get` et `res.render`
+1. Pour récuperer l'`id` passé en paramètre de requête, vous pourrez utiliser `req.query`
+1. Rechercher dans l'array `menu` celui qui correspond à l'id en entrée
+1. Passer le nom du menu concerné à la vue, comme paramètre de `res.render`
 
-*Aide : vous pourrez utiliser la méthode `Array.find` pour retrouver le bon menu à partir de l'identifiant* 
+_Aide : vous pourrez utiliser la méthode `Array.find` pour retrouver le bon menu à partir de l'identifiant_
 
 <Solution code="QKW">
 
 **`menus.handlebars`**
+
 ```handlebars
   {{#each menus}}
   <div class="col" data-test-menu>
-    <div class="card h-100" role="list-item">   
-    <!-- contenu du menus -->
+    <div class="card h-100" role="list-item">
+    <!-- contenu du menu -->
     <!-- ... -->
 
     <div class="p-3">
@@ -435,29 +445,30 @@ Il est possible de récuperer les paramètres d'une requête HTTP avec la propri
 ```
 
 **`commande.handlebars`**
+
 ```handlebars
-<h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-  Votre commande : menu
-  {{menu.name}}
+<h1 class='display-5 fw-bold text-body-emphasis lh-1 mb-3'>
+	Votre commande : menu
+	{{menu.name}}
 </h1>
 ```
 
 **`index.ts`**
-```typescript
-  // <...>
-app.get("/commander", (req, res) => {
-  const menuId = req.query.menu;
-  const menu = menus.find((m) => m.id === menuId);
-  if (!menu) {
-    res.sendStatus(404)
-    return;
-  }
-  res.render("commander", {
-    menu: menu,
-    title: `Commander - ${restaurant.name}`,
-  });
-});
 
+```typescript
+// <...>
+app.get('/commander', (req, res) => {
+	const menuId = req.query.menu;
+	const menu = menus.find((m) => m.id === menuId);
+	if (!menu) {
+		res.sendStatus(404);
+		return;
+	}
+	res.render('commander', {
+		menu: menu,
+		title: `Commander - ${restaurant.name}`
+	});
+});
 ```
 
 <Message>
@@ -477,7 +488,6 @@ Avant de passer à l'exercice suivant, vérifiez que les tests passent avec `npm
 
 Nous allons maintenant créer un formulaire pour commander un menu. Ce formulaire contiendra un champ pour le nom, un champ pour l'adresse, et un champ pour le numéro de téléphone. Lorsque l'utilisateur soumettra le formulaire, un message de confirmation s'affichera, lui rappelant ses informations saisies.
 
-
 ### Créer le formulaire
 
 1. Sur la page `commander.handlebars`, créez un formulaire qui contient les champs suivants :
@@ -492,7 +502,7 @@ Nous allons maintenant créer un formulaire pour commander un menu. Ce formulair
 <Message>
   <div slot='title'>POST vs GET</div>
 
-Il existe plusieurs méthodes HTTP, permettant d'indiquer une intention au serveur. Les deux plus courantes sont `GET` et `POST`. 
+Il existe plusieurs méthodes HTTP, permettant d'indiquer une intention au serveur. Les deux plus courantes sont `GET` et `POST`.
 
 - La méthode `GET` est utilisée pour récupérer des données. Lorsque l'on saisi une URL dans le navigateur, ce dernier utilise la méthode `GET`.
 - La méthode `POST` est utilisée pour envoyer des données. Elle signifie que l'on souhaite effectuer une action qui va modifier un état sur le serveur.
@@ -501,71 +511,74 @@ Il existe plusieurs méthodes HTTP, permettant d'indiquer une intention au serve
 
 </Message>
 
-*Astuce : vous pourriez avoir besoin de [`<input type="hidden">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/hidden), de [`<form method="post">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form) et de [`express.urlencoded`](https://expressjs.com/en/5x/api.html#express.urlencoded)*
+_Astuce : vous pourriez avoir besoin de [`<input type="hidden">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/hidden), de [`<form method="post">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form) et de [`express.urlencoded`](https://expressjs.com/en/5x/api.html#express.urlencoded)_
 
-<Solution code="UGW"> 
+<Solution code="UGW">
 
 **`commander.handlebars`**
+
 ```handlebars
-<h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">
-  Votre commande : menu {{menu.name}}
+<h1 class='display-5 fw-bold text-body-emphasis lh-1 mb-3'>
+	Votre commande : menu
+	{{menu.name}}
 </h1>
 {{#if commandeInfo}}
-<div class="alert alert-success mt-3" role="alert" data-test-confirmation>
-  <h4 class="alert-heading">Commande validée !</h4>
-  <dl>
-    <dt>Nom</dt>
-    <dd>{{commandeInfo.name}}</dd>
-    <dt>Adresse</dt>
-    <dd>{{commandeInfo.address}}</dd>
-    <dt>Téléphone</dt>
-    <dd>{{commandeInfo.phone}}</dd>
-  </dl>
-</div>
+	<div class='alert alert-success mt-3' role='alert' data-test-confirmation>
+		<h4 class='alert-heading'>Commande validée !</h4>
+		<dl>
+			<dt>Nom</dt>
+			<dd>{{commandeInfo.name}}</dd>
+			<dt>Adresse</dt>
+			<dd>{{commandeInfo.address}}</dd>
+			<dt>Téléphone</dt>
+			<dd>{{commandeInfo.phone}}</dd>
+		</dl>
+	</div>
 {{/if}}
 
-<form method="POST">
-  <input type="hidden" name="menuId" value="{{menu.id}}">
-  <div class="mb-3">
-    <label for="name_input" class="form-label">Nom</label>
-    <input type="texte" name="name" class="form-control" id="name_input">
-  </div>
-  <div class="mb-3">
-    <label for="address_input" class="form-label">Adresse</label>
-    <input type="texte" name="address" class="form-control" id="address_input">
-  </div>
-  <div class="mb-3">
-    <label for="phone_input" name="phone" class="form-label">Téléphone</label>
-    <input type="tel" class="form-control" id="phone_input">
-  </div>
-  <button type="submit" class="btn btn-primary">Payer</button>
+<form method='POST'>
+	<input type='hidden' name='menuId' value='{{menu.id}}' />
+	<div class='mb-3'>
+		<label for='name_input' class='form-label'>Nom</label>
+		<input type='texte' name='name' class='form-control' id='name_input' />
+	</div>
+	<div class='mb-3'>
+		<label for='address_input' class='form-label'>Adresse</label>
+		<input type='texte' name='address' class='form-control' id='address_input' />
+	</div>
+	<div class='mb-3'>
+		<label for='phone_input' name='phone' class='form-label'>Téléphone</label>
+		<input type='tel' class='form-control' id='phone_input' />
+	</div>
+	<button type='submit' class='btn btn-primary'>Payer</button>
 </form>
-
 ```
 
 **`index.ts`**
+
 ```typescript
 app.use(express.urlencoded());
 // <...>
-app.post("/commander", (req, res) => {
-  const { name, address, phone, menuId } = req.body;
-  
-  const menu = menus.find((m) => m.id === menuId);
-  if (!menu) {
-    res.sendStatus(404);
-    return;
-  }
-  res.render("commander", {
-    commandeInfo: {
-      name,
-      address,
-      phone,
-    },
-    title: `Commander - ${restaurant.name}`,
-    menu,
-  });
+app.post('/commander', (req, res) => {
+	const { name, address, phone, menuId } = req.body;
+
+	const menu = menus.find((m) => m.id === menuId);
+	if (!menu) {
+		res.sendStatus(404);
+		return;
+	}
+	res.render('commander', {
+		commandeInfo: {
+			name,
+			address,
+			phone
+		},
+		title: `Commander - ${restaurant.name}`,
+		menu
+	});
 });
 ```
+
 </Solution>
 
 <div id="exercice-4"></div>
@@ -573,11 +586,12 @@ app.post("/commander", (req, res) => {
 ## Exercice 4 : ajouter un middleware pour gérer les erreurs serveurs
 
 ### Gérer les erreurs 404
+
 1. Créer une vue `erreur.handlebars` qui affiche un message « Page non trouvée » lorsque le code erreur est 404.
 2. Implémenter un middleware express qui affiche la vue avec les bons paramètres lorsqu'une page n'est pas trouvée
 
-
 ### Gérer les erreurs 500
+
 1. Modifier la vue `erreur.handlebars` pour afficher le message « Erreur serveur » lorsque le code erreur est 500.
 2. Implémenter un middleware express qui affiche la vue avec les bons paramètres lorsqu'une erreur se produit
 
