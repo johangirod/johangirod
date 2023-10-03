@@ -135,11 +135,11 @@ Il vous faudra importer la bibliothèque express, créer une instance de l'appli
 1. Importez express dans le fichier `index.ts` avec `import express from 'express'`
 1. Créez une instance de l'application express avec `const app = express()`
 1. Ajoutez une route `/ping` qui renvoie un statut 200 avec la méthode [`app.get`](https://expressjs.com/fr/4x/api.html#app.get.method)
-1. Lancez le serveur avec `npx ts-node-dev src/index.ts`
+1. Lancez le serveur avec `npx ts-node-dev index.ts`
 1. Lancez les tests avec `npm test`
 1. Optionnel : ouvrez votre navigateur et allez sur `http://localhost:3000/ping`
 
-<Solution code="UEF">
+<Solution code="">
 
 ```typescript
 import express from 'express';
@@ -164,7 +164,7 @@ Pour cela, vous utiliserez la méthode [`sendFile`](https://expressjs.com/fr/4x/
 
 Pour construire le chemin du fichier, vous utiliserez la méthode [`join`](https://nodejs.org/api/path.html#path_path_join_paths) du module `path`. Et pour récupérer le chemin du dossier `pages`, vous utiliserez la variable `__dirname`.
 
-<Solution code="OJF">
+<Solution code="">
 
 ```typescript
 import path from 'path';
@@ -197,7 +197,7 @@ Tous les fichiers statiques (images, css, etc.) se trouvent dans le dossier `ass
 
 Pour cela vous utiliserez la méthode [`express.static`](https://expressjs.com/fr/4x/api.html#express.static).
 
-<Solution code="ard">
+<Solution code="">
 
 ```typescript
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
@@ -236,7 +236,7 @@ Un moteur de template est un outil qui permet de générer des pages HTML à par
 1. Installez le moteur de template handlebars pour express `express-handlebars` en suivant les instructions de la [documentation](https://github.com/express-handlebars/express-handlebars#installation)
 1. Vérifiez que les tests de l'exercice 1 passent toujours grâce à la commande `npm test exercice-1`. Si ce n'est pas le cas, corrigez le code.
 
-<Solution code="BDH">
+<Solution code="">
 
 ```typescript
 import { engine } from 'express-handlebars';
@@ -490,14 +490,17 @@ Nous allons maintenant créer un formulaire pour commander un menu. Ce formulair
 
 ### Créer le formulaire
 
-1. Sur la page `commander.handlebars`, créez un formulaire qui contient les champs suivants :
+1. Sur la page `commander.handlebars`, créez un formulaire avec la balise `<form>` et des balises `<input>` qui contient les champs suivants :
+
    - un champ `name` de type `text` avec le label « Nom »
    - un champ `address` de type `text` avec le label « Adresse »
    - un champ `phone` de type `tel` avec le label « Téléphone »
    - un bouton « Commander » de type `submit`
-2. Créez une route `/commander` en `post` qui extrait les données du formulaire et les fourni à la vue `commander.handlebars`
-3. Modifier la vue `commander.handlebars` pour ajouter un message de confirmation lorsque les données du formulaire sont présentes. Ce message doit contenir le nom, l'adresse et le téléphone du client.
-4. Veillez à ce que la page continue d'afficher le nom du menu commandé
+
+2. Créez une route `/commander` en `post` qui extrait les données du formulaire et les fourni à la vue `commander.handlebars`. Vous utiliserez `app.post`
+3. Vérifiez que la route est bien appelée:llop lorsque vous soumettez le formulaire. Pour cela, vous pouvez ajouter un `console.log` et vérifier si il apparaît dans le terminal.
+4. Modifier la vue `commander.handlebars` pour ajouter un message de confirmation lorsque les données du formulaire sont présentes. Ce message doit contenir le nom, l'adresse et le téléphone du client.
+5. Veillez à ce que la page continue d'afficher le nom du menu commandé
 
 <Message>
   <div slot='title'>POST vs GET</div>
