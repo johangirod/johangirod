@@ -10,19 +10,19 @@
 
 # ExpressJS
 
-Ce TP vous permettra de vous familariser avec un framework web ([`expressjs`](https://expressjs.com)), en créant un site web pour un restaurant.
+Ce TP vous permettra de vous familiariser avec un framework web ([`expressjs`](https://expressjs.com)), en créant un site web pour un restaurant.
 Ce site contiendra une page d'accueil, une page pour afficher les menus, et une page pour commander un menu.
 
 ## Objectifs
 
-- Avoir une première experience avec l'architecture MVC
-- Savoir créer un serveur web avec Express et utiliser le routeur
+- Avoir une première expérience avec l'architecture MVC
+- Savoir créer un serveur web avec Express et créer des routes
 - Savoir lancer des tests et interpréter les erreurs
 - Servir les fichiers statiques
-- Utiliser un moteur de template pour générer des pages HTML
-- Savoir se servir d'un layout
-- Savoir traiter un formulaire HTML avec Express
-- Comprendre le principe du middleware, et l'utiliser pour gérer les erreurs
+- Utiliser un moteur de template pour générer des pages HTML à partir de vues
+- Comprendre l'utilité du `layout`
+- Comprendre et utiliser les query string parameters
+- Savoir traiter un formulaire HTML
 
 ## Sommaire
 
@@ -38,7 +38,7 @@ Ce site contiendra une page d'accueil, une page pour afficher les menus, et une 
 
 ### Prérequis : installation
 
-Pour les besoin de développement, nous allons installer nodeJS en local (il n'y est pas sur les machines par défaut). Voici les commandes à effectuer, pour ne pas avoir à installer node en root :
+Pour les besoins de développement, nous allons installer nodeJS en local (il n'y est pas sur les machines par défaut). Voici les commandes à effectuer, pour ne pas avoir à installer node en root :
 
 ```bash
 echo 'export PATH=$HOME/node-local/bin:$PATH' >> ~/.bashrc
@@ -56,7 +56,7 @@ Si cela ne fonctionne pas, nous utiliserons une version github codespace, un vsc
 
 ### Installation
 
-Le code se trouve sur github. Pour installer le projet lancer les commandes suivantes :
+Le code se trouve sur github. Pour installer le projet, lancer les commandes suivantes :
 
 ```bash
 # Clone le projet git dans le dossier courant
@@ -95,7 +95,7 @@ Pour profiter des annotations eslint et du formattage automatique de prettier da
 1. Créez le fichier `index.ts` à la racine du projet, contenant un simple `console.log("hello world")`
 1. Lancez le projet avec la commande `npx ts-node-dev index.ts`. Vous devriez voir apparaitre « hello world » dans la console.
 
-`ts-node-dev` est un outil qui permet d'executer un fichier node en typescript. Il est très pratique car il relance automatiquement le serveur à chaque modification du code source.
+`ts-node-dev` est un outil qui permet d'exécuter un fichier node en typescript. Il est très pratique, car il relance automatiquement le serveur à chaque modification du code source.
 
 ### Tests
 
@@ -139,7 +139,7 @@ Il vous faudra importer la bibliothèque express, créer une instance de l'appli
 1. Lancez les tests avec `npm test`
 1. Optionnel : ouvrez votre navigateur et allez sur `http://localhost:3000/ping`
 
-<Solution code="">
+<Solution>
 
 ```typescript
 import express from 'express';
@@ -164,7 +164,7 @@ Pour cela, vous utiliserez la méthode [`sendFile`](https://expressjs.com/fr/4x/
 
 Pour construire le chemin du fichier, vous utiliserez la méthode [`join`](https://nodejs.org/api/path.html#path_path_join_paths) du module `path`. Et pour récupérer le chemin du dossier `pages`, vous utiliserez la variable `__dirname`.
 
-<Solution code="">
+<Solution>
 
 ```typescript
 import path from 'path';
@@ -197,7 +197,7 @@ Tous les fichiers statiques (images, css, etc.) se trouvent dans le dossier `ass
 
 Pour cela vous utiliserez la méthode [`express.static`](https://expressjs.com/fr/4x/api.html#express.static).
 
-<Solution code="">
+<Solution>
 
 ```typescript
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
@@ -226,7 +226,7 @@ Un nouveau dossier `models` a été créé, contenant un fichier `restaurant.ts`
 <Message>
 <div slot='title'>Moteur de template</div>
 
-Un moteur de template est un outil qui permet de générer des pages HTML à partir de données. Il permet de séparer le code HTML du code javascript, et de générer des pages HTML dynamiques. C'est un outil utilisé dans les applications web qui suivent le [pattern MVC](https://fr.wikipedia.org/wiki/Mod%C3%A8le-vue-contr%C3%B4leur).
+Un moteur de template est un outil qui permet de générer des pages HTML à partir de données. Il permet de séparer le code HTML du code JavaScript, et de générer des pages HTML dynamiques. C'est un outil utilisé dans les applications web qui suivent le [pattern MVC](https://fr.wikipedia.org/wiki/Mod%C3%A8le-vue-contr%C3%B4leur).
 
 </Message>
 
@@ -236,7 +236,7 @@ Un moteur de template est un outil qui permet de générer des pages HTML à par
 1. Installez le moteur de template handlebars pour express `express-handlebars` en suivant les instructions de la [documentation](https://github.com/express-handlebars/express-handlebars#installation)
 1. Vérifiez que les tests de l'exercice 1 passent toujours grâce à la commande `npm test exercice-1`. Si ce n'est pas le cas, corrigez le code.
 
-<Solution code="">
+<Solution>
 
 ```typescript
 import { engine } from 'express-handlebars';
@@ -259,7 +259,7 @@ app.get('/', (req, res) => {
 1. Dans le fichier `index.ts`, importez le fichier `restaurant.ts` avec `import restaurant from "./models/restaurant"`
 1. Passez les données du restaurant au moteur de template via [`res.render`](https://expressjs.com/fr/4x/api.html#res.render)
 
-<Solution code="YBN">
+<Solution>
 
 ```typescript
 import restaurant from './models/restaurant';
@@ -280,7 +280,7 @@ Un layout est un fichier qui contient le squelette de la page. Il permet de fact
 1. Changez le titre de la page d'accueil (balise `<title>`) par `<nom du restaurant>`
 1. Faire en sorte que les tests « Exercice 1 - Home » passent
 
-<Solution code="NAV">
+<Solution>
 
 **`main.handlebars`**
 
@@ -350,14 +350,14 @@ Voici le container pour afficher les menus :
 </div>
 ```
 
-Créez une nouvelle page `menu.handlebars`, servi sur l'URL `/menus` qui affiche les menus du restaurant présents dans `models/menus`. Pour éviter de dupliquer le code HTML, vous le bloc handlebars [`{{#each}}`](https://handlebarsjs.com/guide/builtin-helpers.html#each) pour afficher tous les menu. Cette page aura un titre `<h1>` « Menus » et pour titre de page (balise `<title>`) `Menus - <nom du restaurant>`
+Créez une nouvelle page `menu.handlebars`, servi sur l'URL `/menus` qui affiche les menus du restaurant présents dans `models/menus`. Pour éviter de dupliquer le code HTML, vous le bloc handlebars [`{{#each}}`](https://handlebarsjs.com/guide/builtin-helpers.html#each) pour afficher tous les menus. Cette page aura un titre `<h1>` « Menus » et pour titre de page (balise `<title>`) `Menus - <nom du restaurant>`
 
 1. Creer la vue `menu.handlebars` dans le dossier `views`
 1. Servir cette page sur le route `/menus` grâce à `app.get` et `res.render`
 1. Passer la variable `menus` au moteur de template comme argument de `res.render`
 1. Utiliser `{{#each}}` dans la vue pour afficher tous les menus
 
-<Solution code="IOM">
+<Solution>
 
 **`index.ts`**
 
@@ -396,7 +396,7 @@ app.get('/menus', (req, res) => {
 
 ## Créer une page pour commander un menu
 
-Nous allons ajouter un bouton sur les menu pour pouvoir les commander. Ce bouton doit rediriger vers la page `/commander`. Pour passer au serveur l'identifiant du menu, nous allons utiliser un paramètre de l'URL (appelé `query string parameter`). Par exemple, pour le menu avec l'identifiant `xid327y`, l'URL sera `/commander?menu=xid327y`.
+Nous allons ajouter un bouton sur les menus pour pouvoir les commander. Ce bouton doit rediriger vers la page `/commander`. Pour passer au serveur l'identifiant du menu, nous allons utiliser un paramètre de l'URL (appelé `query string parameter`). Par exemple, pour le menu avec l'identifiant `xid327y`, l'URL sera `/commander?menu=xid327y`.
 
 Voici le code du bouton :
 
@@ -417,16 +417,16 @@ Un query string est une chaîne de caractères qui suit le chemin de l'URL et qu
 Il est possible de récuperer les paramètres d'une requête HTTP avec la propriété `query` de l'objet `req`.
 </Message>
 
-1. Ajoutez un bouton « Commander » sur chaque menu qui redirige vers la page `/commander` avec l'identifiant du menu en paramètre
+1. Ajouter un bouton « Commander » sur chaque menu qui redirige vers la page `/commander` avec l'identifiant du menu en paramètre
 1. Créer une page `commande.handlebars` qui le nom du menu commandé. Cette page aura un titre `<h1>` « Votre commande : menu <nom du menu> » et pour titre de page (balise `<title>`) `Commander - <nom du restaurant>`
 1. Servez cette vue sur la route `/commander` grâce à `app.get` et `res.render`
-1. Pour récuperer l'`id` passé en paramètre de requête, vous pourrez utiliser `req.query`
+1. Pour récupérer l'`id` passé en paramètre de requête, vous pourrez utiliser `req.query`
 1. Rechercher dans l'array `menu` celui qui correspond à l'id en entrée
 1. Passer le nom du menu concerné à la vue, comme paramètre de `res.render`
 
 _Aide : vous pourrez utiliser la méthode `Array.find` pour retrouver le bon menu à partir de l'identifiant_
 
-<Solution code="QKW">
+<Solution>
 
 **`menus.handlebars`**
 
@@ -498,7 +498,7 @@ Nous allons maintenant créer un formulaire pour commander un menu. Ce formulair
    - un bouton « Commander » de type `submit`
 
 2. Créez une route `/commander` en `post` qui extrait les données du formulaire et les fourni à la vue `commander.handlebars`. Vous utiliserez `app.post`
-3. Vérifiez que la route est bien appelée:llop lorsque vous soumettez le formulaire. Pour cela, vous pouvez ajouter un `console.log` et vérifier si il apparaît dans le terminal.
+3. Vérifiez que la route est bien appelée lorsque vous soumettez le formulaire. Pour cela, vous pouvez ajouter un `console.log` et vérifier si il apparaît dans le terminal.
 4. Modifier la vue `commander.handlebars` pour ajouter un message de confirmation lorsque les données du formulaire sont présentes. Ce message doit contenir le nom, l'adresse et le téléphone du client.
 5. Veillez à ce que la page continue d'afficher le nom du menu commandé
 
@@ -507,7 +507,7 @@ Nous allons maintenant créer un formulaire pour commander un menu. Ce formulair
 
 Il existe plusieurs méthodes HTTP, permettant d'indiquer une intention au serveur. Les deux plus courantes sont `GET` et `POST`.
 
-- La méthode `GET` est utilisée pour récupérer des données. Lorsque l'on saisi une URL dans le navigateur, ce dernier utilise la méthode `GET`.
+- La méthode `GET` est utilisée pour récupérer des données. Lorsqu'on saisit une URL dans le navigateur, ce dernier utilise la méthode `GET`.
 - La méthode `POST` est utilisée pour envoyer des données. Elle signifie que l'on souhaite effectuer une action qui va modifier un état sur le serveur.
 
 [En savoir plus](https://developer.mozilla.org/fr/docs/Web/HTTP/Methods)
@@ -516,7 +516,7 @@ Il existe plusieurs méthodes HTTP, permettant d'indiquer une intention au serve
 
 _Astuce : vous pourriez avoir besoin de [`<input type="hidden">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/hidden), de [`<form method="post">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form) et de [`express.urlencoded`](https://expressjs.com/en/5x/api.html#express.urlencoded)_
 
-<Solution code="UGW">
+<Solution>
 
 **`commander.handlebars`**
 
@@ -586,7 +586,7 @@ app.post('/commander', (req, res) => {
 
 <div id="exercice-4"></div>
 
-## Exercice 4 : ajouter un middleware pour gérer les erreurs serveurs
+## Exercice 4 (bonus) : ajouter un middleware pour gérer les erreurs serveurs
 
 ### Gérer les erreurs 404
 
