@@ -38,19 +38,7 @@ Ce site contiendra une page d'accueil, une page pour afficher les menus, et une 
 
 ### Prérequis : installation
 
-Pour les besoins de développement, nous allons installer nodeJS en local (il n'y est pas sur les machines par défaut). Voici les commandes à effectuer, pour ne pas avoir à installer node en root :
-
-```bash
-echo 'export PATH=$HOME/node-local/bin:$PATH' >> ~/.bashrc
-. ~/.bashrc
-mkdir ~/node-local
-mkdir ~/node-latest-install
-cd ~/node-latest-install
-curl http://nodejs.org/dist/node-latest.tar.gz | tar xz --strip-components=1
-./configure --prefix=$HOME/node-local
-make install
-curl -L https://www.npmjs.com/install.sh | sh
-```
+Pour les besoins de développement, nous allons installer nodeJS en local.
 
 Si cela ne fonctionne pas, nous utiliserons une version github codespace, un vscode en ligne avec nodeJS déjà installé.
 
@@ -550,8 +538,8 @@ _Astuce : vous pourriez avoir besoin de [`<input type="hidden">`](https://develo
 		<input type='texte' name='address' class='form-control' id='address_input' />
 	</div>
 	<div class='mb-3'>
-		<label for='phone_input' name='phone' class='form-label'>Téléphone</label>
-		<input type='tel' class='form-control' id='phone_input' />
+		<label for='phone_input' class='form-label'>Téléphone</label>
+		<input type='tel' name='phone' class='form-control' id='phone_input' />
 	</div>
 	<button type='submit' class='btn btn-primary'>Payer</button>
 </form>
@@ -606,7 +594,7 @@ Après avoir saisi la commande, on reste sur la même url, ce qui signifie que s
 
 ### Utiliser un paramètre de l'URL
 
-Plutôt que d'utiliser un query string pour passer l'identifiant du menu, on peut utiliser un paramètre de l'URL. Cela éviterait d'avoir à se servir de input hidden. Par exemple, l'URL `/commander/1` permet de passer l'identifiant du menu `1`. Pour cela, il faut utiliser un paramètre de l'URL, et non un query string. On peut utiliser la méthode [`app.param`](https://expressjs.com/fr/4x/api.html#app.param) pour récupérer le menu à partir de l'identifiant, et le passer à la vue.
+Plutôt que d'utiliser un query string pour passer l'identifiant du menu, on peut utiliser un paramètre de l'URL. Cela éviterait d'avoir à se servir de input hidden. Par exemple, l'URL `/commander/1` permet de passer l'identifiant du menu `1`. Pour cela, il faut utiliser un paramètre de l'UgwsRL, et non un query string. On peut utiliser la méthode [`app.param`](https://expressjs.com/fr/4x/api.html#app.param) pour récupérer le menu à partir de l'identifiant, et le passer à la vue.
 
 ### Refacto
 
