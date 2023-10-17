@@ -369,14 +369,14 @@ Dans le fichier `src/models.ts`, nous allons modifier la fonction `getAllMenus` 
 1. Importer le module `mysql2/promise` pour pouvoir utiliser la base de données avec des promesses.
 
 ```typescript
-// models/menu.ts
+// models.ts
 import mysql from 'mysql2/promise';
 ```
 
 2. Créer une connexion à la base de données avec les informations de connexion stockées dans les variables d'environnement.
 
 ```typescript
-// models/menu.ts
+// models.ts
 const pendingConnection = mysql.createConnection({
 	host: process.env.MYSQL_HOST,
 	user: process.env.MYSQL_USER,
@@ -511,10 +511,11 @@ export async function createCommandeFromFormulaire(req: Request, res: Response) 
 **src/models.ts**
 
 ```typescript
-export async function getMenuById(id: string): Promise<Menu> {
+export async function getMenuById(id: string): Promise<Menu | undefined-> {
 	const connection = await pendingConnection;
 	const queryResult = await connection.execute('SELECT * FROM menus WHERE id = ?', [id]);
-	return queryResult[0] as Menu[];
+	// @ts-ignore
+	return queryResult[0][0];
 }
 ```
 
@@ -635,8 +636,73 @@ export async function createCommandeFromFormulaire(req: Request, res: Response) 
 
 ## Exercice 4 : créer une page qui liste toutes les commandes
 
-Créer une nouvelle page `/commandes` qui affiche la liste des commandes passées.
+### Créer une nouvelle page commandes
+
+Créer une nouvelle page `/commandes` qui affiche la liste des commandes passées, avec le nom, l'adresse, le téléphone et l'id du menu commandé.
+
 Vous devrez créer une route, un controller, une vue, et une nouvelle fonction dans le modèle.
+
+<Solution code="QZF">
+
+**src/routes.ts**
+
+```typescript
+router.get('/commandes', getCommandesPage);
+```
+
+**src/controllers.ts**
+
+```typescript
+async function getCommandesPage(req: Request, res: Response) {
+	const title = getRestaurant().title;
+	const commandes = await getAllCommandes();
+	res.render('commandes', { commandes, title });
+}
+```
+
+**src/models**
+
+```typescript
+async function getAllCommandes() {
+	const connection = await pendingConnection;
+	const queryResult = await connection.execute('SELECT * FROM orders');
+	return queryResult[0] as Commande[];
+}
+```
+
+**src/views/commandes.handlebars**
+
+```typescript
+{{#each commandes}}
+	<div class='card mb-3'>
+		<div class='card-body'>
+			<h5 class='card-title'>Commande n°{{id}}</h5>
+			<dl>
+				<dt>Nom</dt>
+				<dd>{{name}}</dd>
+				<dt>Adresse</dt>
+				<dd>{{address}}</dd>
+				<dt>Téléphone</dt>
+				<dd>{{phone}}</dd>
+				<dt>Menu</dt>
+				<dd>{{menuId}}</dd>
+			</dl>
+		</div>
+	</div>
+{{/each}}
+```
+
+</Solution>
+
+### Afficher le nom du menu commandé avec la commande
+
+On veut afficher le nom du menu commandé plutôt que son id. Pour cela, il faut modifier la fonction `getAllCommandes` pour qu'elle récupère le nom du menu avec une jointure SQL.
+
+1. Modifier le type `Commande` pour ajouter la propriété `menuName` de type `string`
+2. Modifier la fonction `getAllCommandes` pour qu'elle récupère le nom du menu avec une jointure SQL.
+   ```sql
+   SELECT orders.*, menus.name AS menu_name FROM orders JOIN menus ON orders.menu_id = menus.id
+   ```
 
 ## Bonus : améliorations
 
@@ -645,13 +711,13 @@ Vous devrez créer une route, un controller, une vue, et une nouvelle fonction d
 Sur la page des commandes, ajouter des boutons pour filtrer les commandes par menu commandé. Vous devrez :
 
 - créer une nouvelle fonction dans le modèle `getCommandesByMenuId` qui prend en paramètre l'id du menu et retourne la liste des commandes correspondantes.
-- ajouter un lien par menu dans le fichier `commandes.handlesbars` qui pointe vers la page `/commandes?menu=ID_DU_MENU`
+- ajouter un lien par menu dans le fichier `commandes.handlebars` qui pointe vers la page `/commandes?menu=ID_DU_MENU`
 - modifier le controller créer précédement pour qu'il utilise la nouvelle fonction du modèle si l'id du menu est présent dans la requête.
+
+### Ajouter un bouton pour supprimer une commande
+
+Ajouter un bouton pour supprimer une commande à côté de la commande. Pour cela, il faudra créer une nouvelle route et un nouveau controller. Cette route aura pour méthode `DELETE` et prendra en paramètre l'id de la commande à supprimer : `/commandes/:id`.
 
 ### Ajouter la gestion d'erreur
 
 Que se passe-t-il si la base de données n'est pas disponible ? Modifiez les controllers pour prendre en compte le cas où l'appel au modèle retourne une erreur.
-
-### Ajouter un bouton pour supprimer une commande
-
-Ajouter un bouton pour supprimer une commande. Pour cela, il faudra créer une nouvelle route et un nouveau controller. Cette route aura pour méthode `DELETE` et prendra en paramètre l'id de la commande à supprimer : `/commandes/:id`.
