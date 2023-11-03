@@ -60,7 +60,7 @@ Ouvrez le dossier dans vscode avec la commande `code .`. Vous pouvez parcourir l
 
 Il y a une petite différence dans le fichier `index.ts` avec le TP précédent. Pouvez-vous la trouver ?
 
-<Solution code="PAJ">
+<Solution >
 
 Nous utilisons les fonctions `getMenuById`, `getAllMenus` et `getRestaurant` pour récupérer les informations sur les menus et le restaurant. Ces fonctions sont définies dans le fichier `src/models.ts`.
 
@@ -165,7 +165,7 @@ import router from './routes';
 app.use(router);
 ```
 
-<Solution code="GHE">
+<Solution >
 
 **src/routes.ts**
 
@@ -257,7 +257,7 @@ export function getHomePage(req: Request, res: Response) {
 }
 ```
 
-<Solution code="ZPI">
+<Solution >
 
 **src/controllers.ts**
 
@@ -415,7 +415,7 @@ const menus = await getAllMenus();
 
 _Note : il n'y a pas de tests pour cet exercice. Vous pouvez vérifier que tout fonctionne en lançant le serveur et en allant sur la page des menus._
 
-<Solution code="JNO">
+<Solution >
 
 **src/controllers.ts**
 
@@ -473,7 +473,7 @@ connection.execute('SELECT * FROM menus WHERE id = ?', [id]);
 
 Vérifiez que tout fonctionne en cliquant sur « commander » sur la page des menus.
 
-<Solution code="MSA">
+<Solution >
 
 **src/controllers.ts**
 
@@ -567,7 +567,7 @@ const commandeId = queryResult[0].insertId;
 
 _Pour tester, vous pouvez créer une commande avec le formulaire, et vérifier que la commande est bien créée dans la base de données avec la commande `SELECT _ FROM orders`, via le script `scripts/database-cli.sh`.\*
 
-<Solution code="BCN">
+<Solution >
 
 **src/models.ts**
 
