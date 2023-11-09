@@ -111,7 +111,7 @@ Le fichier `index.ts` contient tout le code du serveur. Nous allons le découper
 
 Nous nous baserons sur l'architecture MVC (Modèle-Vue-Contrôleur) pour découper le code.
 
-<img src="/mvc_express.png" alt="Architecture MVC" style="width: 100%">
+<img src="/images/mvc_express.png" alt="Architecture MVC" style="width: 100%">
 
 À chaque étape de l'exercice, vous pourrez lancer les tests pour vérifier que tout fonctionne toujours.
 
