@@ -10,9 +10,7 @@
 
 # API REST
 
-Ce TP vous permettra de créer une petite application web fonctionnant avec une API REST.
-
-Dans ce TP, nous créerons une filmotheque pour ajouter les films que nous avons vus, et leur donner une note (un peu comme sur le site sens-critique)
+Ce TP vous permettra de créer une filmothèque pour rechercher les films que nous avons vus, et leur donner une note (un peu comme sur le site [sens-critique](www.senscritique.com)).
 
 Cette application sera sous forme d'une page web dynamique échangeant avec le serveur via une API REST.
 
@@ -21,7 +19,7 @@ Cette application sera sous forme d'une page web dynamique échangeant avec le s
 - Savoir ce qu'est une API REST et la différence avec une architecture MVC
 - Créer une API REST avec express
 - Utiliser `fetch` pour appeler une API REST depuis le navigateur
-- Utiliser javascript pour créer une page dynamique
+- Utiliser JavaScript pour créer une page dynamique
 
 ## Sommaire
 
@@ -29,8 +27,9 @@ Cette application sera sous forme d'une page web dynamique échangeant avec le s
 - [Préparatifs](#start)
 - [Exercice 1 : afficher la liste des films](#exercice-1)
 - [Exercice 2 : rechercher des films](#exercice-2)
-- [Exercice 3 : marquer un film comme vu](#exercice-3)
-- [Exercice 4 : ajouter une note à un film](#exercice-3)
+- [Exercice 3 : récupérer les films de la bibliothèque](#exercice-3)
+- [Exercice 4 : marquer un film comme vu / non vu](#exercice-4)
+- [Exercice 5 : ajouter une note à un film](#exercice-5)
 
 <span id="architecture"></span>
 
@@ -65,7 +64,7 @@ Dans une **API REST**, l'interface consiste en un ensemble d'**URLs** et de **ve
 
 Plus précisément, dans une API REST, **chaque URL correspond à une ressource** (un objet manipulé par l'API). Les verbes HTTP permettent au client de préciser l'action à effectuer sur la ressource.
 
-Par exemple, pour une ressource `movie`, on pourrait avoir les URLs suivantes :
+Par exemple, pour une ressource `movie`, on pourrait avoir les routes suivantes :
 
 - `GET /movies` : récupérer la liste des films
 - `GET /movies/1` : récupérer le film avec l'identifiant 1
@@ -94,6 +93,8 @@ Ou encore, si le film n'existe pas, le serveur renverra un code HTTP 404 (Not Fo
 Ainsi, dans ce type d'architecture, contrairement à une architecture MVC, le serveur ne s'occupe pas de générer les vues (HTML).
 
 Il ne transmet que des données au format JSON. C'est le client (navigateur) qui se charge de générer les vues pour les afficher à l'utilisateur.
+
+<span id="start"></span>
 
 ## Préparatifs : installer et lancer le projet
 
@@ -129,9 +130,7 @@ Installer ces trois extensions.
 
 ### Présentation du projet
 
-Le code source du serveur se trouve dans le dossier `server`, celui du javascript executé sur le navigateur se trouve dans le dossier `client`.
-
-Le dossier `public` contient les fichiers statiques (css, images, html) qui seront servis par le serveur.
+Le code source du serveur se trouve dans le dossier `server`, celui du javascript executé sur le navigateur se trouve dans le dossier `public`, dans le fichier `app.js`.
 
 ### Lancer le projet
 
@@ -148,6 +147,8 @@ A tout moment, vous pouvez voir les logs du serveur avec la commande suivante :
 ```bash
 docker logs -f app
 ```
+
+**Note** il est conseillé de laisser les logs toujours ouverts quand vous développez, vous verrez directement les messages d'erreur s'il y en a.
 
 <span id="exercice-1"></span>
 
@@ -179,18 +180,20 @@ Pour tester votre route, vous pouvez utiliser l'extension Thunder Client directe
 
 <Solution code="AKP">
 
-    ```typescript
-    import express from 'express';
-    import { getMovies } from '../models/movies';
+**routes/movies.ts**
 
-    const router = express.Router();
-    router.get('/movies', async (req, res) => {
-    	const movies = await getMovies();
-    	res.json(movies);
-    });
+```typescript
+import express from 'express';
+import { getMovies } from '../models/movies';
 
-    export default router;
-    ```
+const router = express.Router();
+router.get('/movies', async (req, res) => {
+	const movies = await getMovies();
+	res.json(movies);
+});
+
+export default router;
+```
 
 </Solution>
 
@@ -211,7 +214,7 @@ Cette fonction prend en paramètre un objet contenant la propriété `movie` du 
    3. Parcourir la liste des films et pour chacun d'entre eux, créer un élément HTML avec la fonction `createMovieCard` et l'ajouter au container avec la fonction [`appendChild`](https://developer.mozilla.org/fr/docs/Web/API/Node/appendChild).
 3. Dans la fonction `main`, appeler la fonction `getMovies` pour récupérer la liste des films, puis appeler la fonction `renderMovies` pour afficher les films sur la page d'accueil.
 
-<Solution code="FDJ" />
+<Solution code="FDJ" >
 
 **app.js**
 
@@ -240,9 +243,11 @@ async function main() {
 }
 ```
 
-</Solution >
+</Solution>
 
-### Exercice 2 : rechercher des films
+<span id="exercice-2"></span>
+
+## Exercice 2 : rechercher des films
 
 Nous allons maintenant ajouter la possibilité de rechercher des films par titre grâce au champs de recherche.
 
@@ -304,11 +309,13 @@ export default router;
 
 </Solution>
 
-### Exercice 3 : récupérer les films de la bibliothèque
+<span id="exercice-3"></span>
+
+## Exercice 3 : récupérer les films de la bibliothèque
 
 Dans cet exercice, nous allons différencier les films qui sont déjà dans la bibliothèque de l'utilisateur de ceux qui ne le sont pas. Nous allons également afficher la note que l'utilisateur a donné à chaque film.
 
-#### Côté serveur
+### Côté serveur
 
 Nous allons créer une ressource `library` qui contenant les films de la bibliothèque de l'utilisateur et la note donnée. Son type est le suivant :
 
@@ -350,14 +357,14 @@ router.get('/library/:movieId', async (req, res) => {
 
 </Solution>
 
-#### Côté client
+### Côté client
 
-Nous allons ajouter ces informations directement dans chaque objet `movie` récupéré depuis le serveur. Ces informations seront portées par deux nouvelles propriétés :
+Pour chaque objet `movie` affiché, nous allons faire un appel à la route `/library/:movieId` pour vérifier si le film est dans la bibliothéque. Puis, il faudra modifier l'objet `movie` pour ajouter deux nouvelles propriétés :
 
 - `isInLibrary` : un booléen indiquant si le film est dans la bibliothèque de l'utilisateur
 - `rating` : la note donnée par l'utilisateur au film (si elle existe)
 
-1. Créer une fonction `aync function getLibraryMovie(movieId)` qui vérifie si le film est dans la bibliothèque de l'utilisateur en appelant la route `GET /library/:movieId` du serveur. Cette fonction renvoie `false` si le film n'est pas dans la bibliothèque de l'utilisateur, et l'objet `LibraryMovie` si il est présent.
+1. Créer une fonction `aync function getLibraryMovie(movieId)` qui vérifie si le film est dans la bibliothèque de l'utilisateur en appelant la route `GET /library/:movieId` du serveur. Cette fonction renvoie `false` si le film n'est pas dans la bibliothèque de l'utilisateur (le seveur renvoie 404), et l'objet renvoyé par le serveur si il est présent (contenant les propriétés `rating` et `movieId`).
 
 2. Modifier la fonction `async function getMovies` pour ajouter les propriété de la bibliothèque à chaque film de la liste avant de la retourner. Pour modifier la liste, vous pouvez utiliser au choix :
 
@@ -400,6 +407,8 @@ async function getMovies(querystring = '') {
 
 </Solution>
 
+<span id="exercice-4"></span>
+
 ## Exercice 4 : marquer un film comme vu ou non vu
 
 Maintenant nous allons permettre à l'utilisateur de modifier la liste des films de sa bibliothèque, en ajoutant ou en supprimant des films.
@@ -414,15 +423,13 @@ Cela, grâce à deux nouvelles routes à la ressource `library` qui vont faire l
 1. Créer une route `POST /library` dans le fichier `server/routes/library.ts`
 
    - Cette route paramètre un objet `LibraryMovie` présent dans le corps de la requête
-   - Elle appelle la fonction `addMovieToLibrary` du fichier `server/models/library.ts` pour ajouter le film à la bibliothèque de l'utilisateur. Cette fonction renvoie une erreur `AlreadyExistsError` si le film est déjà dans la bibliothèque de l'utilisateur.
+   - Elle appelle la fonction `addMovieToLibrary` du fichier `server/models/library.ts` pour ajouter le film à la bibliothèque de l'utilisateur. Cette fonction renvoie une erreur `BadRequestError` si le film est déjà dans la bibliothèque de l'utilisateur.
    - Si le film est déjà dans la bibliothèque de l'utilisateur, la route renvoie un code d'erreur 400 (Bad Request) avec le message d'erreur. Sinon, elle retourne l'objet ajouté.
    - Tester votre route avec l'extension Thunder Client.
 
 2. Créer une route `DELETE /library/:movieId` dans le fichier `server/routes/library.ts` qui renvoie une 404 si le film n'est pas dans la bibliothèque. Tester votre route avec l'extension Thunder Client.
 
 <Solution code="MDA">
-
-### Côté serveur
 
 **routes/library.ts**
 
@@ -511,6 +518,8 @@ async function removeFromLibrary(movieId) {
 ```
 
 </Solution>
+
+<span id="exercice-5"></span>
 
 ## Exercice 5 : ajouter une note à un film
 
