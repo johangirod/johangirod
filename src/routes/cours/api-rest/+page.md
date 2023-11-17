@@ -178,7 +178,7 @@ Pour tester votre route, vous pouvez utiliser l'extension Thunder Client directe
 
 - Vous devriez voir apparaître la liste des films dans la réponse du serveur.
 
-<Solution code="AKP">
+<Solution >
 
 **routes/movies.ts**
 
@@ -214,7 +214,7 @@ Cette fonction prend en paramètre un objet contenant la propriété `movie` du 
    3. Parcourir la liste des films et pour chacun d'entre eux, créer un élément HTML avec la fonction `createMovieCard` et l'ajouter au container avec la fonction [`appendChild`](https://developer.mozilla.org/fr/docs/Web/API/Node/appendChild).
 3. Dans la fonction `main`, appeler la fonction `getMovies` pour récupérer la liste des films, puis appeler la fonction `renderMovies` pour afficher les films sur la page d'accueil.
 
-<Solution code="FDJ" >
+<Solution  />
 
 **app.js**
 
@@ -263,7 +263,7 @@ Nous allons maintenant ajouter la possibilité de rechercher des films par titre
 
 4. Vérifier que la recherche fonctionne en testant votre application
 
-<Solution code="LKM">
+<Solution >
 
 **app.js**
 
@@ -334,7 +334,7 @@ Pour exposer cette ressource avec l'API, nous allons créer une route `GET /libr
 4. Renvoyer les informations du film de la bibliothèque si il est présent. Sinon retourner une erreur 404 avec la fonction [`res.status(404).send()`](https://expressjs.com/en/5x/api.html#res.status).
 5. Tester votre route avec l'extension Thunder Client.
 
-<Solution code="IPP">
+<Solution >
 
 **routes/library.ts**
 
@@ -373,7 +373,7 @@ Pour chaque objet `movie` affiché, nous allons faire un appel à la route `/lib
 
 3. Vérifier que cela fonctionne en rafrachissant l'application. Vous devriez voir apparaître des notes sur certains films.
 
-<Solution code="AKP">
+<Solution >
 
 **app.js**
 
@@ -429,7 +429,7 @@ Cela, grâce à deux nouvelles routes à la ressource `library` qui vont faire l
 
 2. Créer une route `DELETE /library/:movieId` dans le fichier `server/routes/library.ts` qui renvoie une 404 si le film n'est pas dans la bibliothèque. Tester votre route avec l'extension Thunder Client.
 
-<Solution code="MDA">
+<Solution >
 
 **routes/library.ts**
 
@@ -483,7 +483,7 @@ Créer une fonction `async function removeFromLibrary(movieId)` qui appelle la r
 
 Testez votre application en ajoutant et en supprimant des films de la bibliothèque et en rafraichissant la page pour vérifier que les modifications sont bien sauvegardées.
 
-<Solution code="FLK">
+<Solution >
 
 ```typescript
 
@@ -537,7 +537,7 @@ Tester votre route avec l'extension Thunder Client.
 
 Utiliser le callback `updateRating` passé en paramètre de la fonction `createMovieCard`. Ce callback est appelé lorsque l'utilisateur modifie la note d'un film. Il prend en premier paramètre l'identifiant du film et en second paramètre la note donnée.
 
-<Solution code="DNW">
+<Solution >
 
 **routes/library.ts**
 

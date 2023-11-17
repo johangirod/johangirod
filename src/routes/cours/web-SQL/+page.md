@@ -642,7 +642,7 @@ Créer une nouvelle page `/commandes` qui affiche la liste des commandes passée
 
 Vous devrez créer une route, un controller, une vue, et une nouvelle fonction dans le modèle.
 
-<Solution code="QZF">
+<Solution >
 
 **src/routes.ts**
 
