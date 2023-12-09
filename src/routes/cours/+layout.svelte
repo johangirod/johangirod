@@ -1,4 +1,6 @@
-<main class="prose prose-slate container mx-auto my-12 px-4 lg:prose-lg lg:px-0">
+<main
+	class="prose prose-slate screen:container mx-auto my-12 px-4 lg:prose-lg lg:px-0 print:mx-0 print:max-w-none"
+>
 	<slot />
 </main>
 
