@@ -1,8 +1,21 @@
-<main
-	class="prose prose-slate screen:container mx-auto my-12 px-4 lg:prose-lg lg:px-0 print:mx-0 print:max-w-none"
->
-	<slot />
-</main>
+<script>
+	import Breadcrumb from '$lib/Breadcrumb.svelte';
+</script>
+
+<div class="lg:prose-lg">
+	<Breadcrumb
+		links={[
+			{ href: '/', label: 'Accueil' },
+			{
+				href: '/cours/',
+				label: 'Cours'
+			}
+		]}
+	/>
+	<main class="">
+		<slot />
+	</main>
+</div>
 
 <style>
 	:global(pre) {
