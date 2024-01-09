@@ -47,9 +47,7 @@
 			>
 		</li>
 		<li>
-			<a href="/cours" aria-label="Voir les cours, nouvelle fenêtre" target="_blank"
-				>Accéder aux cours</a
-			>
+			<a href="/cours">Accéder aux cours</a>
 		</li>
 	</ul>
 </main>
