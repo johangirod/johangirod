@@ -8,7 +8,6 @@
 	let loading = false;
 
 	onMount(async () => {
-		loading = true;
 		await tick();
 		const [{ default: Highlight }, { default: Markdown }, { default: Notes }, { default: Reveal }] =
 			await Promise.all([
@@ -42,7 +41,9 @@
 	<link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" /> -->
 </svelte:head>
 
-<div class="mt-14 md:-ml-14 md:-mr-14">
+<div
+	class="mt-14 prose-h2:text-pink-500 prose-p:text-2xl prose-strong:text-pink-500 prose-li:text-left prose-li:text-2xl md:-ml-14 md:-mr-14"
+>
 	<div class="reveal rounded-md border border-gray-200 shadow-lg">
 		{#if loading}
 			<div
