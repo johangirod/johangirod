@@ -1,4 +1,9 @@
 {
 	"spellright.language": ["fr-FR-3-0."],
-	"spellright.documentTypes": ["markdown", "latex", "plaintext"]
+	"spellright.documentTypes": ["markdown", "latex", "plaintext"],
+	"markdown.validate.enabled": true,
+	"markdown.updateLinksOnFileMove.enabled": "prompt",
+	"markdown.extension.completion.root": "/src/routes/",
+	"prettier.documentSelectors": ["**/*.svelte"],
+	"markdown.suggest.paths.enabled": true
 }
