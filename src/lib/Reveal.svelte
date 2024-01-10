@@ -1,6 +1,8 @@
 <script lang="ts">
 	import 'highlight.js/styles/github.css';
 	import 'reveal.js/dist/reveal.css';
+	// import 'reveal.js/dist/theme/white.css';
+
 	import { onMount, tick } from 'svelte';
 	import { bounceOut, cubicIn, cubicOut } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
@@ -27,10 +29,10 @@
 			width: 1000,
 			height: 800,
 			maxScale: 3.0,
-			controlsTutorial: true,
+			controlsTutorial: false,
 			controls: true,
 			progress: true,
-			slideNumber: true
+			slideNumber: false
 		});
 		loading = false;
 	});
@@ -42,7 +44,8 @@
 </svelte:head>
 
 <div
-	class="mt-14 prose-h2:text-pink-500 prose-p:text-2xl prose-strong:text-pink-500 prose-li:text-left prose-li:text-2xl md:-ml-14 md:-mr-14"
+	class="prose-code:radius-none prose-code:font-mono prose-code:font- mt-14 prose-h1:text-5xl prose-h2:text-3xl prose-h2:text-pink-500 prose-p:text-2xl prose-blockquote:text-2xl prose-blockquote:font-normal prose-blockquote:text-pink-500 prose-code:w-auto prose-code:rounded prose-pre:bg-gray-100 prose-pre:text-left prose-pre:text-xl
+	 prose-li:text-left prose-li:text-2xl md:-ml-14 md:-mr-14"
 >
 	<div class="reveal rounded-md border border-gray-200 shadow-lg">
 		{#if loading}
@@ -90,5 +93,25 @@
 <style>
 	.reveal {
 		height: 500px;
+	}
+	:global(.reveal pre) {
+		display: block;
+		padding: 0rem;
+		position: relative;
+		text-align: left;
+		margin: 5rem;
+		word-wrap: break-word;
+		box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+		outline: 2px solid rgba(0, 0, 0, 0.15);
+	}
+	:global(.reveal pre code) {
+		display: block;
+		padding: 1rem;
+		overflow: auto;
+		max-height: 600px;
+		word-wrap: normal;
+	}
+	:global(.reveal .progress, .reveal .controls button) {
+		color: rgb(236, 72, 153);
 	}
 </style>
