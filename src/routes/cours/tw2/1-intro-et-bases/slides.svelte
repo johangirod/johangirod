@@ -309,7 +309,7 @@ maConstante = 42; // Erreur
 				data-line-numbers="1-6 | 8-11 | 13-14 | 16-17 | 19-20">
 				><script type="text/template">
 					// "number", code pour les flottant et les entier
-					const a = 12;
+					const a = 1200;
 					const b = 1_000.345; // 1000.345
 					const c = 1.2e3; // 1200
 					const d = 0x12; // 18
@@ -317,13 +317,13 @@ maConstante = 42; // Erreur
 
 					// "string", chaîne de caractères
 					const e = 'Hello world!';
-					const name = 'John';
+					const name = "John";
 					const f = `Hello ${name}!`;
 
 					// "boolean", vrai ou faux
 					const g = true;
 
-					// "null", représente l'absence de valeur, "rien"
+					// "null", représente l'absence de valeur, "rien", "non applicable"
 					const h = null;
 
 					// "undefined", représente une variable non définie

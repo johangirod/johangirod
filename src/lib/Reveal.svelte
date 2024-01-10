@@ -11,16 +11,22 @@
 
 	onMount(async () => {
 		await tick();
-		const [{ default: Highlight }, { default: Markdown }, { default: Notes }, { default: Reveal }] =
-			await Promise.all([
-				import('reveal.js/plugin/highlight/highlight'),
-				import('reveal.js/plugin/markdown/markdown'),
-				import('reveal.js/plugin/notes/notes'),
-				import('reveal.js')
-			] as const);
+		const [
+			{ default: Highlight },
+			{ default: Markdown },
+			{ default: Notes },
+			{ default: Zoom },
+			{ default: Reveal }
+		] = await Promise.all([
+			import('reveal.js/plugin/highlight/highlight'),
+			import('reveal.js/plugin/markdown/markdown'),
+			import('reveal.js/plugin/notes/notes'),
+			import('reveal.js/plugin/zoom/zoom'),
+			import('reveal.js')
+		] as const);
 
 		let deck = new Reveal({
-			plugins: [Highlight, Markdown, Notes],
+			plugins: [Highlight, Markdown, Notes, Zoom],
 			hash: true
 		});
 		deck.initialize({
