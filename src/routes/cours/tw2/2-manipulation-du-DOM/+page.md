@@ -39,25 +39,25 @@ Nous allons nous familiariser avec la modification du DOM en utilisant la consol
 
    Que contient la variable `$0` ? Essayez de modifier l'élément selectionné dans l'inspecteur et de taper la commande `$0` à nouveau. Que se passe-t-il ?
 
-3. Faire en sorte que $0 pointe vers le noeud DOM `<p>` qui contient le texte « Bonjour tout le monde ! »
+3. Faire en sorte que $0 pointe vers le noeud DOM `<p>` qui contient le texte « Bonjour tout le monde ! ». Vous pouvez vous aider du bouton « selection » en haut à gauche de l'inspecteur (sous forme de pointeur de souris). Il vous permet de selectionner un élement directement depuis la page web.
 4. Dans la console, tapez la commande suivante pour changer le texte de l'élément sélectionné :
    ```js
    $0.textContent = 'Bonjour les amis !';
    ```
-5. Changez la couleur du texte en rouge en utilisant la propriété `style` de l'élément :
+5. Changez la couleur du texte en rouge en utilisant la propriété `style de l'élément ([voir la slide](#/2/3)).
 6. Supprimer le noeud de la page en utilisant la méthode `remove()`.
 
 ### Exercice 2 : modifier un élément avec du code JavaScript
 
 Nous allons réaliser une diapositive d'images qui changent toute les 2 secondes.
 
-1. Liez le script `script.js` au fichier `index.html` en utilisant la balise `<script>` dans le `<head>` du fichier `index.html`.
+1. Créez un fichier `script.js` et liez au fichier `index.html` en utilisant la balise `<script>` dans le `<head>` du fichier `index.html`.
 
 ```html
-<script type="module" src="./script.js"></script>
+<script defer async src="./script.js"></script>
 ```
 
-2. Dans le fichier `script.js`, créez une variable `imageNode` qui contient le noeud DOM `<img>` qui a l'attribut `id` égal à `diapo`.
+2. Dans le fichier `script.js`, récuperez le noeud existant de l'image dans une variable `imageNode`. Le noeud HTML est une image `img` avec pour id `diapo`.
 
 3. Créez une fonction `changeImage()` qui change l'attribut `src` pour une image aléatoire. Pour cela, générez un id aléatoire entre 1 et 500 et utilisez cet id pour construire l'url de l'image. Par exemple, si l'id aléatoire est 3, l'url vers l'image sera `https://picsum.photos/id/3/400/400`.
 
@@ -67,14 +67,27 @@ Nous allons réaliser une diapositive d'images qui changent toute les 2 secondes
    setInterval(changeImage, 2000);
    ```
 
+<Solution code="LZD">
+
+```js
+const imageNode = document.querySelector('#diapo');
+function changeImage() {
+	const randomId = Math.ceil(Math.random() * 500);
+	imageNode.src = `https://picsum.photos/id/${randomId}/400/400`;
+}
+setInterval(changeImage, 2000);
+```
+
+</Solution>
+
 ### Exercice 3 : Remplacer des éléments avec du code JavaScript
 
-Écrire un script qui cache tous les éléments avec la class `confidential` par un rectangle noir (on pourra utiliser l'attribut `style` pour changer la couleur de fond).
+Écrire un script qui cache tous les éléments avec la class `hidden` par un rectangle noir (on pourra utiliser l'attribut `style` pour changer la couleur de fond).
 
 <Solution code="EFD">
 
 ```js
-const confidentialElements = document.querySelectorAll('.confidential');
+const confidentialElements = document.querySelectorAll('.hidden');
 confidentialElements.forEach((element) => {
 	element.style.backgroundColor = 'black';
 });
@@ -89,10 +102,11 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 1. Créez une fonction `getRandomEmojis()` qui retourne un tableau de 5 emoji aléatoires. Pour cela vous pourrez utiliser le tableau de base suivant :
 
    ```js
-   const emojis = ['⛔️' '❇️', '🏰', '🐺', '⚜', '😅', '🚳', '🕞', '❣', '🏬', '🛎', '🌕', '🌃', '🏡', '🎑', '🍯', '🐍', '🔕', '🐿', '💮', '😹', '↕️', '🌵', '🕗', '♒️', '🚽', '🕋', '📔', '🛂', '🎒', '🐼', '♏️', '⏸', '🅰️', '🌈', '🌂', '🚣', '🎇', '❄️', '👙', '🌹', '🍸', '🛳', '🎟', '😱', '🕚', '👳', '😑', '⌚️', '💛', '🆚', '🔼', '🈯️', '☀️', '😳', '♊️', '🌖', '♋️', '🚀', '🚱', '🚊', '📿', '⏫', '9️⃣', '🗾', '🏜', '🍦', '✋', '🍀', '🗿', '🙎', '✖️', '🆕', '🎮', '🔒', '💸', '👲', '🏢', '🔑', '🐶', '👪', '😻', '🌼', '👠', '🧀', '👎', '🙌', '🐻', '🕐', '👯', '🕝', '😺', '😈', '💴', '🎾', '🚙', '❤️', '♑️', '🌲']
+   // prettier-ignore
+   const emojis = [ '⛔️', '❇️', '🏰', '🐺', '⚜', '😅', '🚳', '🕞', '❣', '🏬', '🛎', '🌕', '🌃', '🏡', '🎑', '🍯', '🐍', '🔕', '🐿', '💮', '😹', '↕️', '🌵', '🕗', '♒️', '🚽', '🕋', '📔', '🛂', '🎒', '🐼', '♏️', '⏸', '🅰️', '🌈', '🌂', '🚣', '🎇', '❄️', '👙', '🌹', '🍸', '🛳', '🎟', '😱', '🕚', '👳', '😑', '⌚️', '💛', '🆚', '🔼', '🈯️', '☀️', '😳', '♊️', '🌖', '♋️', '🚀', '🚱', '🚊', '📿', '⏫', '9️⃣', '🗾', '🏜', '🍦', '✋', '🍀', '🗿', '🙎', '✖️', '🆕', '🎮', '🔒', '💸', '👲', '🏢', '🔑', '🐶', '👪', '😻', '🌼', '👠', '🧀', '👎', '🙌', '🐻', '🕐', '👯', '🕝', '😺', '😈', '💴', '🎾', '🚙', '❤️', '♑️', '🌲'];
    ```
 
-   <Solution code="YOP">
+      <Solution code="YOP">
 
    ```js
    function getRandomEmojis() {
@@ -100,15 +114,15 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
    	while (randomEmojis.length < 5) {
    		const randomIndex = Math.floor(Math.random() * emojis.length);
    		const randomEmoji = emojis[randomIndex];
-   		if (!emojis.includes(randomEmoji)) {
-   			emojis.push(randomEmoji);
+   		if (!randomEmojis.includes(randomEmoji)) {
+   			randomEmojis.push(randomEmoji);
    		}
    	}
    	return randomEmojis;
    }
    ```
 
-   </Solution>
+      </Solution>
 
 2. Creer une fonction `displayEmojis(emojis)` qui prend en paramètre un tableau d'emoji et qui affiche les emoji dans le tag `<ol>` avec l'id `emoji-game`. Chaque emoji sera affichée dans un element `<li>`, par exemple : `<li>☀️</li>`.
 
@@ -116,7 +130,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 
    ```js
    function displayEmojis(emojis) {
-   	const emojisNode = document.getElementById('ol#emoji-game');
+   	const emojisNode = document.querySelector('ol#emoji-game');
    	emojisNode.innerHTML = '';
    	emojis.forEach((emoji) => {
    		const emojiNode = document.createElement('li');
@@ -148,7 +162,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 
    ```js
    function hideEmoji() {
-   	const emojiCards = document.querySelectorAll('ol#emoji-game').children;
+   	const emojiCards = document.querySelectorAll('ol > li');
    	emojiCards.forEach((emojiCard) => {
    		emojiCard.style.color = 'transparent';
    	});
