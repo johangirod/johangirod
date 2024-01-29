@@ -67,7 +67,7 @@ Nous allons réaliser une diapositive d'images qui changent toute les 2 secondes
    setInterval(changeImage, 2000);
    ```
 
-<Solution code="LZD">
+<Solution>
 
 ```js
 const imageNode = document.querySelector('#diapo');
@@ -84,7 +84,7 @@ setInterval(changeImage, 2000);
 
 Écrire un script qui cache tous les éléments avec la class `hidden` par un rectangle noir (on pourra utiliser l'attribut `style` pour changer la couleur de fond).
 
-<Solution code="EFD">
+<Solution >
 
 ```js
 const confidentialElements = document.querySelectorAll('.hidden');
@@ -106,7 +106,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
    const emojis = [ '⛔️', '❇️', '🏰', '🐺', '⚜', '😅', '🚳', '🕞', '❣', '🏬', '🛎', '🌕', '🌃', '🏡', '🎑', '🍯', '🐍', '🔕', '🐿', '💮', '😹', '↕️', '🌵', '🕗', '♒️', '🚽', '🕋', '📔', '🛂', '🎒', '🐼', '♏️', '⏸', '🅰️', '🌈', '🌂', '🚣', '🎇', '❄️', '👙', '🌹', '🍸', '🛳', '🎟', '😱', '🕚', '👳', '😑', '⌚️', '💛', '🆚', '🔼', '🈯️', '☀️', '😳', '♊️', '🌖', '♋️', '🚀', '🚱', '🚊', '📿', '⏫', '9️⃣', '🗾', '🏜', '🍦', '✋', '🍀', '🗿', '🙎', '✖️', '🆕', '🎮', '🔒', '💸', '👲', '🏢', '🔑', '🐶', '👪', '😻', '🌼', '👠', '🧀', '👎', '🙌', '🐻', '🕐', '👯', '🕝', '😺', '😈', '💴', '🎾', '🚙', '❤️', '♑️', '🌲'];
    ```
 
-      <Solution code="YOP">
+      <Solution >
 
    ```js
    function getRandomEmojis() {
@@ -126,7 +126,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 
 2. Creer une fonction `displayEmojis(emojis)` qui prend en paramètre un tableau d'emoji et qui affiche les emoji dans le tag `<ol>` avec l'id `emoji-game`. Chaque emoji sera affichée dans un element `<li>`, par exemple : `<li>☀️</li>`.
 
-   <Solution code="PAE">
+   <Solution>
 
    ```js
    function displayEmojis(emojis) {
@@ -144,7 +144,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 
 3. Créer une fonction `startGame` qui appel successivement les fonctions `getRandomEmojis` et `displayEmojis`, puis appelez-là dans le corps du script. Vérifiez que les emojis s'affichent bien dans le navigateur.
 
-   <Solution code="DKZ">
+   <Solution>
 
    ```js
    function startGame() {
@@ -158,7 +158,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 
 4. Créer une fonction `hideEmoji` qui cache l'emoji de chacune des carte en modifiant la couleur à `transparent`. Appelez cette fonction dans startGame() après 5 secondes. Vous pouvez utiliser la fonction [`setTimeout`](https://developer.mozilla.org/fr/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout) pour appeler une fonction après un certain délai.
 
-   <Solution code="MLF">
+   <Solution>
 
    ```js
    function hideEmoji() {
