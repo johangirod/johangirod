@@ -1,4 +1,5 @@
 <svelte:head>
+
 <title>Cours - Johan Girod</title>
 </svelte:head>
 
@@ -8,6 +9,7 @@
 
 1. [Introduction au développement web](./tw2/1-intro-et-bases/)
 2. [Manipulation du DOM](./tw2/2-manipulation-du-DOM/)
+3. [Utilisations des fonctions en JavaScript](./tw2/3-fonctions/)
 
 ## Technologie web 3
 
