@@ -192,7 +192,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 
    </Solution>
 
-6. Si la réponse de l'utilisateur est correcte, réafficher toutes les emojis et ajouter la class "success" à la `div` avec l'id `emojis`.
+6. Si la réponse de l'utilisateur est correcte, réafficher toutes les emojis et ajouter la class "success" à la `div` avec l'id `emojis`. Pour cela, on créera une fonction anonyme qui sera appelée après 5 secondes. Cette fonction appellera la fonction `hideEmoji` puis la fonction `askQuestion`. 
 
    <Solution code="JBM">
 
@@ -203,7 +203,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
    	setTimeout(() => {
    		hideEmoji();
    		const isCorrect = askQuestion(emojis);
-   		if (!isCorrect) {
+   		if (isCorrect) {
    			document.getElementById('emoji-game').classList.add('success');
    		}
    	}, 5000);
@@ -212,7 +212,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 
    </Solution>
 
-7. Si la réponse de l'utilisateur est incorrecte, réafficher toutes les emojis et ajouter le texte « Pas tout à fait, réessayez encore » dans la `div` avec l'id `emoji-game-message`. On attends 5 secondes et on recommence la même question. On continue jusqu'à ce que l'utilisateur trouve la bonne réponse. <em>Indice : vous pouvez créer une fonction récursive `loop` plutôt qu'une boucle `while`.</em>
+7. Si la réponse de l'utilisateur est incorrecte, réafficher toutes les emojis, et afficher le texte « Perdu 😔 » dans la `div` avec l'id `emoji-game-message`. 
 
    <Solution code="CLM">
 
@@ -220,24 +220,22 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
    function startGame() {
    	const emojis = getRandomEmojis();
    	displayEmojis(emojis);
-   	function loop() {
-   		setTimeout(() => {
-   			hideEmoji();
-   			const isCorrect = askQuestion(emojis);
-   			if (!isCorrect) {
-   				document.getElementById('emoji-game-message').textContent =
-   					'Pas tout à fait, réessayez encore';
-   				loop();
-   			}
-   		}, 5000);
-   	}
-   	loop();
+   	setTimeout(() => {
+   		hideEmoji();
+   		const isCorrect = askQuestion(emojis);
+   		if (isCorrect) {
+   			document.getElementById('emoji-game').classList.add('success');
+   		} else {
+            displayEmojis(emojis);
+   			document.getElementById('emoji-game-message').textContent = 'Perdu 😔';
+   		}
+   	}, 5000);
    }
    ```
 
    </Solution>
 
 8. Bonus :
-
+- Faire en sorte que le jeu boucle tant que l'utilisateur ne trouve pas la bonne réponse, en affichant les emojis pendant 5 secondes puis en posant une nouvelle question.
 - Faire en sorte que le nombre d'emoji soit paramétrable.
 - Afficher le nombre d'essais de l'utilisateur lorsque l'utilisateur trouve la bonne réponse.
