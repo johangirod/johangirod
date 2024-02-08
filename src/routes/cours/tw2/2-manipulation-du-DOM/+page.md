@@ -205,7 +205,7 @@ function startGame() {
 
 6. Si la réponse de l'utilisateur est correcte, réafficher toutes les emojis et ajouter la class "success" à la `div` avec l'id `emojis`. Pour cela, on créera une fonction anonyme qui sera passée en argument de setTimeout, et qui appellera la fonction `askQuestion`
 
-   <Solution code="JBM">
+   <Solution>
 
    ```js
    function startGame() {
@@ -216,7 +216,7 @@ function startGame() {
    	setTimeout(() => {
    		const isCorrect = askQuestion(emojis);
    		if (isCorrect) {
-   			document.getElementById('emoji-game').classList.add('success');
+   			document.querySelector('#emoji-game').classList.add('success');
    		}
    	}, 5100);
    }
@@ -226,7 +226,7 @@ function startGame() {
 
 7. Si la réponse de l'utilisateur est incorrecte, réafficher toutes les emojis, et afficher le texte « Perdu 😔 » dans la `div` avec l'id `emoji-game-message`.
 
-   <Solution code="CLM">
+   <Solution>
 
    ```js
    function startGame() {
@@ -237,9 +237,9 @@ function startGame() {
    		const isCorrect = askQuestion(emojis);
    		displayEmojis(emojis);
    		if (isCorrect) {
-   			document.getElementById('emoji-game').classList.add('success');
+   			document.querySelector('#emoji-game').classList.add('success');
    		} else {
-   			document.getElementById('emoji-game-message').textContent = 'Perdu 😔';
+   			document.querySelector('#emoji-game-message').textContent = 'Perdu 😔';
    		}
    	}, 5100);
    }
