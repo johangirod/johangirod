@@ -1,5 +1,6 @@
 <script>
 	import Message from '$lib/Message.svelte';
+	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
 </script>
@@ -60,6 +61,23 @@ Au tout début du fichier `index.html`, vous trouverez le code de la modale d'av
 
 _**Astuce** : pour éviter d'avoir à refermer la modale à chaque fois que vous rechargez la page pour les exercices suivants, vous pouvez commenter l'appel à la fonction `renderModal`._
 
+<Solution>
+
+```js
+function renderModal() {
+	const modal = document.querySelector('dialog');
+	modal.showModal();
+	const button = modal.querySelector('button');
+	button.addEventListener('click', () => {
+		modal.close();
+	});
+}
+
+renderModal();
+```
+
+</Solution>
+
 ### Exercice 2 : faire défiler les images au hover
 
 Dans le fichier `index.html`, vous pourrez voir que chaque lieu est représenté par un élément `<article>`. Chaque article contient un titre, ainsi que plusieurs images. Seule l'image avec la classe `displayed` est visible. L'objectif de cet exercice est de faire défiler les images au survol de la souris.
@@ -83,6 +101,35 @@ Dans le fichier `index.html`, vous pourrez voir que chaque lieu est représenté
    - Bonus : pour plus de réactivité, vous pouvez faire en sorte que la fonction `loopImage` soit appelée immédiatement au survol de la souris, et non pas après une seconde.
 
 4. Tester que tout fonctionne correctement : les images doivent défiler au survol de la souris, et s'arrêter quand la souris quitte l'élément `<article>`.
+
+<Solution>
+
+```js
+function loopImages(article) {
+	const currentImage = article.querySelector('.displayed');
+	const nextImage = currentImage.nextElementSibling;
+	currentImage.classList.remove('displayed');
+	if (nextImage) {
+		nextImage.classList.add('displayed');
+	} else {
+		article.querySelector('img-container').firstChild.classList.add('displayed');
+	}
+}
+
+Array.from(document.querySelector('article')).forEach((article) => {
+	let intervalId;
+	article.addEventListener('mouseenter', () => {
+		intervalId = setInterval(() => {
+			loopImages(article);
+		});
+	});
+	article.addEventListener('mouseleave', () => {
+		clearInterval(intervalId);
+	});
+});
+```
+
+</Solution>
 
 ### Exercice 3 : Filtrer par type de lieu
 
