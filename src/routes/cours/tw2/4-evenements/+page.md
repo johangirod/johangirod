@@ -40,6 +40,18 @@ git commit -m "TP 4 - seance 1"
 git push origin <branch>
 ```
 
+4. **Pour récupérer votre travail à la prochaine séance**, vous pourrez utiliser la commande suivante :
+
+```bash
+git config --global user.name "prenom.nom"
+git config --global user.email "votremail@univ-jfc.fr"
+git clone https://sources.univ-jfc.fr/techno-web-2/tp-4.git
+cd tp-4
+git checkout <branch>
+```
+
+en remplaçant `<branch>` par le nom de votre branche sauvegardée au TP précédent.
+
 ### Exercice 1 : Ajouter et enlever la modale d'avertissement
 
 Au tout début du fichier `index.html`, vous trouverez le code de la modale d'avertissement. Une modale est une fenêtre qui s'affiche par dessus le reste de la page. Ici, elle est implémentée en utilisant l'élément HTML `<dialog>`, qui est celui à utiliser pour implémenter une modale.
