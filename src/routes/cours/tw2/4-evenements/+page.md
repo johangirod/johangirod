@@ -124,7 +124,7 @@ function loopImages(article) {
 	if (nextImage) {
 		nextImage.classList.add('displayed');
 	} else {
-		article.querySelector('img-container').firstChild.classList.add('displayed');
+		article.querySelector('.img-container img').classList.add('displayed');
 	}
 }
 
