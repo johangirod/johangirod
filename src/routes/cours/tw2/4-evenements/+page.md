@@ -128,7 +128,7 @@ function loopImages(article) {
 	}
 }
 
-Array.from(document.querySelectorAll('article')).forEach((article) => {
+document.querySelectorAll('article').forEach((article) => {
 	let intervalId;
 	article.addEventListener('mouseenter', () => {
 		intervalId = setInterval(() => {
@@ -160,6 +160,25 @@ Le bouton de filtre est déjà présent dans le fichier `index.html`. Il est rep
 3. Ajouter un écouteur d'événement "change" sur l'élément `<select>`. Dans la fonction de rappel de cet écouteur, appelez la fonction `filterByCategory` avec la valeur de l'élément `<select>` en paramètre.
 4. Tester que tout fonctionne correctement : les lieux doivent se filtrer en fonction du type sélectionné.
 
+<Solution code="APM">
+
+```js
+function filterByCategory(category) {
+	const articles = Array.from(document.querySelectorAll('article'));
+	articles.forEach((article) => {
+		if (article.dataset.category !== category && category !== 'all') {
+			article.style.display = 'none';
+		}
+	});
+}
+
+document.querySelector('select#category').addEventListener('change', (event) => {
+	filterByCategory(event.target.value);
+});
+```
+
+</Solution>
+
 ### Exercice 4 : implémenter le tri
 
 Le bouton de tri est déjà présent dans le fichier `index.html`. Il est représenté par un groupe de boutons radio qui ont comme nom `sort`.
@@ -176,11 +195,70 @@ Le bouton de tri est déjà présent dans le fichier `index.html`. Il est repré
 2. Tester cette fonction en appelant `sortBy` dans la console de votre navigateur.
 3. Ajouter un écouteur d'événement "change" sur chaque bouton radio. Dans la fonction de rappel de cet écouteur, appelez la fonction `sortBy` avec les bons paramètres. Vous aurez besoin de récupérer la valeur des éléments `<input>` pour savoir quel type de tri a été sélectionné, et si l'ordre est croissant ou décroissant. Pour cela, on pourra utiliser `document.querySelector('input[name="sort"]:checked').value` pour récupérer la valeur du bouton radio sélectionné. Le pseudo sélecteur `:checked` permet de récupérer l'élément sélectionné.
 
+<Solution code="TAP">
+
+```js
+function sortBy(name, order) {
+	const articles = Array.from(document.querySelectorAll('article'));
+	articles.sort((a, b) => {
+		if (order === 'ascending') {
+			return a.dataset[name] < b.dataset[name] ? 1 : -1;
+		} else {
+			return a.dataset[name] > b.dataset[name] ? 1 : -1;
+		}
+	});
+	const parent = document.querySelector('div[role="list"]');
+	articles.forEach((article) => parent.appendChild(article));
+}
+
+document.querySelectorAll('input[type="radio"]').forEach((input) =>
+	input.addEventListener('change', () => {
+		const sort = document.querySelector('input[name="sort"]:checked').value;
+		const order = document.querySelector('input[name="order"]:checked').value;
+		sortBy(sort, order);
+	})
+);
+```
+
+</Solution>
+
 ### Exercice 5 : Ajouter une recherche
 
 Pour la recherche, nous allons utiliser un élément `<input>` de type "text" qui a comme id `search`. L'objectif est de faire en sorte que l'utilisateur puisse taper un mot dans cet élément, et que les lieux qui ne contiennent pas ce mot dans leur titre soient cachés.
 
 1. Créer une fonction `search` dans le fichier `script.js`. Cette fonction prendra le mot à rechercher en paramètre, et cachera les lieux qui ne contiennent pas ce mot dans leur titre.
+
+<Solution code="MDZ">
+
+```js
+function search(query) {
+	const articles = Array.from(document.querySelectorAll('article'));
+	articles.forEach((article) => {
+		const title = article.querySelector('h3').textContent;
+		if (!title.toLowerCase().includes(query.toLowerCase())) {
+			article.style.display = 'none';
+		}
+	});
+}
+
+function resetFilter() {
+	const articles = Array.from(document.querySelectorAll('article'));
+	articles.forEach((article) => {
+		article.style.display = '';
+	});
+}
+
+function updateFilter() {
+	resetFilter();
+	filterByCategory(document.querySelector('select#category').value);
+	search(document.querySelector('input#search').value);
+}
+
+document.querySelector('input#search').addEventListener('input', updateFilter);
+document.querySelector('select#category').addEventListener('change', updateFilter);
+```
+
+</Solution>
 
 ### Exercice 6 : Ajouter la distance entre l'utilisateur et le lieu et ajouter un tri par distance
 
@@ -207,3 +285,41 @@ function haversine([lat1, lon1], [lat2, lon2]) {
 ```
 
 3. Ajouter une option de tri par distance dans le groupe de boutons radio. Quand cette option est sélectionnée, les lieux doivent être triés par distance croissante par rapport à la position de l'utilisateur.
+
+<Solution code="MZD">
+
+```js
+navigator.geolocation.getCurrentPosition((position) => {
+	document.querySelectorAll('article').forEach((article) => {
+		const lat = Number.parseFloat(article.dataset.lat);
+		const lon = Number.parseFloat(article.dataset.lng);
+		const distance = haversine([position.coords.latitude, position.coords.longitude], [lat, lon]);
+		const distanceSpan = document.createElement('span');
+		distanceSpan.textContent = `Distance : ${Math.round(distance)} km`;
+		article.appendChild(distanceSpan);
+	});
+});
+
+function haversine([lat1, lon1], [lat2, lon2]) {
+	toRad = function (n) {
+		return (n * Math.PI) / 180;
+	};
+	const R = 6371; // km
+	const x1 = lat2 - lat1;
+	const dLat = toRad(x1);
+	const x2 = lon2 - lon1;
+	const dLon = toRad(x2);
+	const a =
+		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	const d = R * c;
+	return d;
+}
+```
+
+</Solution>
+
+```
+
+```
