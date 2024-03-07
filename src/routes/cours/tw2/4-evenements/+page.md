@@ -128,12 +128,12 @@ function loopImages(article) {
 	}
 }
 
-Array.from(document.querySelector('article')).forEach((article) => {
+Array.from(document.querySelectorAll('article')).forEach((article) => {
 	let intervalId;
 	article.addEventListener('mouseenter', () => {
 		intervalId = setInterval(() => {
 			loopImages(article);
-		});
+		}, 1000);
 	});
 	article.addEventListener('mouseleave', () => {
 		clearInterval(intervalId);
