@@ -165,7 +165,7 @@ import router from './routes';
 app.use(router);
 ```
 
-<Solution code="ABC">
+<Solution >
 
 **src/routes.ts**
 

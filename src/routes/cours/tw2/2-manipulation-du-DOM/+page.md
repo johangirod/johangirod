@@ -181,7 +181,7 @@ Nous allons développer un petit jeu de mémoire. Le but est de faire apparaitre
 
 Appeler cette fonction après 5100 millisecondes avec la fonction `setTimeout`.
 
-   <Solution code="FMA">
+   <Solution >
 
 ```js
 function askQuestion(randomEmojis) {
