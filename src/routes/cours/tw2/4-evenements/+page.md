@@ -174,7 +174,7 @@ Le bouton de tri est déjà présent dans le fichier `index.html`. Il est repré
    - Pour modifier l'ordre des éléments dans le DOM, vous pouvez utiliser la méthode `appendChild` pour les déplacer. Il vous suffit ainsi de trier les éléments dans un tableau, puis de les ajouter dans l'ordre dans le DOM, ils seront automatiquement déplacés.
 
 2. Tester cette fonction en appelant `sortBy` dans la console de votre navigateur.
-3. Ajouter un écouteur d'événement "change" sur chaque bouton radio. Dans la fonction de rappel de cet écouteur, appelez la fonction `sortBy` avec les bons paramètres. Vous aurez besoin de récupérer la valeur des éléments `<input>` pour savoir quel type de tri a été sélectionné, et si l'ordre est croissant ou décroissant.
+3. Ajouter un écouteur d'événement "change" sur chaque bouton radio. Dans la fonction de rappel de cet écouteur, appelez la fonction `sortBy` avec les bons paramètres. Vous aurez besoin de récupérer la valeur des éléments `<input>` pour savoir quel type de tri a été sélectionné, et si l'ordre est croissant ou décroissant. Pour cela, on pourra utiliser `document.querySelector('input[name="sort"]:checked').value` pour récupérer la valeur du bouton radio sélectionné. Le pseudo sélecteur `:checked` permet de récupérer l'élément sélectionné.
 
 ### Exercice 5 : Ajouter une recherche
 
