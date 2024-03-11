@@ -160,7 +160,7 @@ Le bouton de filtre est déjà présent dans le fichier `index.html`. Il est rep
 3. Ajouter un écouteur d'événement "change" sur l'élément `<select>`. Dans la fonction de rappel de cet écouteur, appelez la fonction `filterByCategory` avec la valeur de l'élément `<select>` en paramètre.
 4. Tester que tout fonctionne correctement : les lieux doivent se filtrer en fonction du type sélectionné.
 
-<Solution code="APM">
+<Solution >
 
 ```js
 function filterByCategory(category) {
@@ -195,7 +195,7 @@ Le bouton de tri est déjà présent dans le fichier `index.html`. Il est repré
 2. Tester cette fonction en appelant `sortBy` dans la console de votre navigateur.
 3. Ajouter un écouteur d'événement "change" sur chaque bouton radio. Dans la fonction de rappel de cet écouteur, appelez la fonction `sortBy` avec les bons paramètres. Vous aurez besoin de récupérer la valeur des éléments `<input>` pour savoir quel type de tri a été sélectionné, et si l'ordre est croissant ou décroissant. Pour cela, on pourra utiliser `document.querySelector('input[name="sort"]:checked').value` pour récupérer la valeur du bouton radio sélectionné. Le pseudo sélecteur `:checked` permet de récupérer l'élément sélectionné.
 
-<Solution code="TAP">
+<Solution >
 
 ```js
 function sortBy(name, order) {
@@ -228,7 +228,7 @@ Pour la recherche, nous allons utiliser un élément `<input>` de type "text" qu
 
 1. Créer une fonction `search` dans le fichier `script.js`. Cette fonction prendra le mot à rechercher en paramètre, et cachera les lieux qui ne contiennent pas ce mot dans leur titre.
 
-<Solution code="MDZ">
+<Solution >
 
 ```js
 function search(query) {
@@ -286,7 +286,7 @@ function haversine([lat1, lon1], [lat2, lon2]) {
 
 3. Ajouter une option de tri par distance dans le groupe de boutons radio. Quand cette option est sélectionnée, les lieux doivent être triés par distance croissante par rapport à la position de l'utilisateur.
 
-<Solution code="MZD">
+<Solution>
 
 ```js
 navigator.geolocation.getCurrentPosition((position) => {
@@ -319,7 +319,3 @@ function haversine([lat1, lon1], [lat2, lon2]) {
 ```
 
 </Solution>
-
-```
-
-```
