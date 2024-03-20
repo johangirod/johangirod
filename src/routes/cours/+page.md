@@ -11,7 +11,7 @@
 2. [Manipulation du DOM](./tw2/2-manipulation-du-DOM/)
 3. [Utilisations des fonctions en JavaScript](./tw2/3-fonctions/)
 4. [Les événements du DOM](./tw2/4-evenements/)
-5. [Les modules](./tw2/5-modules/)
+5. [Les modules et classes](./tw2/5-modules-et-classes)
 
 ## Technologie web 3
 
