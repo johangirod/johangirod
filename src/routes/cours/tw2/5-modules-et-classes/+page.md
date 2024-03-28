@@ -200,7 +200,7 @@ class Puissance4 {
    .case {
    	width: 50px;
    	height: 50px;
-   	border: 1-color: red;px solid black;
+   	border: 1px solid black;
    }
 
    .case.player-A {
