@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
 </script>
@@ -599,4 +599,4 @@ function renderMovies(movies) {
 - Quels sont les avantages d'une API REST par rapport à une architecture MVC ?
 - Quels sont les inconvénients d'une API REST par rapport à une architecture MVC ?
 - Nous souhaitons ajouter la possibilité à l'administrateur de l'application d'ajouter des films à la base de donnée. Quelle route devons-nous créer ? Quel verbe HTTP utiliser ?
-- Et pour modifier un film présent ?
+- Et pour modifier un film présent ? -->
