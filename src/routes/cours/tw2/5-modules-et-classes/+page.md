@@ -25,7 +25,6 @@ Créer une classe `Puissance4` qui contiendra les méthodes suivantes :
 - `play(column)` : joue un coup dans la colonne `column`
 - `getCurrentPlayer()` : retourne le joueur dont c'est le tour
 - `isWin()` : vérifie si un joueur a gagné
-- `isDraw()` : vérifie si la partie est nulle
 - `getBoard()` : retourne le plateau de jeu (le tableau de tableau)
 - `logBoard()` : affiche le tableau de jeu dans la console (on pourra utiliser `console.table`)
 
@@ -39,8 +38,6 @@ La méthode `getCurrentPlayer()` retournera le joueur dont c'est le tour.
 
 La méthode `isWin()` vérifiera si un joueur a gagné. Elle retournera `A` si le joueur A a gagné, `B` si le joueur B a gagné, `false` sinon.
 
-La méthode `isDraw()` vérifiera si la partie est nulle. Elle retournera `true` si la partie est nulle, `false` sinon.
-
 Pour vérifier les fonctions vous pouvez créer un fichier `test.js` qui appellera les fonctions de la classe `Puissance4` et affichera le résultat dans la console.
 
 ```
@@ -52,15 +49,16 @@ node test.js
 <Solution>
 
 ```javascript
-class Puissance4 {
+export class Puissance4 {
 	winner = false;
 	currentPlayer = 'A';
 	constructor() {
-		this.grid = Array.from({ length: 7 }, () => Array.from({ length: 7 }, () => undefined));
-	}
+		// On crée un tableau de 6 lignes contenant chacune un tableau de 7 cases
+		// Il est initialisé à null
 
-	getCurrentPlayer() {
-		return this.currentPlayer;
+		// Pour atteindre la case positionnée en ligne 3 et colonne 4
+		// this.grid[3][4]
+		this.grid = Array.from({ length: 6 }, () => Array.from({ length: 7 }, () => null));
 	}
 }
 ```
@@ -86,15 +84,16 @@ class Puissance4 {
 ```javascript
 
 	play(column) {
-		if (this.grid[this.grid.length - 1][column] !== undefined) {
+		if (this.grid[this.grid.length - 1][column] !== null) {
 			return false;
 		}
-		const row = this.grid.findIndex((row) => row[column] === undefined);
-		console.log(row, this.grid);
+		// On cherche la première case vide
+		const row = this.grid.findIndex((row) => row[column] === null);
+		// On ajoute un jeton correspondant au joueur actuel
 		this.grid[row][column] = this.currentPlayer;
-		this.currentPlayer = this.currentPlayer === 'A' ? 'B' : 'A';
-
+		// On verifie si le coup est gagnant
 		this.#checkWin(row, column);
+		this.currentPlayer = this.currentPlayer === 'A' ? 'B' : 'A';
 	}
 ```
 
@@ -120,9 +119,11 @@ class Puissance4 {
 			[1, 1],
 			[1, -1]
 		];
+		// Pour chacune des direction possible (vertical, horizontal, diagonale droite, diagonale gauche)
 		for (const [dx, dy] of directions) {
 			let count = 1;
 			for (let i = 1; i < 4; i++) {
+				// On compte le nombre de jeton aligné après le jeton joué
 				const x = column + i * dx;
 				const y = row + i * dy;
 				if (this.grid[y]?.[x] !== this.currentPlayer) {
@@ -131,20 +132,39 @@ class Puissance4 {
 				count++;
 			}
 			for (let i = 1; i < 4; i++) {
+				// On compte le nombre de jeton aligné avant le jeton joué
 				const x = column - i * dx;
 				const y = row - i * dy;
+
 				if (this.grid[y]?.[x] !== this.currentPlayer) {
 					break;
 				}
 				count++;
 			}
+			// Si on a 4 jetons alignés (ou plus), on a un gagnant
 			if (count >= 4) {
 				this.winner = this.currentPlayer;
 				break;
 			}
 		}
 	}
+```
 
+</Solution>
+
+**`logBoard()`**
+
+<Solution>
+
+```javascript
+	logBoard() {
+		// On retourne le tableau inversé pour l'afficher dans le bon sens dans la console
+		return console.table(this.grid.toReversed());
+	}
+
+	getBoard() {
+		return this.grid;
+	}
 ```
 
 </Solution>
@@ -175,7 +195,7 @@ class Puissance4 {
 1. Créer une fonction `renderBord` qui affiche le plateau de jeu dans la div `board`. Le plateau sera représenté par plusieurs `div` représentant les colonnes et les cases du jeu.
 
    ```html
-   <div class="board">
+   <div id="board">
    	<div class="column">
    		<div class="case"></div>
    		...
@@ -188,7 +208,7 @@ class Puissance4 {
    Pour styliser le plateau de jeu, vous pouvez utiliser le fichier `style.css` suivant :
 
    ```css
-   .board {
+   #board {
    	display: flex;
    }
 
@@ -215,3 +235,72 @@ class Puissance4 {
    - Afficher en haut le joueur dont c'est le tour.
    - Jouer un coup dans la colonne en cliquant dessus
    - Si un joueur a gagné, on affichera un message de victoire
+
+<Solution>
+
+```javascript
+// Fichier index.js
+import { Puissance4 } from './puissance4.js';
+
+const game = new Puissance4();
+renderBoard();
+
+function renderBoard() {
+	const boardElem = document.querySelector('#board');
+	if (!boardElem) {
+		throw new Error("Impossible de trouver l'élément #board");
+	}
+	boardElem.innerHTML = '';
+	const board = game.getBoard();
+	const numberOfRow = board.length;
+	const numberOfColumn = board[0].length;
+	for (let i = 0; i < numberOfColumn; i++) {
+		// On crée chaque colonne dans une boucle
+		const columnDiv = document.createElement('div');
+		columnDiv.classList.add('column');
+
+		for (let j = numberOfRow - 1; j >= 0; j--) {
+			// Pour chaque colonne, on ajoute les cases avec les jetons,
+			// en commençant par la dernière ligne
+			const caseDiv = document.createElement('div');
+			caseDiv.classList.add('case');
+			const jeton = board[j][i];
+			if (jeton === 'A') {
+				caseDiv.classList.add('player-A');
+				caseDiv.innerText = 'A';
+			} else if (jeton === 'B') {
+				caseDiv.classList.add('player-B');
+				caseDiv.innerText = 'B';
+			}
+
+			columnDiv.appendChild(caseDiv);
+		}
+
+		// On ajoute un écouteur d'événement pour chaque colonne
+		columnDiv.addEventListener('click', () => {
+			game.play(i);
+			// On réaffiche le plateau après chaque coup
+			renderBoard();
+		});
+		boardElem.appendChild(columnDiv);
+	}
+
+	// Affiche le joueur dont c'est le tour
+	let playerInfo = document.querySelector('.player-info');
+	if (!playerInfo) {
+		playerInfo = document.createElement('div');
+		playerInfo.classList.add('player-info');
+		document.body.appendChild(playerInfo);
+	}
+	playerInfo.textContent = `C'est au joueur ${game.getCurrentPlayer()} de jouer`;
+
+	// Affiche un message de victoire si un joueur a gagné
+	if (game.isWin()) {
+		const message = document.createElement('div');
+		message.textContent = `Le joueur ${game.isWin()} a gagné !`;
+		document.body.appendChild(message);
+	}
+}
+```
+
+</Solution>

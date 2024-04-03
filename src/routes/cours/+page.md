@@ -12,6 +12,7 @@
 3. [Utilisations des fonctions en JavaScript](./tw2/3-fonctions/)
 4. [Les événements du DOM](./tw2/4-evenements/)
 5. [Les modules et classes](./tw2/5-modules-et-classes)
+6. [Asynchronicité et thread](./tw2/6-asynchronicite-et-thread/)
 
 ## Technologie web 3
 
