@@ -61,7 +61,6 @@ function renderParticles() {
 renderParticles();
 
 canvas.addEventListener('click', (event) => {
-	console.log('click');
 	const { x, y } = event;
 	const RADIUS = 10;
 	particles = particles.concat(

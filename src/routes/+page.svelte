@@ -11,15 +11,24 @@
 	</p>
 
 	<p>
-		Depuis six ans, je conçois <a href="https://mon-entreprise.fr">mon-entreprise.fr</a>, le site de
-		référence pour <strong>simuler</strong> les cotisations sociales et l'impôt sur le revenu des
+		Pendant six ans, j'ai co-crée et fait grandir <a href="https://mon-entreprise.urssaf.fr"
+			>mon-entreprise.urssaf.fr</a
+		>, le site de référence pour <strong>simuler</strong> les cotisations sociales et l'impôt sur le
+		revenu des
 		<strong>indépendants et salariés</strong>.
 	</p>
 
 	<p>
-		J'ai participé à la création de plusieurs <strong>communs numériques</strong>, dont
+		J'ai ensuite travaillé à améliorer l'<a href="https://annuaire-entreprises.data.gouv.fr/"
+			>Anuaire des Entreprises</a
+		> pendant une année.
+	</p>
+
+	<p>
+		Parallèlement, j'ai participé à la création de plusieurs <strong>communs numériques</strong>,
+		dont
 		<a href="https://publi.codes">publi.codes</a>, un langage déclaratif de modélisation de domaines
-		complexe.
+		complexe. Je continue à développer et à maintenir ce dernier.
 	</p>
 
 	<p>
