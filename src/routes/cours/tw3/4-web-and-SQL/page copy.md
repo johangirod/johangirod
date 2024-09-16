@@ -693,7 +693,7 @@ async function getAllCommandes() {
 ```
 
 </Solution>
-
+<!-- 
 ### Afficher le nom du menu commandé avec la commande
 
 On veut afficher le nom du menu commandé plutôt que son id. Pour cela, il faut modifier la fonction `getAllCommandes` pour qu'elle récupère le nom du menu avec une jointure SQL.
@@ -720,4 +720,4 @@ Ajouter un bouton pour supprimer une commande à côté de la commande. Pour cel
 
 ### Ajouter la gestion d'erreur
 
-Que se passe-t-il si la base de données n'est pas disponible ? Modifiez les controllers pour prendre en compte le cas où l'appel au modèle retourne une erreur.
+Que se passe-t-il si la base de données n'est pas disponible ? Modifiez les controllers pour prendre en compte le cas où l'appel au modèle retourne une erreur. -->
