@@ -1,4 +1,5 @@
 <script>
+	import RevealCode from '$lib/RevealCode.svelte';
 </script>
 
 <section>
@@ -21,21 +22,21 @@
 	<section>
 		<h2>Exporter des variables</h2>
 
-		<pre><code class="language-js" data-trim data-noescape>
-		<script type="text/template">
-					// Dans un fichier hello.js
-					export function sayHello() {
-						console.log('Hello world!');
-					}
+		<RevealCode>
+			<script type="text/template">
+				// Dans un fichier hello.js
+				export function sayHello() {
+					console.log('Hello world!');
+				}
 
-					export const helloStr = 'Hello world!';
+				export const helloStr = 'Hello world!';
 
-					function sayGoodbye() {
-						console.log('Goodbye world!');
-					}
-					export { sayGoodbye };
-				</script>
-	</code></pre>
+				function sayGoodbye() {
+					console.log('Goodbye world!');
+				}
+				export { sayGoodbye };
+			</script>
+		</RevealCode>
 	</section>
 	<section>
 		<h2>Importer des variables</h2>
