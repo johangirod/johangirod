@@ -121,7 +121,7 @@
 			></pre>
 		<p>
 			Types de base : <code>number</code>, <code>string</code>, <code>boolean</code>,
-			<code>void</code>, <code>undefined</code>, <code>null</code>
+			<code>void</code>, <code>undefined</code>, <code>null</code> et <code>void</code>
 		</p>
 	</section>
 	<section>
@@ -249,4 +249,7 @@
 			</li>
 		</ol>
 	</section>
+</section>
+<section>
+	<h2>À vous de jouer !</h2>
 </section>
