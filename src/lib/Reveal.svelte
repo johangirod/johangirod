@@ -7,7 +7,7 @@
 	import { bounceOut, cubicIn, cubicOut } from 'svelte/easing';
 	import { fade, fly } from 'svelte/transition';
 
-	let loading = false;
+	let loading = true;
 
 	onMount(async () => {
 		await tick();
