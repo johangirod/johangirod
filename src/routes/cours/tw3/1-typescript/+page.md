@@ -162,7 +162,7 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
 
    </Solution>
 
-2. Créer une fonction `creerJeu` qui retourne un tableau de cartes mélangées. Le jeu doit contenir 2 cartes de chaque symbole, soit 16 cartes au total.
+2. Créer une fonction `creerJeu` qui retourne un tableau de cartes mélangées. Ce tablau doit contenir 2 cartes de chaque symbole, soit 16 cartes au total.
 
    <Solution code="157">
 
@@ -182,7 +182,23 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
 
 3. Créer une fonction `afficherCarte` qui prend en paramètre un tableau de cartes et l'affiche dans l'interface du navigateur, sous forme d'un tableau de 4 lignes et 4 colonnes. Les cartes retournées doivent afficher leur symbole, les cartes cachées doivent afficher un espace.
 
+   Tester que votre fonction affiche correctement les cartes en appelant la fonction `afficherCarte(jeuEnCours)`. Puis, changer passer l'état de quelques cartes de « caché » à « visible » et vérifier que l'affichage est correct.
+
+   <Message>
+
+   <div slot="title">Rappel</div>
+
+   - Pour **créer un élément HTML**, on utilise la méthode [`document.createElement('div')`](https://developer.mozilla.org/fr/docs/Web/API/Document/createElement)
+   - Pour **ajouter un élément** à un autre, on utilise la méthode [`myDomNode.appendChild(myElement)`](https://developer.mozilla.org/fr/docs/Web/API/Node/appendChild)
+   - Pour **ajouter une classe** à un élément, on utilise la propriété [`classList.add()`](https://developer.mozilla.org/fr/docs/Web/API/Element/classList)
+   - Pour **récupérer un élément du DOM**, on utilise la méthode [`document.querySelector(mySelector)`](https://developer.mozilla.org/fr/docs/Web/API/Document/querySelector)
+   - Pour **supprimer un élément**, on utilise la méthode [`remove()`](https://developer.mozilla.org/fr/docs/Web/API/ChildNode/remove)
+
+   </Message>
+
    **Proposition de CSS**
+
+   _À ajouter dans un fichier `style.css` à la racine du projet, puis à inclure dans le fichier `index.html` avec une balise `link`._
 
    ```css
    .carte-container {
@@ -202,8 +218,6 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
    	border-radius: 5px;
    }
    ```
-
-   Tester que votre fonction affiche correctement les cartes avec plusieurs exemples de tableau de cartes.
 
    <Solution code="986">
 

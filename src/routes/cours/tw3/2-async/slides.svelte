@@ -189,12 +189,12 @@
 		<ul>
 			<li>On peut utiliser <code>await</code> pour attendre n'importe quelle promesse</li>
 			<li>
-				Pour utiliser <code>await</code>, la fonction doit être déclarée avec <code>async</code>
+				Pour utiliser <code>await</code>, la fonction doit être déclarée avec <code>async</code>.
 			</li>
 			<li>On peut utiliser <code>await</code> dans une boucle ou dans une condition</li>
 		</ul>
 	</section>
 </section>
 <section>
-	<h2>À vous de jouer</h2>
+	<h2>À vous de jouer !</h2>
 </section>

@@ -18,7 +18,13 @@
 
 On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
 
-1. Créer une fonction asynchrone `boucleJeu` qui retourne `true` si toutes les cartes sont retournée, `false` sinon. La fonction doit attendre que l'utilisateur clique sur une carte pour la retourner. Si deux cartes sont retournées, elles doivent être comparées. Si elles sont identiques, elles restent retournées, sinon elles sont cachées à nouveau après un court délai (3s).
+1. Créer une fonction asynchrone `boucleJeu`. La fonction doit :
+
+   - attendre que l'utilisateur clique sur une carte
+   - retourner la carte cliquée
+   - attendre que l'utilisateur clique sur une autre carte
+   - si les deux cartes retournées sont identiques, elles restent retournées, sinon elles sont cachées à nouveau après un court délai (3s).
+   - répéter ces étapes jusqu'à ce que toutes les cartes soient retournées.
 
    On pourra utiliser la fonction suivante :
 
@@ -42,6 +48,16 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
    		document.addEventListener('click', listener);
    	});
    }
+   ```
+
+   Vous pouvez tester cette fonction fonctionne en l'appelant dans une fonction async :
+
+   ```typescript
+   function main() {
+   	const index = await clickOnCard();
+   	console.log(`Carte cliquée : ${index}`);
+   }
+   main();
    ```
 
    <Solution code="482">
