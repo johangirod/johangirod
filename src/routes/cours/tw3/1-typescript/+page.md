@@ -169,11 +169,11 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
    ```typescript
    const symboles: Array<Emoji> = ['🍎', '🍌', '🍒', '🍓', '🍇', '🍉', '🍊', '🍍'];
    function creerJeu(): Array<Carte> {
-   	const cartes: Array<Cartes> = [];
+   	const cartes: Array<Carte> = [];
    	symboles.forEach((symbole) => {
-         cartes.push({ symbole, visible: false });
-         cartes.push({ symbole, visible: false });
-   	]);
+   		cartes.push({ symbole, visible: false });
+   		cartes.push({ symbole, visible: false });
+   	});
    	return cartes.sort(() => Math.random() - 0.5);
    }
    ```
@@ -205,6 +205,7 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
    	display: grid;
    	grid-template-columns: repeat(4, 1fr);
    	grid-template-rows: repeat(4, 1fr);
+   	width: fit-content;
    	gap: 5px;
    }
    .carte {

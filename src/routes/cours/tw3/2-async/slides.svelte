@@ -99,6 +99,10 @@
 	</section>
 	<section>
 		<h2>Les promesses peuvent retourner des valeurs</h2>
+		<p>
+			On peut voir les promesse comme des <strong>boites</strong> qui contiennent une valeur qui existera
+			dans le futur.
+		</p>
 		<pre><code class="language-ts" data-trim data-line-numbers>
         <script type="text/template">
 					// Attend un nombre de seconde aléatoire (max 10) puis retourne le temps écoulé

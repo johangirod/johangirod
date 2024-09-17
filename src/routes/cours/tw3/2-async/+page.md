@@ -14,7 +14,7 @@
   <Slides/>
 </Reveal>
 
-## TP (suite)
+## TP Memory (suite)
 
 On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
 
@@ -22,21 +22,20 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
 
    - attendre que l'utilisateur clique sur une carte
    - retourner la carte cliquée
-   - attendre que l'utilisateur clique sur une autre carte
-   - si les deux cartes retournées sont identiques, elles restent retournées, sinon elles sont cachées à nouveau après un court délai (3s).
    - répéter ces étapes jusqu'à ce que toutes les cartes soient retournées.
 
    On pourra utiliser la fonction suivante :
 
    ```typescript
-   type CardIndex = number;
    /**
-    * Attend qu'une carte soit cliquée et retourne son index dans le tableau.
+    * Renvoie une `Promise` qui `resolve` quand une carte a été cliquée. Le contenu de la Promise est l'index de cette carte dans le tableau.
     */
+   type CardIndex = number;
    async function clickOnCard(): Promise<CardIndex> {
    	return new Promise((resolve) => {
    		const listener = (event: MouseEvent) => {
-   			if (!event.target.contains('carte')) {
+   			console.log(event.target);
+   			if (!event.target.classList.contains('carte')) {
    				return;
    			}
    			const index = Array.from(event.target.parentNode.children).indexOf(
@@ -50,14 +49,16 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
    }
    ```
 
-   Vous pouvez tester cette fonction fonctionne en l'appelant dans une fonction async :
+   Cette fonction retourne une promesse resolvant sur la l'index de la carte cliqué. On peut donc l'utiliser dans une fonction asynchrone pour attendre que l'utilisateur clique sur une carte.
 
    ```typescript
-   function main() {
+   async function boucleJeu() {
+   	// à compléter ...
    	const index = await clickOnCard();
    	console.log(`Carte cliquée : ${index}`);
+   	// à compléter ...
    }
-   main();
+   boucleJeu();
    ```
 
    <Solution code="482">
