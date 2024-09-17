@@ -238,3 +238,5 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
    ```
 
    </Solution>
+
+4. La suite au [TP suivant](/cours/tw3/2-async).
