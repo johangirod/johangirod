@@ -24,31 +24,24 @@ Dans ce TP, nous allons ajouter des types à un projet existant pour améliorer 
 
    ```bash
      git clone https://sources.univ-jfc.fr/techno-web-3/tp-1.git
+     cd tp-1
    ```
 
-2. Installer node
-
-   ```bash
-     curl -fsSL https://fnm.vercel.app/install | bash
-     fnm install 20
-     fnm use 20
-   ```
-
-3. Lancer
+2. Lancer
 
    ```bash
      npm install
    ```
 
-4. Ouvrez vscode à la racine du projet
+3. Ouvrez vscode à la racine du projet
 
    ```bash
      code .
    ```
 
-5. Ouvrez le fichier `exercice-1.js`. Normalement, votre éditeur doit signaler que des types sont manquants en souligant en rouge les endroits à compléter.
+4. Ouvrez le fichier `exercice-1.js`. Normalement, votre éditeur doit signaler que des types sont manquants en souligant en rouge les endroits à compléter.
 
-6. Ajouter les types pour corriger les erreurs.
+5. Ajouter les types pour corriger les erreurs.
 
 ## TP 2 - Memory
 
@@ -57,8 +50,7 @@ Dans ce TP, nous allons ajouter des types à un projet existant pour améliorer 
 1. Créez un nouveau projet dans un nouveau répertoire nommé `memory`
 
    ```bash
-      fnm use node 20
-      npm init
+      npm init -y
    ```
 
 2. Installez typescript comme dépendance du projet
@@ -120,9 +112,7 @@ Ce fichier de configuration permet de définir les options de compilation de typ
    </html>
    ```
 
-6. Ajoutez une balise `script` dans le HTML pour charger le fichier `index.js` généré par typescript. Ce dernier sera placé dans le répertoire `dist`
-
-7. Ajoutez un script dans le fichier `package.json` pour lancer le compilateur typescript `tsc`. Ce script sera exécuté avec la commande `npm run build`.
+6. Ajoutez un script dans le fichier `package.json` pour lancer le compilateur typescript `tsc`. Ce script sera exécuté avec la commande `npm run build`.
    <Solution code="842">
 
    ```json
@@ -135,7 +125,9 @@ Ce fichier de configuration permet de définir les options de compilation de typ
 
    </Solution>
 
-8. Lancez la compilation avec la commande `npm run build`. Vous devriez voir un fichier `index.js` généré dans le répertoire `dist`. Ouvrez-le. Que constatez-vous ?
+7. Lancez la compilation avec la commande `npm run build`. Vous devriez voir un fichier `index.js` généré dans le répertoire `dist`. Ouvrez-le. Que constatez-vous ?
+
+8. Ajoutez une balise `script` dans le HTML pour charger le fichier `index.js` généré par typescript (dans le répertoire `dist`).
 
 9. Ouvrez le fichier `index.html` dans un navigateur pour vérifier que le message `Hello World` s'affiche dans la console.
 
@@ -161,8 +153,9 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
    <Solution code="942">
 
    ```typescript
+   type Emoji = '🍎' | '🍌' | '🍒' | '🍓' | '🍇' | '🍉' | '🍊' | '🍍';
    type Carte = {
-   	symbole: '🍎' | '🍌' | '🍒' | '🍓' | '🍇' | '🍉' | '🍊' | '🍍';
+   	symbole: Emoji;
    	visible: boolean;
    };
    ```
@@ -174,11 +167,12 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
    <Solution code="157">
 
    ```typescript
+   const symboles: Array<Emoji> = ['🍎', '🍌', '🍒', '🍓', '🍇', '🍉', '🍊', '🍍'];
    function creerJeu(): Array<Carte> {
-   	const symboles = ['🍎', '🍌', '🍒', '🍓', '🍇', '🍉', '🍊', '🍍'];
-   	const cartes = symboles.flatMap((symbole) => [
-   		{ symbole, visible: false },
-   		{ symbole, visible: false }
+   	const cartes: Array<Cartes> = [];
+   	symboles.forEach((symbole) => {
+         cartes.push({ symbole, visible: false });
+         cartes.push({ symbole, visible: false });
    	]);
    	return cartes.sort(() => Math.random() - 0.5);
    }
