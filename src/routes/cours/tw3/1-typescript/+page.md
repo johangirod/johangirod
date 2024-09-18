@@ -113,7 +113,7 @@ Ce fichier de configuration permet de définir les options de compilation de typ
    ```
 
 6. Ajoutez un script dans le fichier `package.json` pour lancer le compilateur typescript `tsc`. Ce script sera exécuté avec la commande `npm run build`.
-   <Solution code="842">
+   <Solution>
 
    ```json
      ...
@@ -150,7 +150,7 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
 
 1. Créer un type `Carte` pour une carte de memory. Une carte possède un symbole et un état (retournée ou non).
    Les symboles possibles sont les emojis suivantes : 🍎, 🍌, 🍒, 🍓, 🍇, 🍉, 🍊, 🍍
-   <Solution code="942">
+   <Solution>
 
    ```typescript
    type Emoji = '🍎' | '🍌' | '🍒' | '🍓' | '🍇' | '🍉' | '🍊' | '🍍';
@@ -164,7 +164,7 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
 
 2. Créer une fonction `creerJeu` qui retourne un tableau de cartes mélangées. Ce tablau doit contenir 2 cartes de chaque symbole, soit 16 cartes au total.
 
-   <Solution code="157">
+   <Solution>
 
    ```typescript
    const symboles: Array<Emoji> = ['🍎', '🍌', '🍒', '🍓', '🍇', '🍉', '🍊', '🍍'];
@@ -220,7 +220,7 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
    }
    ```
 
-   <Solution code="986">
+   <Solution>
 
    ```typescript
    function afficherCarte(cartes: Array<Carte>): void {

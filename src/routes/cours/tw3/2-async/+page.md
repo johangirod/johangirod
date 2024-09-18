@@ -65,18 +65,35 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
 
    ```typescript
    async function boucleJeu(cartes: Array<Carte>): Promise<boolean> {
-   	let carte1: Carte | undefined;
-   	let carte2: Carte | undefined;
-
    	while (cartes.some((carte) => !carte.visible)) {
    		afficherCarte(cartes);
-   		const index1 = await clickOnCard();
-   		carte1 = cartes[index1];
+   		const index = await clickOnCard();
+   		carte1 = cartes[index];
    		carte1.visible = true;
+   	}
+   }
+   ```
 
+   </Solution>
+
+2. Modifier la fonction ci-dessus pour ajouter le comportement suivant :
+
+   > Si deux cartes sont retournées, les cacher après une seconde si elles ne sont pas identiques.
+
+    <Solution code="482">
+
+   ```typescript
+   async function boucleJeu(cartes: Array<Carte>): Promise<boolean> {
+   	while (!cartes.every((carte) => carte.visible)) {
    		afficherCarte(cartes);
+
+   		const index1 = await clickOnCard();
+   		const carte1 = cartes[index];
+   		carte1.visible = true;
+   		afficherCarte(cartes);
+
    		const index2 = await clickOnCard();
-   		carte2 = cartes[index2];
+   		const carte2 = cartes[index2];
    		carte2.visible = true;
 
    		if (carte1.symbole !== carte2.symbole) {
@@ -88,39 +105,37 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
    }
    ```
 
-   </Solution>
+3. Créer une fonction principale asynchrone `main`. Le jeu se termine si toutes les cartes sont retournées en moins de 30 secondes, ou si le joueur a gagné. Lorsque le jeu se termine :
 
-2. Créer une fonction principale asynchrone `main` qui retourne `true` si le joueur a gagné, `false` sinon. Le joueur gagne si toutes les cartes sont retournées en moins de 30 secondes. On pourra utiliser `Promise.race`. Tester votre implémentation en lançant la fonction avec `jouerJeu()`.
+   - retourner face visible toutes les cartes restantes
+   - afficher un message de félicitations si le joueur a gagné, ou un message d'encouragement sinon.
+   - afficher un bouton pour rejouer.
 
-   <Solution code="293">
+   > On pourra utiliser `Promise.race`.
 
-   ```typescript
-   async function jouerJeu(): Promise<boolean> {
-   	const cartes = creerJeu();
-
-   	await Promise.race(attendre(30000), boucleJeu(cartes));
-   	return cartes.every((carte) => carte.visible);
-   }
-   ```
-
-   </Solution>
-
-3. A la fin du jeu, enlever toutes les cartes du plateau et afficher un message de félicitation si le joueur a gagné, ou un message d'encouragement sinon, avec un bouton pour rejouer.
-
-   <Solution code="293">
+   <Solution>
 
    ```typescript
    async function main(): Promise<void> {
-   	const gagne = await jouerJeu();
+   	const cartes = creerJeu();
+
+   	// Cette promesse est résolu dès que l'une des deux promesses se termine.
+   	await Promise.race(attendre(30000), boucleJeu(cartes));
+
+   	// On affiche les cartes restantes
+   	cartes.forEach((carte) => (carte.visible = true));
+   	afficherCarte(cartes);
+
    	const message = document.createElement('div');
    	message.textContent = gagne ? 'Bravo !' : 'Dommage, tu feras mieux la prochaine fois.';
+
    	const button = document.createElement('button');
    	button.textContent = 'Rejouer';
-   	button.addEventListener('click', main);
 
-   	document.body.appendChild(message);
-   	document.body.appendChild(button);
+   	button.addEventListener('click', main);
    }
+
+   main();
    ```
 
    </Solution>
