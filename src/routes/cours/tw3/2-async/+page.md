@@ -61,7 +61,7 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
    boucleJeu();
    ```
 
-   <Solution code="482">
+   <Solution >
 
    ```typescript
    async function boucleJeu(cartes: Array<Carte>): Promise<boolean> {
@@ -80,7 +80,7 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
 
    > Si deux cartes sont retournées, les cacher après une seconde si elles ne sont pas identiques.
 
-    <Solution code="482">
+   <Solution>
 
    ```typescript
    async function boucleJeu(cartes: Array<Carte>): Promise<boolean> {
@@ -104,6 +104,8 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
    	}
    }
    ```
+
+   </Solution>
 
 3. Créer une fonction principale asynchrone `main`. Le jeu se termine si toutes les cartes sont retournées en moins de 30 secondes, ou si le joueur a gagné. Lorsque le jeu se termine :
 

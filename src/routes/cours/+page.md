@@ -18,9 +18,9 @@
 
 1. [Typescript](./tw3/1-typescript/)
 2. [`Promise` et fonctions `async`](./tw3/2-async/)
+3. [Introduction aux serveur web (ExpressJS)](./tw3/3-expressJS)
 
 <!--
-1. [Utiliser un framework de serveur web (ExpressJS)](./tw3/3-expressJS)
 2. [Ajouter une base de données dans une appli web](./tw3/4-web-and-SQL)
 3. [Coder une API REST](./tw3/5-api-rest)
 -->
