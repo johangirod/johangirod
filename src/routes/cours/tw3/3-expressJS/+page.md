@@ -134,7 +134,7 @@ Il vous faudra importer la bibliothèque express, créer une instance de l'appli
 1. Lancez les tests avec `npm test`
 1. Optionnel : ouvrez votre navigateur et allez sur `http://localhost:3000/ping`
 
-<Solution code="EOZ">
+<Solution>
 
 ```typescript
 import express from 'express';
@@ -159,7 +159,7 @@ Pour cela, vous utiliserez la méthode [`sendFile`](https://expressjs.com/fr/4x/
 
 Pour construire le chemin du fichier, vous utiliserez la méthode [`join`](https://nodejs.org/api/path.html#path_path_join_paths) du module `path`. Et pour récupérer le chemin absolu du dossier racine, vous utiliserez la variable `__dirname`.
 
-<Solution code="EOZ">
+<Solution>
 
 ```typescript
 import path from 'path';
@@ -192,7 +192,7 @@ Tous les fichiers statiques (images, css, etc.) se trouvent dans le dossier `ass
 
 Pour cela vous utiliserez la méthode [`express.static`](https://expressjs.com/fr/4x/api.html#express.static).
 
-<Solution code="EOZ">
+<Solution>
 
 ```typescript
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
@@ -231,7 +231,7 @@ Un moteur de template est un outil qui permet de générer des pages HTML à par
 1. Installez le moteur de template handlebars pour express `express-handlebars` en suivant les instructions de la [documentation](https://github.com/express-handlebars/express-handlebars#installation)
 1. Vérifiez que les tests de l'exercice 1 passent toujours grâce à la commande `npm test exercice-1`. Si ce n'est pas le cas, corrigez le code.
 
-<Solution code="EOZ">
+<Solution >
 
 ```typescript
 import { engine } from 'express-handlebars';
@@ -254,7 +254,7 @@ app.get('/', (req, res) => {
 1. Dans le fichier `index.ts`, importez le fichier `restaurant.ts` avec `import restaurant from "./models/restaurant"`
 1. Passez les données du restaurant au moteur de template via [`res.render`](https://expressjs.com/fr/4x/api.html#res.render)
 
-<Solution code="EOZ">
+<Solution>
 
 ```typescript
 import restaurant from './models/restaurant';
@@ -275,7 +275,7 @@ Un layout est un fichier qui contient le squelette de la page. Il permet de fact
 1. Changez le titre de la page d'accueil (balise `<title>`) par `<nom du restaurant>`
 1. Faire en sorte que les tests « Exercice 1 - Home » passent
 
-<Solution code="EOZ">
+<Solution>
 
 **`main.handlebars`**
 
