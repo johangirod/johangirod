@@ -353,7 +353,7 @@ Créez une nouvelle page `menu.handlebars`, servi sur l'URL `/menus` qui affiche
 1. Utiliser `{{#each}}` dans la vue pour afficher tous les menus
 1. Modifier le titre de la page pour qu'il soit dynamique `Menus - <nom du restaurant>` (`<nom du restaurant>` vient du fichier `restaurant.ts`)
 
-<Solution code="EOZ">
+<Solution>
 
 **`index.ts`**
 
@@ -601,7 +601,7 @@ app.use((req, res, next) => {
 });
 ```
 
-</div>
+</Message>
 
 #### Gérer les erreurs 404
 
