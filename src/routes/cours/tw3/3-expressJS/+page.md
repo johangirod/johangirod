@@ -351,6 +351,7 @@ Créez une nouvelle page `menu.handlebars`, servi sur l'URL `/menus` qui affiche
 1. Servir cette page sur le route `/menus` grâce à `app.get` et `res.render`
 1. Passer la variable `menus` au moteur de template comme argument de `res.render`
 1. Utiliser `{{#each}}` dans la vue pour afficher tous les menus
+1. Modifier le titre de la page pour qu'il soit dynamique `Menus - <nom du restaurant>` (`<nom du restaurant>` vient du fichier `restaurant.ts`)
 
 <Solution code="EOZ">
 
@@ -581,7 +582,26 @@ app.post('/commander', (req, res) => {
 
 <div id="exercice-4"></div>
 
-### Exercice 4 (bonus) : ajouter un middleware pour gérer les erreurs serveurs
+### Exercice 4 : ajouter un middleware pour gérer les erreurs serveurs
+
+<Message>
+
+<div slot='title'>Middleware</div>
+
+Un middleware est une fonction de callback qui prend en paramètre un objet `req`, un objet `res`, et une fonction `next`. Il est utilisé pour effectuer des opérations communes à plusieurs routes, comme la vérification des autorisations, la gestion des erreurs, ou le formatage des données.
+
+```typescript
+app.use((req, res, next) => {
+	// Ce code est appelé avant chaque route handler (get, post, etc.)
+	console.log('Entrée dans le middleware');
+	next();
+	// Ce code est appelé après chaque route.
+	// On peut accéder à la réponse de la route avec res
+	console.log('Sortie du middleware');
+});
+```
+
+</div>
 
 #### Gérer les erreurs 404
 
