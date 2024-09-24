@@ -129,6 +129,7 @@ Il vous faudra importer la bibliothèque express, créer une instance de l'appli
 1. Importez express dans le fichier `index.ts` avec `import express from 'express'`
 1. Créez une instance de l'application express avec `const app = express()`
 1. Ajoutez une route `/ping` qui renvoie un statut 200 avec la méthode [`app.get`](https://expressjs.com/fr/4x/api.html#app.get.method)
+1. Faire en sorte que le serveur écoute sur le port 3000 avec la méthode [`app.listen`](https://expressjs.com/fr/4x/api.html#app.listen)
 1. Lancez le serveur avec `npx ts-node-dev index.ts`
 1. Lancez les tests avec `npm test`
 1. Optionnel : ouvrez votre navigateur et allez sur `http://localhost:3000/ping`
@@ -156,7 +157,7 @@ Nous allons maintenant servir la page `index.html` lorsque l'utilisateur se rend
 
 Pour cela, vous utiliserez la méthode [`sendFile`](https://expressjs.com/fr/4x/api.html#res.sendFile) de l'objet `res`.
 
-Pour construire le chemin du fichier, vous utiliserez la méthode [`join`](https://nodejs.org/api/path.html#path_path_join_paths) du module `path`. Et pour récupérer le chemin du dossier `pages`, vous utiliserez la variable `__dirname`.
+Pour construire le chemin du fichier, vous utiliserez la méthode [`join`](https://nodejs.org/api/path.html#path_path_join_paths) du module `path`. Et pour récupérer le chemin absolu du dossier racine, vous utiliserez la variable `__dirname`.
 
 <Solution code="EOZ">
 
