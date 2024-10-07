@@ -396,6 +396,8 @@ Nous allons ajouter un bouton sur les menus pour pouvoir les commander. Ce bouto
 
 Voici le code du bouton :
 
+<!-- TODO : change menu to menuId -->
+
 ```handlebars
 <!-- contenu du menu -->
 <!-- ... -->
@@ -422,7 +424,7 @@ Il est possible de récuperer les paramètres d'une requête HTTP avec la propri
 
 _Aide : vous pourrez utiliser la méthode `Array.find` pour retrouver le bon menu à partir de l'identifiant_
 
-<Solution code="EOZ">
+<Solution >
 
 **`menus.handlebars`**
 
@@ -493,10 +495,12 @@ Nous allons maintenant créer un formulaire pour commander un menu. Ce formulair
    - un champ `phone` de type `tel` avec le label « Téléphone »
    - un bouton « Commander » de type `submit`
 
-2. Créez une route `/commander` en `post` qui extrait les données du formulaire et les fourni à la vue `commander.handlebars`. Vous utiliserez `app.post`
+2. Créez une route `/commander` en `post` qui extrait les données du formulaire et les fourni à la vue `commander.handlebars`. Vous utiliserez `app.post`. Pour récupérer automatiquement les données du formulaire, il faudra ajouter un middleware spécifique : `app.use(express.urlencoded())`
 3. Vérifiez que la route est bien appelée lorsque vous soumettez le formulaire. Pour cela, vous pouvez ajouter un `console.log` et vérifier si il apparaît dans le terminal.
 4. Modifier la vue `commander.handlebars` pour ajouter un message de confirmation lorsque les données du formulaire sont présentes. Ce message doit contenir le nom, l'adresse et le téléphone du client.
 5. Veillez à ce que la page continue d'afficher le nom du menu commandé
+
+_Astuce : vous pourriez avoir besoin de [`<input type="hidden">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/hidden) et de [`<form method="post">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form)_
 
 <Message>
   <div slot='title'>POST vs GET</div>
@@ -506,13 +510,11 @@ Il existe plusieurs méthodes HTTP, permettant d'indiquer une intention au serve
 - La méthode `GET` est utilisée pour récupérer des données. Lorsqu'on saisit une URL dans le navigateur, ce dernier utilise la méthode `GET`.
 - La méthode `POST` est utilisée pour envoyer des données. Elle signifie que l'on souhaite effectuer une action qui va modifier un état sur le serveur.
 
-[En savoir plus](https://developer.mozilla.org/fr/docs/Web/HTTP/Methods)
+Les données de la méthode `POST` sont envoyées dans le corps de la requête HTTP, et non dans l'URL. Cela permet de transmettre des données plus importantes, comme des fichiers. Pour récupérer les données postées avec un formulaire, on utilise un middleware express appelé `express.urlencoded()` qui les transforme en objet JavaScript et les ajoute à l'objet `req.body`.
 
 </Message>
-
-_Astuce : vous pourriez avoir besoin de [`<input type="hidden">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/hidden), de [`<form method="post">`](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Form) et de [`express.urlencoded`](https://expressjs.com/en/5x/api.html#express.urlencoded)_
-
-<Solution code="EOZ">
+<br/>
+<Solution>
 
 **`commander.handlebars`**
 
@@ -594,12 +596,19 @@ Un middleware est une fonction de callback qui prend en paramètre un objet `req
 app.use((req, res, next) => {
 	// Ce code est appelé avant chaque route handler (get, post, etc.)
 	console.log('Entrée dans le middleware');
+
+	// L'appelle à `next()` permet de passer la main au middleware suivant, ou au route handler si il n'y a plus de middleware
 	next();
+
 	// Ce code est appelé après chaque route.
 	// On peut accéder à la réponse de la route avec res
 	console.log('Sortie du middleware');
 });
 ```
+
+_A noter : l'ordre des middleware est important. Ils sont exécutés dans l'ordre où ils sont déclarés. Par ailleurs, ils doivent être déclarés avant les routes qui les utilisent._
+
+[Voir le guide express sur les middlewares](https://expressjs.com/en/guide/writing-middleware.html)
 
 </Message>
 
@@ -612,6 +621,36 @@ app.use((req, res, next) => {
 
 1. Modifier la vue `erreur.handlebars` pour afficher le message « Erreur serveur » lorsque le code erreur est 500.
 2. Implémenter un middleware express qui affiche la vue avec les bons paramètres lorsqu'une erreur se produit
+
+<Solution>
+
+**`erreur.handlebars`**
+
+```handlebars
+<h1>Erreur {{code}}</h1>
+<p>
+	{{#switch code}}
+		{{#case 404}}Page non trouvée{{/case}}
+		{{#case 500}}Erreur serveur{{/case}}
+	{{/switch}}
+</p>
+```
+
+**`index.ts`**
+
+```typescript
+
+app.use((req, res, next) => {
+	next();
+	if (res.statusCode === 404) {
+		res.render('erreur', { code: 404 });
+	}
+	if (res.statusCode === 500) {
+		res.render('erreur', { code: 500 });
+	}
+});
+
+</Solution>
 
 ### Exercice 5 : améliorations (bonus)
 
@@ -630,3 +669,4 @@ Tout le code source est dans le fichier `index.ts`. Il serait préférable de s�
 #### Validation du formulaire
 
 Lors de la soumission du formulaire, on pourrait vérifier que les champs sont bien remplis, et afficher un message d'erreur sur le champs concerné si ce n'est pas le cas. Par ailleurs, on pourrait vérifier que le numéro de téléphone est bien un numéro de téléphone valide.
+```
