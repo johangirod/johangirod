@@ -3,8 +3,8 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "NODE_OPTIONS=--max-old-space-size=8192 vite dev",
-		"build": "NODE_OPTIONS=--max-old-space-size=8192 vite build",
+		"dev": "vite dev",
+		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -39,6 +39,6 @@
 	"dependencies": {
 		"highlight.js": "^11.10.0",
 		"reveal.js": "^5.1.0",
-		"shiki": "^0.14.7"
+		"shiki": "^1.22.0"
 	}
 }
