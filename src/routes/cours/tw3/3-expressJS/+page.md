@@ -629,26 +629,23 @@ _A noter : l'ordre des middleware est important. Ils sont exécutés dans l'ordr
 ```handlebars
 <h1>Erreur {{code}}</h1>
 <p>
-	{{#switch code}}
-		{{#case 404}}Page non trouvée{{/case}}
-		{{#case 500}}Erreur serveur{{/case}}
-	{{/switch}}
+	{{message}}
 </p>
 ```
 
 **`index.ts`**
 
 ```typescript
-
 app.use((req, res, next) => {
 	next();
 	if (res.statusCode === 404) {
-		res.render('erreur', { code: 404 });
+		res.render('erreur', { code: 404, message: 'Page non trouvée' });
 	}
 	if (res.statusCode === 500) {
-		res.render('erreur', { code: 500 });
+		res.render('erreur', { code: 500, message: 'Erreur serveur' });
 	}
 });
+```
 
 </Solution>
 
@@ -669,4 +666,7 @@ Tout le code source est dans le fichier `index.ts`. Il serait préférable de s�
 #### Validation du formulaire
 
 Lors de la soumission du formulaire, on pourrait vérifier que les champs sont bien remplis, et afficher un message d'erreur sur le champs concerné si ce n'est pas le cas. Par ailleurs, on pourrait vérifier que le numéro de téléphone est bien un numéro de téléphone valide.
+
+```
+
 ```

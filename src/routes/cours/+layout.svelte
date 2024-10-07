@@ -1,5 +1,12 @@
-<script>
+<script lang="ts">
+	import { page } from '$app/stores';
 	import Breadcrumb from '$lib/Breadcrumb.svelte';
+	import { showSolution } from '$lib/showSolution';
+
+	let title: string;
+	page.subscribe(() => {
+		title = document.querySelector('h1')?.textContent || '';
+	});
 </script>
 
 <div class="lg:prose-lg">
@@ -8,11 +15,25 @@
 			{ href: '/', label: 'Accueil' },
 			{
 				href: '/cours/',
-				label: 'Cours'
-			}
-		]}
+				label: 'Cours et TP'
+			},
+			$page.route.id?.match(/cours\/.+/)
+				? {
+						href: $page.url,
+						label: title
+					}
+				: null
+		].filter(Boolean)}
 	/>
-	<main class="">
+	{#if $showSolution && $page.route.id?.match(/cours\/.+/)}
+		<span
+			class="ml-2 inline-block rounded-full bg-pink-500 px-2 py-1 text-sm font-semibold text-white
+	">Avec corrigé</span
+		>
+	{/if}
+	<main
+		class=" mt-8 prose-h1:inline-block prose-h1:border-y-8 prose-h1:border-pink-500 prose-h1:px-2 prose-h1:pb-3 prose-h1:pt-2 prose-h1:text-4xl prose-h2:text-3xl"
+	>
 		<slot />
 	</main>
 </div>

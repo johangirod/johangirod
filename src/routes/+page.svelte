@@ -1,4 +1,4 @@
-<main class="container prose prose-slate mx-auto my-12 px-4 lg:prose-xl lg:px-0">
+<main class="container mx-auto my-12 px-4 lg:px-0">
 	<h1>Salut ! Je suis Johan Girod</h1>
 
 	<p>
@@ -20,7 +20,7 @@
 
 	<p>
 		J'ai ensuite travaillé à améliorer l'<a href="https://annuaire-entreprises.data.gouv.fr/"
-			>Anuaire des Entreprises</a
+			>Annuaire des Entreprises</a
 		> pendant une année.
 	</p>
 

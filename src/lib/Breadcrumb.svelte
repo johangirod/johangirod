@@ -3,7 +3,7 @@
 	export let links: Array<{ href: string; label: string }> = [];
 </script>
 
-<div class="mb-2" role="list">
+<div class="mb-2 inline" role="list">
 	{#each links as { href, label }, i}
 		<li class="inline-block">
 			<a {href} class="text-pink-600" aria-label={label}>

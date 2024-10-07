@@ -1,9 +1,9 @@
 <svelte:head>
 
-<title>Cours - Johan Girod</title>
+<title>Cours/TP - Johan Girod</title>
 </svelte:head>
 
-# Cours
+# Cours et TP
 
 ## Technologie web 2
 
@@ -19,6 +19,7 @@
 1. [Typescript](./tw3/1-typescript/)
 2. [`Promise` et fonctions `async`](./tw3/2-async/)
 3. [Introduction aux serveur web (ExpressJS)](./tw3/3-expressJS)
+4. [Ajouter une base de données dans une appli web](./tw3/4-web-and-SQL)
 
 <!--
 2. [Ajouter une base de données dans une appli web](./tw3/4-web-and-SQL)

@@ -1,6 +1,9 @@
 <script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
+  import { showSolution } from '$lib/showSolution.ts';
+  
+  showSolution.set(false)
 </script>
 
 <svelte:head>
@@ -179,7 +182,8 @@ router.get('/ping', (req, res) => res.sendStatus(200));
 router.get('/', (req, res) => {
 	const restaurant = getRestaurant();
 	res.render('home', {
-		...restaurant,
+		name: restaurant.name,
+		description: restaurant.description,
 		title: restaurant.name
 	});
 });
@@ -197,7 +201,7 @@ router.get('/commander', (req, res) => {
 	const menuId = req.query.menu;
 	const restaurant = getRestaurant();
 	const menu = getMenuById(menuId as string);
-	if (!menu) return res.sendStatus(404);
+	if (!menu) return res.status(404);
 	res.render('commander', {
 		menu,
 		title: `Commander - ${restaurant.name}`
@@ -209,7 +213,7 @@ router.post('/commander', (req, res) => {
 
 	const restaurant = getRestaurant();
 	const menu = getMenuById(menuId as string);
-	if (!menu) return res.sendStatus(404);
+	if (!menu) return res.status(404);
 
 	res.render('commander', {
 		commandeInfo: {
@@ -268,7 +272,8 @@ import { getRestaurant, getMenuById, getAllMenus } from './models';
 export function getHomePage(req: Request, res: Response) {
 	const restaurant = getRestaurant();
 	res.render('home', {
-		...restaurant,
+		name: restaurant.name,
+		description: restaurant.description,
 		title: restaurant.name
 	});
 }
@@ -286,7 +291,7 @@ export function getCommanderPage(req: Request, res: Response) {
 	const menuId = req.query.menu;
 	const restaurant = getRestaurant();
 	const menu = getMenuById(menuId as string);
-	if (!menu) return res.sendStatus(404);
+	if (!menu) return res.status(404);
 	res.render('commander', {
 		menu,
 		title: `Commander - ${restaurant.name}`
@@ -298,7 +303,7 @@ export function createCommandeFromFormulaire(req: Request, res: Response) {
 
 	const restaurant = getRestaurant();
 	const menu = getMenuById(menuId as string);
-	if (!menu) return res.sendStatus(404);
+	if (!menu) return res.status(404);
 
 	res.render('commander', {
 		commandeInfo: {
@@ -362,51 +367,55 @@ SELECT * FROM menus;
 
 Vous devriez voir apparaître la liste des menus, avec le nom, la description, le prix, et l'id.
 
-### Récuperer les menus dans la base de données
+### Récupérer les menus dans la base de données
 
 Dans le fichier `src/models.ts`, nous allons modifier la fonction `getAllMenus` pour qu'elle utilise la base de données plutôt que l'objet `menus`.
 
-1. Importer le module `mysql2/promise` pour pouvoir utiliser la base de données avec des promesses.
+Pour cela, nous allons créer une connection à la base de données avec le module `mysql2`.
 
-```typescript
-// models.ts
-import mysql from 'mysql2/promise';
-```
+1. Importer le module `mysql2/promise` dans le fichier `models.ts`.
 
-2. Créer une connexion à la base de données avec les informations de connexion stockées dans les variables d'environnement.
+   ```typescript
+   // models.ts
+   import mysql from 'mysql2/promise';
+   ```
 
-```typescript
-// models.ts
-const pendingConnection = mysql.createConnection({
-	host: process.env.MYSQL_HOST,
-	user: process.env.MYSQL_USER,
-	database: process.env.MYSQL_DB,
-	password: process.env.MYSQL_PASSWORD
-});
-```
+2. Dans ce même fichier, créer une connexion à la base de données avec les informations de connexion stockées dans les variables d'environnement.
 
-3. Rendre la fonction `getAllMenus` asynchrone, en ajoutant le mot clé `async` devant la fonction et changeant le type de retour de `Menu[]` à `Promise<Menu[]>`.
+   ```typescript
+   // models.ts
+   const db = await mysql.createConnection({
+   	host: process.env.MYSQL_HOST,
+   	user: process.env.MYSQL_USER,
+   	database: process.env.MYSQL_DB,
+   	password: process.env.MYSQL_PASSWORD
+   });
+   ```
 
-4. Dans la fonction, attendre que la connexion soit établie en utilisant la méthode `await` sur la promesse retournée par la méthode `connect` et stockée dans la variable `pendingConnection`.
+   <Message>
 
-```typescript
-// function getAllMenus
-const connection = await pendingConnection;
-```
+   <div slot='title'>Pourquoi utiliser des variables d'environnement ?</div>
 
-5. Récupérer les menus dans la base de données avec une commande SQL grâce à la méthode `execute`.
+   Les variables d'environnement permettent de **stocker des informations sensibles**, comme les identifiants de connexion à la base de données, **en dehors du code source**.
 
-```typescript
-const queryResult = await connection.execute('SELECT * FROM menus');
-```
+   Cela permet de garder ces informations confidentielles, et de les changer facilement en fonction de l'environnement (développement, production, etc).
 
-6. Retourner les menus récupérés. Les menus se trouvent dans le premier élément du tableau retourné par la méthode `execute`.
+   </Message>
 
-```typescript
-return queryResult[0] as Menu[];
-```
+3. Rendre la fonction `getAllMenus` asynchrone, en ajoutant le mot clé `async` devant la fonction et changeant le type de retour de `Array<Menu>` à `Promise<Array<Menu>>`.
 
-7. Modifier le controller `getMenusPage` pour qu'il attende que la fonction `getAllMenus` soit terminée avant de continuer en ajoutant le mot clé `async` devant `function` et le mot clé `await` devant `getAllMenus`.
+4. Récupérer les menus dans la base de données avec une commande SQL grâce à la méthode `db.execute`
+
+   ```typescript
+   // function getAllMenus()
+   const queryResult = await db.execute('SELECT * FROM menus');
+   return queryResult[0] as Array<Menu>;
+   ```
+
+   - _Note : `execute` retourne un tableau de deux éléments : le résultat de la requête (les menus), et les métadonnées de la requête (le type des colonnes retournées par exemple)._
+   - _Note 2 : Typescript ne peut pas deviner le type de retour de `execute`, il faut donc le préciser avec `as Array<Menu>`._
+
+5. Modifier le controller `getMenusPage` pour qu'il attende que la fonction `getAllMenus` soit terminée avant de continuer en ajoutant le mot clé `async` devant `function` et le mot clé `await` devant `getAllMenus`.
 
 ```typescript
 // controller getMenusPage
@@ -438,22 +447,18 @@ import mysql from 'mysql2/promise';
 
 // <...>
 
-const pendingConnection = mysql.createConnection({
+const db = await mysql.createConnection({
 	host: process.env.MYSQL_HOST,
 	user: process.env.MYSQL_USER,
 	database: process.env.MYSQL_DB,
 	password: process.env.MYSQL_PASSWORD
 });
 
-export async function getAllMenus(): Promise<Menu[]> {
-	const connection = await pendingConnection;
-	const queryResult = await connection.execute('SELECT * FROM menus');
-	return queryResult[0] as Menu[];
+export async function getAllMenus(): Promise<Array<Menu>> {
+	const queryResult = await db.query<Menu>(sql`SELECT * FROM menus`);
+	return queryResult[0];
 }
 ```
-
-- `as Menu[]` permet de dire à typescript que le résultat de la requête est un tableau de `Menu`.
-- `await` permet d'attendre que la promesse soit résolue avant de continuer l'exécution du code.
 
 </Solution>
 
@@ -468,10 +473,11 @@ SELECT * FROM menus WHERE id = ?
 La fonction `execute` remplacera les `?` par les valeurs passées dans un tableau en second paramètre :
 
 ```typescript
+// la valeur de `id` remplacera le `?` dans la requête
 connection.execute('SELECT * FROM menus WHERE id = ?', [id]);
 ```
 
-Vérifiez que tout fonctionne en cliquant sur « commander » sur la page des menus.
+Vérifiez que tout fonctionne en cliquant sur « commander » sur la page des menus (n'oubliez pas de modifier le controller également).
 
 <Solution >
 
@@ -512,10 +518,10 @@ export async function createCommandeFromFormulaire(req: Request, res: Response) 
 
 ```typescript
 export async function getMenuById(id: string): Promise<Menu | undefined-> {
-	const connection = await pendingConnection;
-	const queryResult = await connection.execute('SELECT * FROM menus WHERE id = ?', [id]);
-	// @ts-ignore
-	return queryResult[0][0];
+  const query = await db.execute("SELECT * FROM menus WHERE id = ?", [id]);
+  const menus = query[0] as Array<Menu>;
+  if (menus.length === 0) return undefined;
+  return menus[0];
 }
 ```
 
@@ -693,7 +699,7 @@ async function getAllCommandes() {
 ```
 
 </Solution>
-<!-- 
+
 ### Afficher le nom du menu commandé avec la commande
 
 On veut afficher le nom du menu commandé plutôt que son id. Pour cela, il faut modifier la fonction `getAllCommandes` pour qu'elle récupère le nom du menu avec une jointure SQL.
@@ -720,4 +726,4 @@ Ajouter un bouton pour supprimer une commande à côté de la commande. Pour cel
 
 ### Ajouter la gestion d'erreur
 
-Que se passe-t-il si la base de données n'est pas disponible ? Modifiez les controllers pour prendre en compte le cas où l'appel au modèle retourne une erreur. -->
+Que se passe-t-il si la base de données n'est pas disponible ? Modifiez les controllers pour prendre en compte le cas où l'appel au modèle retourne une erreur.
