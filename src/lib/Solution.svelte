@@ -14,10 +14,13 @@
 </script>
 
 {#if canShowSolution}
-	<div class="-ml-4 border-l-2 border-dashed border-gray-300 pl-4">
-		<span class="mr-2 inline-block font-bold">Solution</span>
+	<div class="-ml-5 border-l-2 border-dotted border-pink-500 pl-4">
+		<span
+			class="mr-2 inline-block rounded-full bg-pink-500 px-2 py-1 text-sm font-semibold text-white"
+			>Corrigé</span
+		>
 		<button
-			class="inline-block text-xs text-gray-500 hover:text-gray-700"
+			class="inline-block text-sm text-gray-500 hover:text-gray-700"
 			on:click={handleToggle}
 			aria-label="Afficher la solution"
 			aria-expanded={show}
