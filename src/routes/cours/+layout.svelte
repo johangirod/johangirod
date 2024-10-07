@@ -2,10 +2,13 @@
 	import { page } from '$app/stores';
 	import Breadcrumb from '$lib/Breadcrumb.svelte';
 	import { showSolution } from '$lib/showSolution';
+	import { onMount } from 'svelte';
 
-	let title: string;
-	page.subscribe(() => {
-		title = document.querySelector('h1')?.textContent || '';
+	let title: string = '...';
+	onMount(() => {
+		page.subscribe(() => {
+			title = document.querySelector('h1')?.textContent || '';
+		});
 	});
 </script>
 
