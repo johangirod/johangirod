@@ -3,7 +3,6 @@
   import Solution from '$lib/Solution.svelte';
   import { showSolution } from '$lib/showSolution.ts';
   
-  showSolution.set(false)
 </script>
 
 <svelte:head>
@@ -148,7 +147,7 @@ router.get('/', (req, res) => {
 });
 ```
 
-Déplacer toutes les routes du fichier `index.ts` vers le fichier `routes.ts`, en remplaçant `app` par `router`.
+Déplacer toutes les routes du fichier `index.ts` vers le fichier `routes.ts`, en remplaçant `app` par `router`. N'oubliez pas d'exporter le router à la fin du fichier avec `export default router` (sinon il ne pourra pas être importé dans les autres fichiers).
 
 <Message>
 
@@ -201,7 +200,9 @@ router.get('/commander', (req, res) => {
 	const menuId = req.query.menu;
 	const restaurant = getRestaurant();
 	const menu = getMenuById(menuId as string);
-	if (!menu) return res.status(404);
+	if (!menu) {
+		return res.status(404);
+	}
 	res.render('commander', {
 		menu,
 		title: `Commander - ${restaurant.name}`
@@ -213,7 +214,9 @@ router.post('/commander', (req, res) => {
 
 	const restaurant = getRestaurant();
 	const menu = getMenuById(menuId as string);
-	if (!menu) return res.status(404);
+	if (!menu) {
+		return res.status(404);
+	}
 
 	res.render('commander', {
 		commandeInfo: {
@@ -225,6 +228,8 @@ router.post('/commander', (req, res) => {
 		menu
 	});
 });
+
+export default router;
 ```
 
 </Solution>
@@ -291,7 +296,9 @@ export function getCommanderPage(req: Request, res: Response) {
 	const menuId = req.query.menu;
 	const restaurant = getRestaurant();
 	const menu = getMenuById(menuId as string);
-	if (!menu) return res.status(404);
+	if (!menu) {
+		return res.status(404);
+	}
 	res.render('commander', {
 		menu,
 		title: `Commander - ${restaurant.name}`
@@ -303,7 +310,9 @@ export function createCommandeFromFormulaire(req: Request, res: Response) {
 
 	const restaurant = getRestaurant();
 	const menu = getMenuById(menuId as string);
-	if (!menu) return res.status(404);
+	if (!menu) {
+		return res.status(404);
+	}
 
 	res.render('commander', {
 		commandeInfo: {
@@ -455,8 +464,8 @@ const db = await mysql.createConnection({
 });
 
 export async function getAllMenus(): Promise<Array<Menu>> {
-	const queryResult = await db.query<Menu>(sql`SELECT * FROM menus`);
-	return queryResult[0];
+	const queryResult = await db.execute('SELECT * FROM menus");
+	return queryResult[0] as Array<Menu>;
 }
 ```
 
@@ -474,7 +483,7 @@ La fonction `execute` remplacera les `?` par les valeurs passées dans un tablea
 
 ```typescript
 // la valeur de `id` remplacera le `?` dans la requête
-connection.execute('SELECT * FROM menus WHERE id = ?', [id]);
+db.execute('SELECT * FROM menus WHERE id = ?', [id]);
 ```
 
 Vérifiez que tout fonctionne en cliquant sur « commander » sur la page des menus (n'oubliez pas de modifier le controller également).
@@ -488,7 +497,9 @@ export async function getCommanderPage(req: Request, res: Response) {
 	const menuId = req.query.menu;
 	const restaurant = getRestaurant();
 	const menu = await getMenuById(menuId as string);
-	if (!menu) return res.sendStatus(404);
+	if (!menu) {
+		return res.status(404);
+	}
 	res.render('commander', {
 		menu,
 		title: `Commander - ${restaurant.name}`
@@ -500,7 +511,9 @@ export async function createCommandeFromFormulaire(req: Request, res: Response) 
 
 	const restaurant = getRestaurant();
 	const menu = await getMenuById(menuId as string);
-	if (!menu) return res.sendStatus(404);
+	if (!menu) {
+		return res.status(404);
+	}
 
 	res.render('commander', {
 		commandeInfo: {
@@ -517,11 +530,13 @@ export async function createCommandeFromFormulaire(req: Request, res: Response) 
 **src/models.ts**
 
 ```typescript
-export async function getMenuById(id: string): Promise<Menu | undefined-> {
-  const query = await db.execute("SELECT * FROM menus WHERE id = ?", [id]);
-  const menus = query[0] as Array<Menu>;
-  if (menus.length === 0) return undefined;
-  return menus[0];
+export async function getMenuById(id: string): Promise<Menu | undefined> {
+	const query = await db.execute('SELECT * FROM menus WHERE id = ?', [id]);
+	const menus = query[0] as Array<Menu>;
+	if (menus.length === 0) {
+		return undefined;
+	}
+	return menus[0];
 }
 ```
 
@@ -547,7 +562,7 @@ Le but de cet exercice est de sauvegarder les commandes passées par les clients
 3. Créer une fonction `createCommande` avec le type suivant :
 
 ```typescript
-export function createCommande(
+export async function createCommande(
 	name: string,
 	address: string,
 	phone: string,
@@ -571,7 +586,7 @@ const commandeId = queryResult[0].insertId;
 
 6. Modifier le controller `createCommandeFromFormulaire` pour qu'il utilise la fonction `createCommande` et qu'il affiche l'id de la commande dans le message de confirmation.
 
-_Pour tester, vous pouvez créer une commande avec le formulaire, et vérifier que la commande est bien créée dans la base de données avec la commande `SELECT _ FROM orders`, via le script `scripts/database-cli.sh`.\*
+_Pour tester, vous pouvez créer une commande avec le formulaire, et vérifier que la commande est bien créée dans la base de données avec la commande `SELECT * FROM orders`, via le script `scripts/database-cli.sh`._
 
 <Solution >
 
@@ -579,18 +594,26 @@ _Pour tester, vous pouvez créer une commande avec le formulaire, et vérifier q
 
 ```typescript
 // <...>
+type Commande = {
+	id: number;
+	name: string;
+	address: string;
+	phone: string;
+	menuId: string;
+};
+
 export async function createCommande(
 	name: string,
 	address: string,
 	phone: string,
 	menuId: string
 ): Promise<Commande> {
-	const connection = await pendingConnection;
-	const queryResult = await connection.execute(
+	const queryResult = await db.execute(
 		'INSERT INTO orders (name, address, phone, menu_id) VALUES (?, ?, ?, ?)',
 		[name, address, phone, menuId]
 	);
 	return {
+		// @ts-ignore because insertId is not in the types
 		id: queryResult[0].insertId,
 		name,
 		address,
@@ -609,7 +632,9 @@ export async function createCommandeFromFormulaire(req: Request, res: Response) 
 
 	const restaurant = getRestaurant();
 	const menu = await getMenuById(menuId as string);
-	if (!menu) return res.sendStatus(404);
+	if (!menu) {
+		return res.status(404);
+	}
 
 	const commande = await createCommande(name, address, phone, menuId);
 
@@ -660,9 +685,9 @@ router.get('/commandes', getCommandesPage);
 
 ```typescript
 async function getCommandesPage(req: Request, res: Response) {
-	const title = getRestaurant().title;
+	const restaurant = getRestaurant();
 	const commandes = await getAllCommandes();
-	res.render('commandes', { commandes, title });
+	res.render('commandes', { commandes, title: `Liste des commandes - ${restaurant.name}` });
 }
 ```
 
@@ -670,9 +695,9 @@ async function getCommandesPage(req: Request, res: Response) {
 
 ```typescript
 async function getAllCommandes() {
-	const connection = await pendingConnection;
-	const queryResult = await connection.execute('SELECT * FROM orders');
-	return queryResult[0] as Commande[];
+	// On change le nom de la colonne menu_id en menuId pour correspondre au type Commande
+	const queryResult = await db.execute('SELECT *, menu_id as menuId FROM orders');
+	return queryResult[0] as Array<Commande>;
 }
 ```
 
@@ -702,13 +727,14 @@ async function getAllCommandes() {
 
 ### Afficher le nom du menu commandé avec la commande
 
-On veut afficher le nom du menu commandé plutôt que son id. Pour cela, il faut modifier la fonction `getAllCommandes` pour qu'elle récupère le nom du menu avec une jointure SQL.
+Dans la liste des commandes, on veut afficher le nom du menu commandé plutôt que son id. Pour cela, il faut modifier la fonction du modèle pour qu'elle récupère le nom du menu avec une jointure SQL.
 
-1. Modifier le type `Commande` pour ajouter la propriété `menuName` de type `string`
-2. Modifier la fonction `getAllCommandes` pour qu'elle récupère le nom du menu avec une jointure SQL.
+1. Modifier le type `Commande` pour ajouter la propriété `menuName` de type `string`. Cette propriété sera facultative (`menuName?: string;`), car elle ne sera pas retournée par la fonction `createCommande`.
+2. Modifier la fonction du modèle pour qu'elle récupère le nom du menu avec une jointure SQL.
    ```sql
-   SELECT orders.*, menus.name AS menu_name FROM orders JOIN menus ON orders.menu_id = menus.id
+   SELECT orders.*, orders.menu_id as menuId, menus.name AS menuName FROM orders JOIN menus ON orders.menu_id = menus.id
    ```
+3. Modifier la vue et le controller
 
 ## Bonus : améliorations
 
@@ -722,7 +748,7 @@ Sur la page des commandes, ajouter des boutons pour filtrer les commandes par me
 
 ### Ajouter un bouton pour supprimer une commande
 
-Ajouter un bouton pour supprimer une commande à côté de la commande. Pour cela, il faudra créer une nouvelle route et un nouveau controller. Cette route aura pour méthode `DELETE` et prendra en paramètre l'id de la commande à supprimer : `/commandes/:id`.
+Ajouter un bouton pour supprimer une commande à côté de la commande. Pour cela, il faudra créer une nouvelle route et un nouveau controller. Cette route aura pour méthode `post` et prendra en paramètre l'id de la commande à supprimer : `/commandes/delete/:id`.
 
 ### Ajouter la gestion d'erreur
 
