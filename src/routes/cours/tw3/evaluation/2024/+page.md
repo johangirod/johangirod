@@ -1,10 +1,40 @@
 <script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
-  import { showSolution } from '$lib/showSolution.ts';
+  import {showSolution} from '$lib/showSolution';
+
+  $showSolution = false;
 </script>
 
 # Evaluation TW3 2024
+
+<Message>
+
+<div slot="title">Rattrapage du devoir</div>
+
+Vous avez la possibilité de **rattraper ce devoir à la maison**.
+
+- Selectionner **un ou plusieurs exercices** que vous n'avez pas réussi à faire (vous pouvez refaire tout le devoir si vous le souhaitez)
+- Faire **passer les tests** au vert
+- **Commentez chaque ligne** ajoutée en expliquant ce que vous avez fait
+- Les points rattrapés ainsi compteront pour **moitié de leur valeur initiale**
+
+_Exemple : Si vous aviez une note initiale de 8/20, et que votre rattrapage vous augmente la note de 5 points (en faisant passer à 13), votre note finale sera 8 + (5 / 2) = 10.5_
+
+**Pour récupérer son travail**
+
+- `git clone https://sources.univ-jfc.fr/techno-web-3/eval-2024.git`
+- `cd eval-2024`
+- Cherchez le nom de votre branche dans la [liste des branches du repo](https://sources.univ-jfc.fr/techno-web-3/eval-2024/-/branches)
+- `git checkout <nom_de_votre_branche>` (exemple : `git checkout jgirod`)
+
+**Pour sauvegarder votre travail**
+
+- `git add *`
+- `git commit -m "Rattrapage"`
+- `git push origin <nom_de_votre_branche>`
+
+</Message>
 
 Dans ce TP, vous aurez à réaliser un site web qui répertorie les concerts et soirées dans les grandes villes de France, et qui permet d'acheter des billets pour ces événements.
 
@@ -35,7 +65,7 @@ _Le conseil bonus :_
 
 1. Cloner le dépôt git suivant :
    ```bash
-   	git clone https://sources.univ-jfc.fr/techno-web-3/eval-2024.git
+   git clone https://sources.univ-jfc.fr/techno-web-3/eval-2024.git
    ```
 2. Installer les dépendances :
    ```bash
@@ -78,7 +108,7 @@ git push origin <identifiant_etudiant> # exemple : git push origin jgirod
 
 ## Exercice 1 - _4 points_
 
-> Pour lancer uniquement les tests de cet exercice : `npm test -- exercice-1`
+_Pour lancer uniquement les tests de cet exercice : `npm test -- exercice-1`_
 
 1. Creer une route `/ping` qui retourne un statut 200
 2. Servir la vue `home` sur la route `/`. Bonus : créer un controller dédié `getHomePage` dans le fichier `controllers.ts`
@@ -86,7 +116,7 @@ git push origin <identifiant_etudiant> # exemple : git push origin jgirod
 
 ## Exercice 2 - _10 points_
 
-> Pour lancer uniquement les tests de cet exercice : `npm test -- exercice-2`
+_Pour lancer uniquement les tests de cet exercice : `npm test -- exercice-2`_
 
 ### Partie 1 - _7 points_
 
@@ -172,7 +202,7 @@ Vous pourrez utiliser la fonction `getEvenementsByVille` dans `models/evenements
 
 ## Exercice 3 - _6 points_
 
-> Pour lancer uniquement les tests de cet exercice : `npm test -- exercice-3`
+_Pour lancer uniquement les tests de cet exercice : `npm test -- exercice-3`_
 
 Nous allons maintenant ajouter la possibilité d'acheter des billets pour les événements.
 La base de donnée contient une table `billets` qui contient les champs suivants :
@@ -184,10 +214,14 @@ La base de donnée contient une table `billets` qui contient les champs suivants
 
 La connection à la base de donnée peut être configurée avec les options suivantes :
 
-- `host` : `127.0.0.1`
-- `user` : `root`
-- `password` : `secret`
-- `database` : `feelvibe`
+```typescript
+const db = await mysql.createConnection({
+	host: '127.0.0.1',
+	user: 'root',
+	password: 'secret',
+	database: 'feelvibe'
+});
+```
 
 ### Partie 1 - _3 points_
 
@@ -201,16 +235,16 @@ Consignes :
 - La page doit afficher le prénom et le nom de l'utilisateur pour chaque billet.
 - La page doit afficher le titre de l'événement pour chaque billet.
 
-> **Astuce**
-> Pour bien typer le retour de la fonction `execute`, vous pouvez utiliser la syntaxe suivante :
->
-> ```typescript
-> import { RowDataPacket } from 'mysql2';
-> // ...
-> const result = await db.execute<Array<RowDataPacket & Billet>>(...)
-> ```
->
-> Cela évitera d'avoir les erreurs de type comme au TP précédent.
+**Astuce**
+Pour bien typer le retour de la fonction `execute`, vous pouvez utiliser la syntaxe suivante :
+
+```typescript
+import { RowDataPacket } from 'mysql2';
+// ...
+const result = await db.execute<Array<RowDataPacket & Billet>>(...)
+```
+
+Cela évitera d'avoir les erreurs de type comme au TP précédent.
 
 **Proposition de HTML pour la page**
 
@@ -256,25 +290,25 @@ Consignes :
 - Créer une fonction de modèle `acheterBillet` qui va ajouter un billet dans la base de donnée.
 - Rediriger l'utilisateur vers la page `/billets` après qu'il ait soumis le formulaire avec la method `res.redirect('/billets')`.
 
-> **Astuce** Pour récupérer l'id de l'événement depuis la route, vous pouvez utiliser `req.params.id` dans le controller.
->
-> ```typescript
-> app.get('/evenements/:id/acheter-billet', (req, res) => {
-> 	const id = req.params.id; // vaut 12 si l'url est /evenements/12/acheter-billet
-> });
-> ```
+  **Astuce** Pour récupérer l'id de l'événement depuis la route, vous pouvez utiliser `req.params.id` dans le controller.
 
-> **Astuce** Vous pouvez utiliser la fonction `getEvenementById` dans `models/evenements.ts` pour récupérer l'événement par son id. Vous pouvez utiliser `Number.parseInt` pour convertir l'id en nombre.
+```typescript
+app.get('/evenements/:id/acheter-billet', (req, res) => {
+	const id = req.params.id; // vaut 12 si l'url est /evenements/12/acheter-billet
+});
+```
 
-> **Astuce** Pour bien typer le retour de la fonction `execute`, vous pouvez utiliser la syntaxe suivante :
->
-> ```typescript
-> import { ResultSetHeader } from 'mysql2';
-> // ...
-> const result = await db.execute<ResultSetHeader>(...);
-> ```
+**Astuce** Vous pouvez utiliser la fonction `getEvenementById` dans `models/evenements.ts` pour récupérer l'événement par son id. Vous pouvez utiliser `Number.parseInt` pour convertir l'id en nombre.
 
-> Cela évitera d'avoir les erreurs de type comme au TP précédent.
+**Astuce** Pour bien typer le retour de la fonction `execute`, vous pouvez utiliser la syntaxe suivante :
+
+```typescript
+import { ResultSetHeader } from 'mysql2';
+// ...
+const result = await db.execute<ResultSetHeader>(...);
+```
+
+Cela évitera d'avoir les erreurs de type comme au TP précédent.
 
 **Proposition de HTML pour le formulaire**
 

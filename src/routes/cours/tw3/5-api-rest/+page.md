@@ -1,6 +1,9 @@
-<!-- <script>
+<script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
+  import {showSolution} from '$lib/showSolution';
+
+  $showSolution = false;
 </script>
 
 <svelte:head>
@@ -90,6 +93,16 @@ Ou encore, si le film n'existe pas, le serveur renverra un code HTTP 404 (Not Fo
 
 </Message>
 
+&nbsp;
+
+<Message>
+
+<div slot='title'>Le format JSON</div>
+
+Le **JSON** (JavaScript Object Notation) est un format de données qui permet de représenter des objets sous forme de chaînes de caractères. Il possède une syntaxe similaire à celle des objets JavaScript, à ceci près que les clés doivent être entourées de guillemets doubles.
+
+</Message>
+
 Ainsi, dans ce type d'architecture, contrairement à une architecture MVC, le serveur ne s'occupe pas de générer les vues (HTML).
 
 Il ne transmet que des données au format JSON. C'est le client (navigateur) qui se charge de générer les vues pour les afficher à l'utilisateur.
@@ -137,16 +150,10 @@ Le code source du serveur se trouve dans le dossier `server`, celui du javascrip
 Pour lancer le serveur, lancer la commande suivante :
 
 ```bash
-sh scripts/start.sh
+npm run dev
 ```
 
 Vérifiez que le serveur est bien lancé en allant sur `http://localhost:3000`.
-
-A tout moment, vous pouvez voir les logs du serveur avec la commande suivante :
-
-```bash
-docker logs -f app
-```
 
 **Note** il est conseillé de laisser les logs toujours ouverts quand vous développez, vous verrez directement les messages d'erreur s'il y en a.
 
@@ -199,7 +206,7 @@ export default router;
 
 ### Afficher la liste des films sur la page d'accueil
 
-Maintenant que nous avons une route qui renvoie la liste des films, nous allons afficher cette liste sur la page d'accueil.
+Maintenant que nous avons une route qui renvoie la liste des films, nous allons afficher cette liste sur la page d'accueil, en modifiant le fichier `public/app.js`.
 
 Pour récuperer les données du serveur, nous allons utiliser la fonction [`fetch`](https://developer.mozilla.org/fr/docs/Web/API/Fetch_API/Using_Fetch) en JavaScript.
 
@@ -208,6 +215,10 @@ Pour afficher les films, vous pourrez utiliser la fonction `createMovieCard` du 
 Cette fonction prend en paramètre un objet contenant la propriété `movie` du même type que celui retourné par la route `/movies`.
 
 1. Créer une la fonction `async function getMovies` qui retourne la liste des films récupérée depuis le serveur avec la fonction `fetch`.
+   ```js
+   const response = await fetch(`/movies`);
+   const movies = await response.json();
+   ```
 2. Créer une fonction `renderMovies` qui prend en paramètre la liste des films et qui affiche les films sur la page d'accueil en utilisant la fonction `createMovieCard`.
    1. Récupérer le container HTML qui contiendra les films avec la fonction [`document.querySelector`](https://developer.mozilla.org/fr/docs/Web/API/Document/querySelector).
    2. Supprimer son contenu avec la propriété [`innerHTML`](https://developer.mozilla.org/fr/docs/Web/API/Element/innerHTML).

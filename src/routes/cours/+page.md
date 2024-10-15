@@ -21,8 +21,4 @@
 3. [Introduction aux serveur web (ExpressJS)](./tw3/3-expressJS)
 4. [Ajouter une base de données dans une appli web](./tw3/4-web-and-SQL)
 5. [**Evaluation**](./tw3/evaluation/2024)
-
-<!--
-6. [Ajouter une base de données dans une appli web](./tw3/4-web-and-SQL)
-7. [Coder une API REST](./tw3/5-api-rest)
-   -->
+6. [Coder une API REST](./tw3/5-api-rest)
