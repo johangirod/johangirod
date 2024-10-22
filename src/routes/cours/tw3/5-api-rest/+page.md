@@ -1,6 +1,8 @@
 <script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
+  import Slides from './slides.svelte';
+  import Reveal from '$lib/Reveal.svelte';
   import {showSolution} from '$lib/showSolution';
 
   $showSolution = false;
@@ -113,8 +115,6 @@ Il ne transmet que des données au format JSON. C'est le client (navigateur) qui
 
 Nous utiliserons l'environnement de développement sur les machines de l'école.
 
-Des scripts docker ont été créés pour lancer le serveur.
-
 ### Clonage du projet
 
 Le code se trouve sur Github. Pour installer le projet, lancer les commandes suivantes dans un terminal:
@@ -123,6 +123,7 @@ Le code se trouve sur Github. Pour installer le projet, lancer les commandes sui
 # Clone le projet git dans le dossier courant
 git clone https://github.com/johangirod/TP-REST
 cd TP-REST
+npm install
 ```
 
 ### Installer les extensions vscode
@@ -167,7 +168,7 @@ Le but de cet exercice est d'afficher la liste des films sur la page d'accueil.
 
 Pour cela, nous allons créer une nouvelle route `/movies` sur le serveur qui renverra la liste des films au format JSON.
 
-Dans le fichier `server/routes/movies.js`, créer une route `GET /movies` qui renvoie la liste des films au format JSON.
+Dans le fichier `server/routes/movies.ts`, créer une route `GET /movies` qui renvoie la liste des films au format JSON.
 
 - Pour manipuler les films, vous utiliserez les fonctions exportées par le fichier `server/models/movies.ts`.
 
@@ -210,7 +211,7 @@ Maintenant que nous avons une route qui renvoie la liste des films, nous allons 
 
 Pour récuperer les données du serveur, nous allons utiliser la fonction [`fetch`](https://developer.mozilla.org/fr/docs/Web/API/Fetch_API/Using_Fetch) en JavaScript.
 
-Pour afficher les films, vous pourrez utiliser la fonction `createMovieCard` du fichier `client/components.js`.
+Pour afficher les films, vous pourrez utiliser la fonction `createMovieCard` du fichier `client/movie-card.js`.
 
 Cette fonction prend en paramètre un objet contenant la propriété `movie` du même type que celui retourné par la route `/movies`.
 
@@ -270,7 +271,7 @@ Nous allons maintenant ajouter la possibilité de rechercher des films par titre
 
    - Dans la fonction `main`, récuperer l'élement HTML du champs de recherche avec la fonction [`document.querySelector([data-search-input])`](https://developer.mozilla.org/fr/docs/Web/API/Document/querySelector).
    - Écoutez les événements `input` sur le champs de recherche avec la fonction [`addEventListener`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event). Cet événement est déclenché à chaque fois que l'utilisateur tape une lettre dans le champs de recherche.
-   - A chaque fois que l'événement est déclenché, appelé la fonction `getMovies` avec la valeur du champs de recherche en paramètre pour récupérer la liste des films correspondant à la recherche, puis appeler la fonction `renderMovies` pour actualiser l'affichage.
+   - A chaque fois que l'événement est déclenché, appeler la fonction `getMovies` avec la valeur du champs de recherche en paramètre pour récupérer la liste des films correspondant à la recherche, puis appeler la fonction `renderMovies` pour actualiser l'affichage.
 
 4. Vérifier que la recherche fonctionne en testant votre application
 
@@ -600,6 +601,10 @@ function renderMovies(movies) {
 ```
 
 </Solution>
+
+<Reveal>
+  <Slides/>
+</Reveal>
 
 ## Bonus
 
