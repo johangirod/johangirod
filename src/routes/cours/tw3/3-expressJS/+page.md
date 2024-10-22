@@ -666,7 +666,3 @@ Tout le code source est dans le fichier `index.ts`. Il serait préférable de s�
 #### Validation du formulaire
 
 Lors de la soumission du formulaire, on pourrait vérifier que les champs sont bien remplis, et afficher un message d'erreur sur le champs concerné si ce n'est pas le cas. Par ailleurs, on pourrait vérifier que le numéro de téléphone est bien un numéro de téléphone valide.
-
-```
-
-```

@@ -25,12 +25,13 @@ _Exemple : Si vous aviez une note initiale de 8/20, et que votre rattrapage vous
 
 - `git clone https://sources.univ-jfc.fr/techno-web-3/eval-2024.git`
 - `cd eval-2024`
+- `git fetch`
 - Cherchez le nom de votre branche dans la [liste des branches du repo](https://sources.univ-jfc.fr/techno-web-3/eval-2024/-/branches)
 - `git checkout <nom_de_votre_branche>` (exemple : `git checkout jgirod`)
 
 **Pour sauvegarder votre travail**
 
-- `git add *`
+- `git add -A *`
 - `git commit -m "Rattrapage"`
 - `git push origin <nom_de_votre_branche>`
 
