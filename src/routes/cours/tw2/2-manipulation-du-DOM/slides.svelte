@@ -298,6 +298,16 @@
 				</script>
 	</code></pre>
 	</section>
+
+	<section data-auto-animate>
+		<h2 data-id="text">Lire et modifier le style CSS</h2>
+		<h3>Code JavaScript</h3>
+		<pre data-id="pre-code"><code class="language-js" data-trim>
+	const color = element.style.color;
+
+	element.style.fontSize = '2rem';
+		</code></pre>
+	</section>
 	<section data-auto-animate>
 		<h2 data-id="text">Lire et modifier des attributs</h2>
 		<h3>Code JavaScript</h3>
@@ -311,15 +321,6 @@
 	const valeur = input.value;
 	a.href = 'https://google.com';
 	</code></pre>
-	</section>
-	<section data-auto-animate>
-		<h2 data-id="text">Lire et modifier le style CSS</h2>
-		<h3>Code JavaScript</h3>
-		<pre data-id="pre-code"><code class="language-js" data-trim>
-	const color = element.style.color;
-
-	element.style.fontSize = '2rem';
-		</code></pre>
 	</section>
 	<section>
 		<h2>Ajouter des nouveaux noeuds dans le DOM</h2>

@@ -35,7 +35,7 @@ Une fois le repo créée, vous pourrez le cloner en utilisant l'URL fournie par 
 
 Ouvrez le dossier `tp-2` dans votre éditeur de code (VSCode par exemple).
 
-Ce projet contient un fichier `index.html` et un fichier `script.js`. Le fichier `script.js` est vide. C'est dans ce fichier que vous allez écrire votre code JavaScript.
+Ce projet contient un fichier `index.html`.
 
 Ouvrez le fichier `index.html` dans votre navigateur (double-cliquez sur le fichier) pour voir le résultat de votre travail.
 
@@ -73,45 +73,45 @@ Pour commencer, nous allons nous familiariser avec la modification du DOM en uti
 
 Nous allons réaliser une diapositive d'images qui changent toutes les 2 secondes.
 
-1. Pour commencer, faire en sorte que le fichier `script.js` soit exécuté au chargement de la page. Pour cela, il faudra ajouter un lien grâce à la balise `<script>` dans le `<head>` du fichier `index.html`.
+1. Pour commencer, créer un fichier `script.js`, et faire en sorte qu'il soit exécuté au chargement de la page.
+   Pour cela, il faudra ajouter un lien grâce à la balise `<script>` dans le `<head>` du fichier `index.html`.
 
-```html
-<script defer src="./script.js"></script>
-```
+   ```html
+   <script defer src="./script.js"></script>
+   ```
 
-<Message>
+   <Message>
 
-<div slot ="title">
-L'attribut `defer` 
-</div>
+   <div slot ="title">
+   L'attribut `defer` 
+   </div>
 
-`defer` est un attribut booléen qui indique au navigateur de différer l'exécution du script après le chargement de la page. Cela permet de garantir
+   `defer` est un attribut booléen qui indique au navigateur de différer l'exécution du script après le chargement de la page. Cela permet de garantir
 
-- que le script ne bloque pas le rendu de la page
-- que les éléments du DOM sont bien chargés avant l'exécution du script
+   - que le script ne bloque pas le rendu de la page
+   - que les éléments du DOM sont bien chargés avant l'exécution du script
 
-Sans cet attribut, le script est exécuté au moment où il est rencontré dans le fichier HTML, ce qui peut poser des problèmes si le script est placé dans le `<head>`.
+   Sans cet attribut, le script est exécuté au moment où il est rencontré dans le fichier HTML, ce qui peut poser des problèmes si le script est placé dans le `<head>`.
 
-**Pourquoi ?**
+   **Pourquoi ?**
 
-<Solution showAnyway>
+   <Solution showAnyway>
 
-Car le contenu du `<body>` n'a pas encore été parsé par le navigateur, et l'abre DOM associé n'a pas été crée. Les fonctions de manipulation du DOM comme `document.querySelector` ne fonctionneront pas comme attendu.
+   Car le contenu du `<body>` n'a pas encore été parsé par le navigateur, et l'abre DOM associé n'a pas été crée. Les fonctions de manipulation du DOM comme `document.querySelector` ne fonctionneront pas comme attendu.
 
-</Solution>
+   </Solution>
 
-<br/>
-</Message>
+   <br/>
+   </Message>
 
 1. Dans le fichier `script.js`, récuperez le l'élément DOM existant de l'image dans une variable `imageNode`. Le noeud HTML est une image `img` avec pour id `diapo`.
-
-2. Créez une fonction `changeImage()` qui change l'attribut `src` de l'image pour pointer vers image aléatoire.
+1. Créez une fonction `changeImage()` qui change l'attribut `src` de l'image pour pointer vers image aléatoire.
 
    Dans la fonction, générez un id aléatoire entre 1 et 500 et utilisez cet id pour construire l'url de l'image. Par exemple, si l'id aléatoire est 3, l'url vers la nouvelle image sera `https://picsum.photos/id/3/400/400`.
 
    Changez l'attribut `src` de l'image pour pointer vers cette nouvelle url.
 
-3. Appelez la fonction `changeImage()` toutes les 2 secondes en utilisant la fonction [`setInterval`](https://developer.mozilla.org/fr/docs/Web/API/WindowOrWorkerGlobalScope/setInterval).
+1. Appelez la fonction `changeImage()` toutes les 2 secondes en utilisant la fonction [`setInterval`](https://developer.mozilla.org/fr/docs/Web/API/WindowOrWorkerGlobalScope/setInterval).
 
    ```js
    setInterval(changeImage, 2000);
@@ -151,15 +151,13 @@ Nous allons développer un petit jeu de mémoire.
 
 Le but est de faire apparaitre 5 cartes contenant des emojis aléatoires pendant 10 secondes. Ensuite, les emojis disparaissent et on pose la question à l'utilisateur : « Sous quelle carte se trouve l'emoji X ? ».
 
-L'utilisateur doit répondre en tapant le numéro de la carte. Si la réponse est correcte, on affiche un message de félicitation. Sinon, on réaffiche les emojis et on affiche un message d'échec.
-
 #### 1. Selections des emojis
 
 Créez une fonction `getRandomEmojis()` qui retourne un tableau de 5 emojis aléatoires. Pour cela vous pourrez utiliser le tableau de base suivant :
 
 ```js
 // prettier-ignore
-const emojis = [ '⛔️', '❇️', '🏰', '🐺', '⚜', '😅', '🚳', '🕞', '❣', '🏬', '🛎', '🌕', '🌃', '🏡', '🎑', '🍯', '🐍', '🔕', '🐿', '💮', '😹', '↕️', '🌵', '🕗', '♒️', '🚽', '🕋', '📔', '🛂', '🎒', '🐼', '♏️', '⏸', '🅰️', '🌈', '🌂', '🚣', '🎇', '❄️', '👙', '🌹', '🍸', '🛳', '🎟', '😱', '🕚', '👳', '😑', '⌚️', '💛', '🆚', '🔼', '🈯️', '☀️', '😳', '♊️', '🌖', '♋️', '🚀', '🚱', '🚊', '📿', '⏫', '9️⃣', '🗾', '🏜', '🍦', '✋', '🍀', '🗿', '🙎', '✖️', '🆕', '🎮', '🔒', '💸', '👲', '🏢', '🔑', '🐶', '👪', '😻', '🌼', '👠', '🧀', '👎', '🙌', '🐻', '🕐', '👯', '🕝', '😺', '😈', '💴', '🎾', '🚙', '❤️', '♑️', '🌲'];
+const emojis = [ '⛔️', '❇️', '🏰', '🐺', '⚜', '😅', '🚳', '🕞', '❣', '🏬', '🛎', '🌕', '🌃', '🏡', '🎑', '🍯', '🐍', '🔕', '🐿', '💮', '😹', '↕️', '🌵', '♒️', '🚽', '🕋', '📔', '🛂', '🎒', '🐼', '♏️', '⏸', '🅰️', '🌈', '🌂', '🚣', '🎇', '❄️', '👙', '🌹', '🍸', '🛳', '🎟', '😱',  '👳', '😑', '⌚️', '💛', '🆚', '🔼', '🈯️', '☀️', '😳', '♊️', '🌖', '♋️', '🚀', '🚱', '🚊', '📿', '⏫', '9️⃣', '🗾', '🏜', '🍦', '✋', '🍀', '🗿', '🙎', '✖️', '🆕', '🎮', '🔒', '💸', '👲', '🏢', '🔑', '🐶', '👪', '😻', '🌼', '👠', '🧀', '👎', '🙌', '🐻',  '👯',  '😺', '😈', '💴', '🎾', '🚙', '❤️', '♑️', '🌲'];
 ```
 
 Cette fonction peut être implémentée de la manière suivante :

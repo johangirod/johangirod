@@ -66,8 +66,9 @@ Vous aurez à utiliser la fonction [`parseInt`](https://developer.mozilla.org/fr
 ```js
 function guessingGame() {
 	const number = Math.ceil(Math.random() * 10);
-	while (parseInt(prompt('Entrez un nombre entre 1 et 10'), 10) !== number) {
-		alert('Mauvais numéro !');
+	let guess;
+	while (guess !== number) {
+		parseInt(prompt('Entrez un nombre entre 1 et 10'), 10);
 	}
 	alert('Bravo !');
 }
@@ -103,6 +104,20 @@ function factorial(n) {
 Bonus : utilisez la fonction [`reduce`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) pour calculer la somme des nombres du tableau.
 
 <Solution>
+
+**Impératif**
+
+```js
+function average(numbers) {
+	let sum;
+	for (const num of numbers) {
+		sum += num;
+	}
+	return num / numbers.length;
+}
+```
+
+**Fonctionnelle**
 
 ```js
 function average(numbers) {
@@ -228,16 +243,32 @@ function square(n) {
 function diamond(n) {
 	function diamondLine(i) {
 		if (i === 1) {
+<<<<<<< HEAD
 			// Si i = 1, on affiche une seule étoile, au centre
 			document.write('&nbsp;'.repeat(n - i + 1) + '*');
 			document.write('<br/>');
+||||||| parent of 4f6acb5 (feat(style): add page transition)
+			document.write(" ".repeat(n - i + 1) + "*");
+			document.write("<br/>");
+=======
+			document.write(' '.repeat(n - i + 1) + '*');
+			document.write('<br/>');
+>>>>>>> 4f6acb5 (feat(style): add page transition)
 			return;
 		}
+<<<<<<< HEAD
 
 		document.write('&nbsp;'.repeat(n - i + 1) + '*');
 		document.write('&nbsp;'.repeat(2 * (i - 2)) + '*');
 
 		document.write('<br/>');
+||||||| parent of 4f6acb5 (feat(style): add page transition)
+		document.write("&nbsp;".repeat(n - i + 1) + "*" + "&nbsp;".repeat(2 * i - 3) + "*");
+		document.write("<br/>");
+=======
+		document.write('&nbsp;'.repeat(n - i + 1) + '*' + '&nbsp;'.repeat(2 * i - 3) + '*');
+		document.write('<br/>');
+>>>>>>> 4f6acb5 (feat(style): add page transition)
 	}
 
 	for (let i = 1; i < n; i++) {
