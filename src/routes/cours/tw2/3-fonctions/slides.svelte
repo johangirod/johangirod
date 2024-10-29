@@ -13,19 +13,15 @@
 	</section>
 	<section>
 		<h2>Rappel : syntaxes pour écrire une fonction</h2>
-		<pre><code class="language-javascript" data-trim data-noescape data-line-numbers="1-3|4-6|7|9-12|1-12">
+		<pre><code class="language-javascript" data-trim data-noescape data-line-numbers="">
 			<script type="text/template">
-					const add1 = function (a, b) {
+					function add1(a, b) {
 						return a + b;
-					};
+					}
 					const add2 = (a, b) => {
 						return a + b;
 					};
 					const add3 = (a, b) => a + b;
-
-					function add4(a, b) {
-						return a + b;
-					}
 				</script>
 		</code></pre>
 	</section>
@@ -75,7 +71,7 @@
 							};
 
 							const addition = operations.add; // la variable addition contient une fonction
-							add(3, 2);
+							addition(3, 2);
 						</script>
 		</code></pre>
 			{/if}
@@ -195,52 +191,31 @@
 				</script>
 		</code></pre>
 	</section>
-	{#each [1, 2, 3] as i}
-		<section data-auto-animate>
-			<h2>.filter</h2>
-			<pre data-id="code-animation-2">
+	<section data-auto-animate>
+		<h2>.filter</h2>
+		<pre data-id="code-animation-2">
 			<code class="language-js" data-trim data-noescape data-line-numbers>
-					{#if i === 1}
 						<script type="text/template">
-							const startWithS = (name) => name[0] === 'S';
+					const names = ['Leila', 'Sarah', 'Sam'];
+					const namesStartingWithS = names.filter((name) => name.startsWith('S'));
 
-							startWithS('Sarah'); // true
-							startWithS('Leila'); // false
-						</script>
-					{/if}
-					{#if i === 2}
-						<script type="text/template">
-							const startWithS = (name) => name[0] === 'S';
-
-							const names = ['Leila', 'Sarah', 'Sam'];
-
-							const namesStartingWithS = names.filter((name) => startWithS(name));
-
-							console.log(namesStartingWithS); // ['Sarah', 'Sam']
-						</script>
-					{/if}
-					{#if i === 3}
-						<script type="text/template">
-							const startWithS = (name) => name[0] === 'S';
-
-							const names = ['Leila', 'Sarah', 'Sam'];
-							const namesStartingWithS = names.filter(startsWithS);
-
-							console.log(namesStartingWithS); // ['Sarah', 'Sam']
-						</script>
-					{/if}
+					console.log(namesStartingWithS); // ['Sarah', 'Sam']
+				</script>
+					
 				</code></pre>
-		</section>
-	{/each}
+	</section>
 	<section data-auto-animate>
 		<h2>.find</h2>
-		<pre >
+		<pre>
 		<code class="language-js" data-trim data-noescape data-line-numbers>
 			<script type="text/template">
-					const books = [{ title: '1984', author: 'George Orwell' }, { title: 'To Kill a Mockingbird', author: 'Harper Lee' }, { title: 'The Lord of the Rings', author: 'J. R. R. Tolkien' }];
-					const book1984 = books.find(book => book.title === '1984');
+					const books = [
+						{ title: '1984', author: 'George Orwell' },
+						{ title: 'To Kill a Mockingbird', author: 'Harper Lee' },
+						{ title: 'The Lord of the Rings', author: 'J. R. R. Tolkien' }
+					];
+					const book1984 = books.find((book) => book.title === '1984');
 					console.log(book1984.author); // 'George Orwell'
-
 				</script>
 			</code></pre>
 	</section>
@@ -251,7 +226,7 @@
 			<script type="text/template">
 					const animals = ['cat', 'snake', 'elephant', 'horse', 'ant'];
 					const sortedNames = names.sort(); // Trie alphabétique
-					
+
 					const sortByLength = (a, b) => a.length - b.length;
 					const sortedNamesByLength = names.sort(sortByLength); // Trie par longueur
 				</script>

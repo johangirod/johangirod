@@ -25,10 +25,16 @@ Utilisez les identifiants de votre compte universitaire pour vous connecter.
 
 > _Si cela ne fonctionne pas, vous pouvez vous rendre sur le lien suivant : https://sources.univ-jfc.fr/techno-web-2/tp-3, cliquer sur le bouton « Code » et télécharger le fichier zip._
 
-Ouvrez le dossier `tp-3` dans votre éditeur de code. Vous pouvez le faire avec la commande suivante :
+Installer les dépendances du projet :
 
 ```bash
 cd tp-3
+npm install
+```
+
+Ouvrez le dossier `tp-3` dans votre éditeur de code. Vous pouvez le faire avec la commande suivante :
+
+```bash
 code .
 ```
 
@@ -37,7 +43,7 @@ code .
 Dans le terminal, lancez les tests avec la commande suivante :
 
 ```bash
-sh test.sh
+npm test
 ```
 
 Tout est en rouge, c'est normal, les tests ne passent pas. Au fur et à mesure que vous compléterez les exercices, les tests passeront au vert.
@@ -70,6 +76,14 @@ La première partie contient une description de ce que fait la fonction. Ensuite
 </Message>
 
 Chaque fonction est testée dans le fichier `exercice-1.test.js`. La fonction est correcte si le test passe (en vert).
+
+Pour lancer uniquement les tests de l'exercice 1, vous pouvez lancer la commande :
+
+```
+npm run test ./test/exercice-1.test.js
+```
+
+À noter que les tests se relancent automatiquement à chaque fois que vous modifiez le fichier testé.
 
 <Solution>
 
