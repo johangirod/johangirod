@@ -269,7 +269,7 @@ let maVariable = 12;
 
 	<section data-auto-animate>
 		<h2>Déclaration de variables</h2>
-		<pre data-id="code-1"><code class="language-js" data-trim data-noescape data-line-numbers="4-5">
+		<pre data-id="code-1"><code class="language-js" data-trim data-noescape >
 // Déclaration d'une variable
 let maVariable = 12;
 
@@ -306,7 +306,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-				data-line-numbers="1-6 | 8-11 | 13-14 | 16-17 | 19-20">
+				>
 				><script type="text/template">
 					// "number", code pour les flottant et les entier
 					const a = 1200;
@@ -337,7 +337,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-				data-line-numbers="1-3|5-6|8-9|11-12|14-15|17-19|21-25">
+				data-line-numbers>
 <script type="text/template">
 					// Arithmétique : + - * / % **
 					const a = (-1 + 2) * 3;
@@ -373,7 +373,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-				data-line-numbers="1-8|10-24|26-30|31-35">
+				>
 <script type="text/template">
 					// if ... else if ... else
 					if (condition1) {
@@ -538,7 +538,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-				data-line-numbers="1-2|4-7|9-10|12-13|15-16|18-19">
+			>
 				<script type="text/template">
 					// Déclaration d'un tableau
 					const fruits = ['pomme', 'banane', 'orange'];
@@ -568,7 +568,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-				data-line-numbers="1-5|7-10|12-15">
+				>
 				<script type="text/template">
 					// Itération sur un tableau
 					for (let i = 0; i < fruits.length; i++) {
@@ -594,7 +594,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-				data-line-numbers="1-7|9-12|14-15|17-19|21-23">
+				>
 				<script type="text/template">
 					// Déclaration d'un objet
 					const person = {
@@ -628,7 +628,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-				data-line-numbers="1-6|8-12|14-18">
+			>
 				<script type="text/template">
 					const countries = {
 						fr: 'France',
