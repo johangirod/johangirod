@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { showSolution } from './showSolution';
+	import type { Snippet } from 'svelte';
 
+	const { showAnyway = false, children }: { showAnyway: boolean; children: Snippet } = $props();
 	// Show the solution if the code is correct
-	let show = false;
-	let canShowSolution = $showSolution;
+	let show = $state(false);
+	let canShowSolution = $showSolution || showAnyway;
 
 	function handleToggle() {
 		show = !show;
@@ -21,7 +23,7 @@
 		>
 		<button
 			class="inline-block text-sm text-gray-500 hover:text-gray-700"
-			on:click={handleToggle}
+			onclick={handleToggle}
 			aria-label="Afficher la solution"
 			aria-expanded={show}
 			aria-controls={id}
@@ -34,7 +36,7 @@
 		</button>
 		{#if show}
 			<div transition:fly={{ y: -20, duration: 200 }} {id}>
-				<slot />
+				{@render children()}
 			</div>
 		{/if}
 	</div>

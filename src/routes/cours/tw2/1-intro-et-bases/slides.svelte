@@ -269,7 +269,7 @@ let maVariable = 12;
 
 	<section data-auto-animate>
 		<h2>Déclaration de variables</h2>
-		<pre data-id="code-1"><code class="language-js" data-trim data-noescape >
+		<pre data-id="code-1"><code class="language-js" data-trim data-noescape>
 // Déclaration d'une variable
 let maVariable = 12;
 
@@ -302,22 +302,16 @@ maConstante = 42; // Erreur
 
 	<section>
 		<h2>Types de données</h2>
-		<pre data-id="code-3"><code
-				class="language-js"
-				data-trim
-				data-noescape
-				>
+		<pre data-id="code-3"><code class="language-js" data-trim data-noescape>
 				><script type="text/template">
 					// "number", code pour les flottant et les entier
 					const a = 1200;
 					const b = 1_000.345; // 1000.345
-					const c = 1.2e3; // 1200
-					const d = 0x12; // 18
 					const maxNumber = Infinity;
 
 					// "string", chaîne de caractères
 					const e = 'Hello world!';
-					const name = "John";
+					const name = 'John';
 					const f = `Hello ${name}!`;
 
 					// "boolean", vrai ou faux
@@ -333,11 +327,7 @@ maConstante = 42; // Erreur
 	</section>
 	<section>
 		<h2>Opérateurs</h2>
-		<pre><code
-				class="language-js"
-				data-trim
-				data-noescape
-				data-line-numbers>
+		<pre><code class="language-js" data-trim data-noescape data-line-numbers>
 <script type="text/template">
 					// Arithmétique : + - * / % **
 					const a = (-1 + 2) * 3;
@@ -357,7 +347,6 @@ maConstante = 42; // Erreur
 
 					// Opérateur de coalescence nulle : `??`
 					const e = a ?? b; // a si a n'est pas null ou undefined, sinon b
-					const e = a !== null && a !== undefined ? a : b;
 
 					// Affectation : += -= *= ??= ++ -- ...
 					let f = 12;
@@ -369,11 +358,7 @@ maConstante = 42; // Erreur
 	</section>
 	<section>
 		<h2>Structures de contrôle</h2>
-		<pre><code
-				class="language-js"
-				data-trim
-				data-noescape
-				>
+		<pre><code class="language-js" data-trim data-noescape>
 <script type="text/template">
 					// if ... else if ... else
 					if (condition1) {
@@ -475,7 +460,7 @@ maConstante = 42; // Erreur
 
 					sayHello('Bob'); // Hello Bob!
 
-					alert(message); // <-- Error! La variable message n'est pas accessible ici
+					alert(message); // Erreur : La variable message n'est pas accessible ici
 				</script>
 	</code></pre>
 	</section>
@@ -534,41 +519,36 @@ maConstante = 42; // Erreur
 	</section>
 	<section data-auto-animate>
 		<h2>Tableaux</h2>
-		<pre data-id="code-5"><code
-				class="language-js"
-				data-trim
-				data-noescape
-			>
+		<pre data-id="code-5"><code class="language-js" data-trim data-noescape>
 				<script type="text/template">
 					// Déclaration d'un tableau
 					const fruits = ['pomme', 'banane', 'orange'];
 
+					// Longueur d'un tableau
+					fruits.length; // 3
+
 					// Accès à un élément
 					const firstFruit = fruits[0]; // pomme
-					const lastFruit = fruits[fruits.length - 1]; // orange
 					const penultimateFruit = fruits.at(-2); // banane
 
 					// Sous-tableau
 					const subFruits = fruits.slice(1, 3); // ['banane', 'orange']
 
 					// Utilisation des tableaux comme tuple (déstructuration)
-					const [age, name] = [42, 'Bob'];
-
-					// Utilisation des tableaux comme liste
-					const [first, ...rest] = fruits; // first = 'pomme', rest = ['banane', 'orange']
+					const bob = ['Bob', 42];
+					const [name, age] = bob; // name = 'Bob', age = 42
 
 					// Concaténation de tableaux
 					const allFruits = [...fruits, 'fraise', 'citron']; // ['pomme', 'banane', 'orange', 'fraise', 'citron']
+
+					// Utilisation des tableaux comme liste
+					const [first, ...rest] = fruits; // first = 'pomme', rest = ['banane', 'orange']
 				</script>
 	</code></pre>
 	</section>
 	<section data-auto-animate>
 		<h2>Itération sur un tableau</h2>
-		<pre data-id="code-5"><code
-				class="language-js"
-				data-trim
-				data-noescape
-				>
+		<pre data-id="code-5"><code class="language-js" data-trim data-noescape>
 				<script type="text/template">
 					// Itération sur un tableau
 					for (let i = 0; i < fruits.length; i++) {
@@ -594,7 +574,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-				>
+				data-line-numbers="1-7|9-10|12-14|16-18|20-23|25-27">
 				<script type="text/template">
 					// Déclaration d'un objet
 					const person = {
@@ -606,14 +586,20 @@ maConstante = 42; // Erreur
 
 					// Accès à une propriété
 					person.firstName; // Bob
-					person['lastName']; // Dylan
+
+					// Accès à une propriété dynamiquement
+					const propertyName = 'age';
+					person[propertyName]; // 80
+
+					// Propriété inexistante
 					person.hairColor; // undefined
 
 					// Modification d'une propriété
 					person.firstName = 'Alice';
 
 					// Ajout et suppression de propriétés
-					person.city = 'Paris';
+					person.city = 'Paris'; // Autorisé, car javascript est un langage dynamique
+
 					delete person.city;
 
 					// Déstructuration d'un objet
@@ -628,7 +614,7 @@ maConstante = 42; // Erreur
 				class="language-js"
 				data-trim
 				data-noescape
-			>
+				data-line-numbers="1-6|8-12|14-19">
 				<script type="text/template">
 					const countries = {
 						fr: 'France',
@@ -644,7 +630,8 @@ maConstante = 42; // Erreur
 					}
 
 					// Avec Object.keys
-					Object.keys(countries).forEach((key) => {
+					const keys = Object.keys(countries); // ['fr', 'de', 'es']
+					keys.forEach((key) => {
 						const value = countries[key];
 						console.log(`${key} = ${value}`);
 					});

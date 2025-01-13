@@ -10,15 +10,125 @@
 </section>
 <section>
 	<section data-auto-animate="true">
+		<h1>Rappel sur les éléments HTML</h1>
+	</section>
+	<section>
+		<h2>Squelette d'un document HTML</h2>
+		<ul>
+			<li>Un document HTML est composé d'éléments imbriqués les uns dans les autres</li>
+			<li>Ces éléments sont délimités par des balises ouvrantes et fermantes.</li>
+			<li>
+				Les éléments racines sont <code>&lt;html&gt;</code>,
+				<code>&lt;head&gt;</code>
+				et <code>&lt;body&gt;</code>
+			</li>
+		</ul>
+		<h3>Exemple de document</h3>
+		<pre><code class="language-html" data-trim>
+<script type="text/template">
+					<html>
+						<head>
+							<title>Titre de la page</title>
+						</head>
+						<body>
+							<h1>Mon titre</h1>
+							<p>
+								Un paragraphe
+								<img src="image.jpg" alt="Une image" />
+							</p>
+						</body>
+					</html>;
+				</script>
+	</code></pre>
+	</section>
+	<section>
+		<h2>Que trouve-t-on dans la balise <code>&lt;head&gt;</code> ?</h2>
+		<div class="fragment lead text-2xl">
+			<strong>Des métadonnées</strong> (tout ce qui n'est pas visible sur la page)
+		</div>
+		<ul class="fragment">
+			<li>Le titre de la page <code>&lt;title&gt;</code></li>
+			<li>
+				Les feuilles de style <code>&lt;link rel="stylesheet" href="style.css"&gt;</code>
+			</li>
+			<li>La description <code>&lt;meta name="description" content="..."&gt;</code></li>
+			<li>L'encodage du document <code>&lt;meta charset="utf-8"&gt;</code></li>
+			<li>Et bien d'autres (favicon, scripts, données pour les réseaux sociaux, etc.)</li>
+		</ul>
+	</section>
+	<section>
+		<style>
+			.fragment.grow-width {
+				display: inline-flex;
+				width: 0;
+				opacity: 0;
+				overflow: hidden;
+				max-width: 0;
+				transition: all 0.5s;
+				white-space: nowrap;
+			}
+			.fragment.grow-width.visible {
+				width: auto;
+				width: calc-size(auto);
+				opacity: 1;
+				max-width: 400px;
+			}
+		</style>
+		<h2>Anatomie d'une balise</h2>
+		<div class="flex flex-col items-center gap-8">
+			<div class="font-mono text-3xl">
+				<span class="fragment custom grow-width" data-fragment-index="1">
+					&lt;<span class="font-bold text-blue-500">a</span>
+					<span class="fragment custom grow-width" data-fragment-index="3">
+						<span class="ml-2">
+							<span class="italic text-purple-500">class</span>=<span class="text-green-500"
+								>"ma-class"</span
+							>
+						</span>
+						<span class="ml-2">
+							<span class="italic text-purple-500">href</span>=<span class="text-green-500"
+								>"/"</span
+							>
+						</span>
+					</span>
+					&gt;
+				</span>
+
+				<span class="fragment custom grow-width mx-2" data-fragment-index="2"
+					>Revenir à l'accueil</span
+				>
+
+				<span class="fragment custom grow-width" data-fragment-index="1"
+					>&lt;/<span class="font-bold text-blue-500">a</span>&gt;</span
+				>
+			</div>
+			<div class="text-2xl italic text-gray-600">
+				<span class="fragment custom grow-width" data-fragment-index="1">Nom de l'élément</span>
+				<span class="fragment custom grow-width" data-fragment-index="3">⋅ Attributs</span>
+				<span class="fragment custom grow-width" data-fragment-index="2">⋅ Contenu</span>
+			</div>
+		</div>
+	</section>
+</section>
+
+<section>
+	<section data-auto-animate="true">
 		<h1>Qu'est-ce que le DOM ?</h1>
 	</section>
 	<section data-auto-animate="true">
 		<h1>Qu'est-ce que le DOM ?</h1>
-		<p class="fragment"><strong>Le DOM (Document Object Model) est une interface de programmation pour les documents HTML</strong></p>
-		<ul>
-			<li class="fragment">Le document est représenté sous forme d'arbre</li>
-			<li class="fragment">Le DOM est implémenté par les navigateurs qui l'utilisent pour afficher la page</li>
-			<li class="fragment">Le DOM est accessible aux programme JavaScript qui l'utilisent pour manipuler la page</li>
+		<p class="lead" style="font-size: 1.8rem; line-height: 1.5">
+			Le DOM (Document Object Model) est une
+			<strong>interface de programmation pour manipuler des documents HTML</strong>
+			en Javascript
+		</p>
+		<br />
+		<ul class="small text-gray-600">
+			<li class="fragment">Le document HTML est représenté sous <strong>forme d'arbre</strong></li>
+			<li class="fragment"><strong>Tous les navigateurs</strong> implémentent le DOM</li>
+			<li class="fragment">
+				Les scripts JavaScript l'utilisent pour <strong>lire et modifier</strong> le document HTLM
+			</li>
 		</ul>
 	</section>
 	<section data-auto-animate>
@@ -44,36 +154,48 @@
 	<section>
 		<h2>Le DOM est implémentée par les navigateurs</h2>
 		<div class="r-stretch">
-
 			<img
-			src={renderPipelineSrc}
-			alt="Rendering pipeline : parsing, render tree, layout, paint"
-			class="fragment"
+				src={renderPipelineSrc}
+				alt="Rendering pipeline : parsing, render tree, layout, paint"
+				class="fragment"
 			/>
 		</div>
-		<p class="text-4xl fragment"><strong>C'est l'étape de parsing</strong> (ou analyse syntaxique)</p>
-		<h3 class="fragment">Ressources</h3>
-		<ul>
-			<li class="fragment">
-				<a href="https://developer.chrome.com/blog/inside-browser-part3">
-					Comment fonctionne le rendu sur chrome ? (en anglais)
-				</a>
-			</li>
-			<li class="fragment">
-				<a href="https://developer.mozilla.org/fr/docs/Web/Performance/How_browsers_work"
-					>Comment fonctionne un navigateur ?</a
-				>
-			</li>
-		</ul>
+		<p class="fragment text-4xl">
+			<strong>C'est l'étape de parsing</strong> (ou analyse syntaxique)
+		</p>
+		<div class="fragment">
+			<h3>Ressources</h3>
+			<ul>
+				<li>
+					<a href="https://developer.chrome.com/blog/inside-browser-part3">
+						Comment fonctionne le rendu sur chrome ? (en anglais)
+					</a>
+				</li>
+				<li>
+					<a href="https://developer.mozilla.org/fr/docs/Web/Performance/How_browsers_work"
+						>Comment fonctionne un navigateur ?</a
+					>
+				</li>
+			</ul>
+		</div>
 	</section>
 	<section>
-		<h2>Le DOM est accessible aux programme JavaScript qui l'utilisent pour manipuler la page</h2>
-		<p>Le DOM est accessible via l'objet <code>document</code></p>
-		<pre><code class="language-js" data-trim>
-<script type="text/template">
-					document.querySelector('h1').textContent = 'Hello world';
+		<h2>Accéder au DOM en JavaScript</h2>
+		<p>Le DOM est accessible via l'objet global <code>document</code></p>
+		<pre class="fragment"><code class="language-js" data-trim>
+			<script type="text/template">
+					document.write('Hello world');
 				</script>
+			
 </code></pre>
+		<p class="fragment">
+			Cet objet contient des <strong>propriétés et des méthodes</strong> pour manipuler le document
+		</p>
+		<pre class="fragment"><code class="language-js" data-trim>
+			<script type="text/template">
+					document.title = 'Mon nouveau titre';
+				</script>
+	</code></pre>
 	</section>
 </section>
 <section>
@@ -81,139 +203,229 @@
 		<h1>L'API du DOM</h1>
 	</section>
 	<section>
-		<h2>Récupérer des noeuds</h2>
+		<h2>Récupérer un élément (noeud de l'arbre)</h2>
+		<h3 style="font-size: 2rem"><code>document.querySelector("...")</code></h3>
+		<br />
 
-		<pre><code class="language-js" data-trim
-			data-line-numbers="1-4 | 6-9 | 11-16">
+		<pre><code class="language-js" data-trim>
 			>
 <script type="text/template">
-					/* Récupérer le premier noeud qui correspond au sélecteur CSS */
-					document.querySelector('h1'); // Un objet de type HTMLElement
+					document.querySelector('h1');
+					document.querySelector('#my-id');
 					document.querySelector('p.lead > strong');
-					document.querySelector('input#my-id');
-
-					/* Récupérer tous les noeuds qui correspondent au sélecteur */
-					document.querySelectorAll('a[href^="http"]'); // Un objet de type NodeList, qui est un tableau d'HTMLElement
-					document.querySelectorAll('p.lead > strong');
-
-					/* Autres méthodes (moins utilisées) */
-					document.getElementById('my-id');
-					document.getElementsByClassName('my-class');
-					document.getElementsByTagName('p');
-					document.getElementsByName('my-name');
 				</script>
 </code></pre>
+		<p class="text-gray-600">
+			Renvoie le premier élément correspondant au sélecteur CSS. <br />Retourne <code>null</code> si
+			aucun élément n'est trouvé.
+		</p>
 	</section>
+
 	<section data-auto-animate>
-		<h2>Lire et modifier les informations des noeuds</h2>
+		<h2 data-id="text">
+			<span>Lire le contenu</span>
+		</h2>
+		<h3>Code HTML</h3>
 		<pre><code class="language-html" data-trim>
 		<script type="text/template">
-			<h1 class="text-4xl text-pink-500">
-				Hello <em>world</em>
-			</h1>;
-		</script>
+					<h1>
+						Hello <em>world</em>y
+					</h1>;
+				</script>
 		</code></pre>
-		<pre class="fragment">
-			<code class="language-js" data-trim data-line-numbers="1-5 | 7-12">
+		<h3>Code JavaScript</h3>
+		<pre data-id="pre-code">
+			<code class="language-js" data-trim>
 				<script type="text/template">
-					/* Lire le contenu */
-					const h1 = document.querySelector('h1');
-					h1.textContent; // "Hello world" (texte brut, sans les balises)
-					h1.innerHTML; // "Hello <em>world</em>" (HTML avec les balises)
-					h1.classList; // ["text-4xl", "text-pink-500"] (tableau des classes)
+					// 1. Récupérer l'élément h1 dans la variable element
+					const element = document.querySelector('h1');
 
-					/* Modifier le contenu */
-					h1.textContent = 'Hello Jonhy'; // Remplace le contenu (sans les balises)
-					h1.innerHTML = 'Hello <em>you!</em>'; // Remplace le contenu (avec des balises, attention aux failles XSS)
-					h1.classList.add('text-4xl'); // Ajoute la classe
-					h1.classList.remove('text-pink-500'); // Supprime la classe
-					h1.classList.toggle('text-pink-500'); // Ajoute ou supprime la classe
+					// 2. Lire les informations
+					const titre = element.textContent; // "Hello world"
+					const titreHTML = element.innerHTML; // "Hello <em>world</em>"
 				</script>
 			</code>
 		</pre>
 	</section>
 	<section data-auto-animate>
-	<h2>Lire et modifier les informations des noeuds</h2>
-	<pre><code class="language-html" data-trim>
-		<script type="text/template">
-			<h1 class="text-4xl text-pink-500">
-				Hello <em>world</em>
-			</h1>;
-		</script>
-	</code></pre>
-	<pre><code class="language-js" data-trim data-line-numbers="1-2 | 4-8">
-	/* Modifier le style */
-	h1.style.backgroundColor = 'red';
+		<h2 data-id="text">Modifier le contenu</h2>
+		<h3>Code HTML</h3>
 
-	/* Lire et modifier les attributs */
-	h1.setAttribute('data-id', 'my-id');
-	h1.getAttribute('data-id'); // "my-id"
-	a.href = 'https://google.com'; // Certains attributs sont accessibles et modifiables directement
-	</code></pre>
+		<pre><code class="language-html" data-trim>
+		<script type="text/template">
+					<h1>
+						Hello <em>world</em>y
+					</h1>;
+				</script>
+		</code></pre>
+		<h3>Code JavaScript</h3>
+		<pre data-id="pre-code">
+			<code class="language-js" data-trim>
+				<script type="text/template">
+					// Méthode préférée : remplacer le contenu texte
+					element.textContent = 'Hello Jonhy';
+
+					// Remplace le HTML (à utiliser avec précaution)
+					element.innerHTML = 'Hello <em>you!</em>';
+				</script>
+			</code>
+		</pre>
 	</section>
 	<section>
-		<h2>Créer des noeuds et les insérer dans le DOM</h2>
-		<pre><code class="language-js" data-trim data-line-numbers="1-4 | 6-9 | 11-14">
+		<h2 data-id="text">Lire et modifier les classes CSS</h2>
+		<h3>Code HTML</h3>
+		<pre><code class="language-html" data-trim>
+				<script type="text/template">
+					<h1 class="text-4xl text-pink-500">Titre</h1>;
+				</script>
+					</code></pre>
+
+		<h3>Code JavaScript</h3>
+
+		<pre><code class="language-js" data-trim>
+						<script type="text/template">
+					const classes = element.classList;
+					// ["text-4xl", "text-pink-500"] (liste des classes)
+
+					const isPink = classes.contains('text-pink-500'); // true
+				</script>
+						</code></pre>
+		<pre class="fragment"><code class="language-js" data-trim>
+		<script type="text/template">
+					element.classList.add('font-bold'); // Ajoute la classe
+					element.classList.remove('text-4xl'); // Supprime la classe
+					element.classList.toggle('text-pink-500');
+				</script>
+	</code></pre>
+	</section>
+	<section data-auto-animate>
+		<h2 data-id="text">Lire et modifier des attributs</h2>
+		<h3>Code JavaScript</h3>
+		<pre data-id="pre-code"><code class="language-js" data-trim>
+	/* Lire et modifier les attributs : méthode générique */
+	const placeholder = element.getAttribute('placeholder'); 
+	element.setAttribute('src', 'image.jpg');
+
+	/* Lire et modifier les attributs : accesseur direct
+	 (dans certains cas seulement) */
+	const valeur = input.value;
+	a.href = 'https://google.com';
+	</code></pre>
+	</section>
+	<section data-auto-animate>
+		<h2 data-id="text">Lire et modifier le style CSS</h2>
+		<h3>Code JavaScript</h3>
+		<pre data-id="pre-code"><code class="language-js" data-trim>
+	const color = element.style.color;
+
+	element.style.fontSize = '2rem';
+		</code></pre>
+	</section>
+	<section>
+		<h2>Ajouter des nouveaux noeuds dans le DOM</h2>
+		<h3>1. Créer un noeud</h3>
+		<pre data-id="pre-code"><code class="language-js" data-trim>
 			<script type="text/template">
-					/* Créer un noeud */
 					const myImg = document.createElement('img');
 					myImg.src = 'https://picsum.photos/200/300';
 					myImg.alt = 'Random image';
-
-					/* Insérer ce noeud dans la page */
-					document.body.appendChild(myLink); // Ajoute le noeud à la fin de la page
-					const p = document.querySelector('p');
-					p.appendChild(myLink); // Ajoute le noeud à la fin du paragraphe
-
-					/*
-					 * Note : il est également possible d'insérer un noeuds avec les
-					 * méthodes  `insertBefore` et `insertAdjacentElement`
-					 */
 				</script>
 		</code></pre>
-	</section>
-	<section data-auto-animate="true">
-		<h2>Les attributs de formulaires</h2>
-		<pre><code class="language-js" data-trim data-line-numbers="1-3 | 5-6 | 8-9 | 11-12">
+		<div class="fragment">
+			<h3>2. Insérer un noeud</h3>
+			<pre data-id="pre-code"><code class="language-js" data-trim>
 			<script type="text/template">
-					const input = document.querySelector('input');
-					/* Récupérer la valeur d'un champ de formulaire */
-					input.value; // "Hello world"
+						// En fin de page
+						document.body.appendChild(myImg);
 
-					/* Modifier la valeur d'un champ de formulaire */
-					input.value = 'Hello Jonhy';
-
-					/* Récupérer la valeur d'une case à cocher */
-					input.checked; // true
-
-					/* Réinitialiser un formulaire */
-					document.querySelector('form#my-form').reset();
-				</script>
-		</code></pre>
+						// A la fin d'un élément
+						const p = document.querySelector('p');
+						p.appendChild(myLink);
+					</script>
+	</code></pre>
+		</div>
+		<p class="fragment">
+			<strong class="text-pink-500">Attention !</strong> Un noeud doit être inséré pour être visible
+			sur la page. Sinon, il n'existe que dans la mémoire de l'ordinateur.
+		</p>
 	</section>
 	<section>
-		<h2>Supprimer et se déplacer entre les noeuds</h2>
-		<pre><code class="language-js" data-trim data-line-numbers="1-2 | 4-7 | 9-11 | 13-22">
+		<h2>Supprimer, cloner, remplacer un élément</h2>
+		<pre><code class="language-js" data-trim>
 			<script type="text/template">
 					/* Supprimer un noeud */
-					document.querySelector('p.to-delete').remove();
+					element.remove();
+
+					/* Cloner un noeud */
+					const newHeading = document.querySelector('h1').cloneNode();
 
 					/* Remplacer un noeud */
-					const newHeading = document.createElement('h1');
 					newHeading.textContent = 'Hello world';
-					document.querySelector('h1').replaceWith();
-					
-					/* Cloner un noeud */
-					const elementToClone = document.querySelector('#a-cloner')
-					const clonedElement = elementToClone.cloneNode(); 
-
-					/* Se déplacer entre les noeuds (peu utilisé) */
+					document.querySelector('h1').replaceWith(newHeading);
+				</script>
+	</code></pre>
+	</section>
+	<section>
+		<h2>Se déplacer dans le DOM</h2>
+		<p>
+			Le DOM est un arbre, on peut se déplacer d'un noeud à l'autre avec les propriétés suivantes :
+		</p>
+		<pre><code class="language-js" data-trim="">
+		<script type="text/template">
 					elem.previousElementSibling; // Le noeud précédent
 					elem.nextElementSibling; // Le noeud suivant
 					elem.parentElement; // Le noeud parent
 					elem.firstChild; // Le premier noeud enfant
 					elem.lastChild; // Le dernier noeud enfant
 					elem.children; // Tous les noeuds enfants
+				</script>
+	</code></pre>
+	</section>
+	<section>
+		<h2>Récupérer une liste d'élément</h2>
+		<h3 style="font-size: 2rem"><code>document.querySelectorAll("...")</code></h3>
+		<br />
+
+		<pre><code class="language-js" data-trim>
+			>
+<script type="text/template">
+					const imgList = document.querySelectorAll('img');
+					const firstImg = imgList[0];
+				</script>
+</code></pre>
+		<p class="text-gray-600">
+			Renvoie une collection (<code>NodeList</code>) de tous les éléments correspondant au sélecteur
+			CSS.
+		</p>
+		<pre class="fragment"><code class="language-js" data-trim>
+			<script type="text/template">
+					// Parcourir la liste : méthode fonctionelle
+					imgList.forEach((img) => {
+						img.classList.add('border-2');
+					});
+
+					// Parcourir la liste : méthode itérative
+					for (const img of imgList) {
+						img.classList.add('border-2');
+					}
+				</script>
+	</code></pre>
+	</section>
+	<section>
+		<h2><code>NodeList</code> : pas tout à fait un tableau</h2>
+		<p>
+			L'objet retourné par <code>querySelectorAll</code> n'est
+			<strong>pas un tableau JavaScript classique</strong>.
+		</p>
+		<p>
+			Pour utiliser les méthodes de tableau (<code>filter</code>, <code>find</code> etc.), il faut
+			d'abord le
+			<strong>convertir en tableau</strong>&nbsp;:
+		</p>
+		<pre><code class="language-js" data-trim>
+			<script type="text/template">
+					const imgNodeList = document.querySelectorAll('img');
+					const imgArray = Array.from(imgNodeList);
 				</script>
 	</code></pre>
 	</section>

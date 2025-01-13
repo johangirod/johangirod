@@ -3,7 +3,8 @@
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
 	import losange from './losange.png';
-
+	import { showSolution } from '$lib/showSolution.ts';
+	showSolution.set(true);
 </script>
 
 <Reveal>
@@ -189,7 +190,7 @@ document.body.style.fontFamily = 'monospace';
 2. Écrire une fonction qui dessine un triangle composé d’étoiles, c’est-à-dire une succession de lignes d’étoiles de longueur 1 puis 2 puis 3 et ainsi jusqu’à n. Le passage à la ligne se fera à l’aide de la balise HTML adéquate (`<br/>`).
 3. Écrire une fonction qui dessine un carré de côté n, le bord de ce carré est composé d’étoiles,
    l’intérieur de « - ».
-4. Écrire une fonction qui dessine un losange creux, dont le bord est signifié par des étoiles. Chaque coté de ce losange sera donc dessiné avec n étoiles. Chaque « blanc » sera représenté par un espace non sécable encodé `&nbsp;`. Par exemple, pour créer une ligne de 4 espace puis une étoile, on écrira : `document.write("&nbsp;".repeat(4) + "*");` Voici le rendu pour n=4 : ![Un losange de 4 étoile de côté]({losange})
+4. Écrire une fonction qui dessine un losange creux, dont le bord est signifié par des étoiles. Chaque coté de ce losange sera donc dessiné avec n étoiles. Chaque « blanc » sera représenté par un espace non sécable encodé `&amp;nbsp;`. Par exemple, pour créer une ligne de 4 espace puis une étoile, on écrira : `document.write("&amp;nbsp;".repeat(4) + "*");` Voici le rendu pour n=4 : ![Un losange de 4 étoile de côté]({losange})
 
 <Solution>
 
@@ -227,11 +228,15 @@ function square(n) {
 function diamond(n) {
 	function diamondLine(i) {
 		if (i === 1) {
-			document.write(' '.repeat(n - i + 1) + '*');
+			// Si i = 1, on affiche une seule étoile, au centre
+			document.write('&nbsp;'.repeat(n - i + 1) + '*');
 			document.write('<br/>');
 			return;
 		}
-		document.write('&nbsp;'.repeat(n - i + 1) + '*' + '&nbsp;'.repeat(2 * i - 3) + '*');
+
+		document.write('&nbsp;'.repeat(n - i + 1) + '*');
+		document.write('&nbsp;'.repeat(2 * (i - 2)) + '*');
+
 		document.write('<br/>');
 	}
 

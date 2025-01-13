@@ -5,10 +5,22 @@
 		// Add copy button to code blocks
 		document.querySelectorAll('pre.shiki').forEach((pre) => {
 			const button = document.createElement('button');
-			pre.classList.add('relative');
+
 			button.innerHTML = 'Copier';
-			button.className = // Tailwind classes
-				'absolute bottom-0 right-0 px-3 py-2 font-sans text-sm text-white bg-pink-400  rounded-tl-md hover:bg-pink-500';
+
+			button.className =
+				'absolute top-0 right-0 px-2 py-1 bg-pink-500 text-white rounded-bl-md rounded-tr-md   transition-opacity will-change opacity-0 group-hover:opacity-100  hover:brightness-95';
+
+			console.log('hjoojijoijoi');
+			// create a div and move pre inside
+			const div = document.createElement('div');
+			div.className = 'relative group';
+			// add button to the div
+			div.appendChild(button);
+
+			pre.previousElementSibling?.after(div);
+			div.appendChild(pre);
+
 			button.onclick = () => {
 				navigator.clipboard.writeText(pre.querySelector('code')!.textContent!);
 				const toast = document.createElement('div');
@@ -27,7 +39,6 @@
 					toast.remove();
 				}, 3100);
 			};
-			pre.prepend(button);
 		});
 	});
 </script>
