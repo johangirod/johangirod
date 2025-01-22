@@ -222,7 +222,7 @@ function displayCards(emojis) {
 
 #### 3. Cacher les emojis
 
-Créer une fonction `hideCards` qui cache le contenu en modifiant la couleurd de chacune des cartes à `transparent`.
+Créer une fonction `hideEmojis` qui cache le contenu en modifiant la couleurd de chacune des cartes à `transparent`.
 
 Pour sélectionner les cartes, on pourra utiliser la méthode `querySelectorAll` avec le sélecteur CSS approprié.
 
@@ -231,7 +231,7 @@ Testez cette fonction en appelant `hideEmojis` après avoir affiché les emojis.
 <Solution>
 
 ```js
-function hideCards() {
+function hideEmojis() {
 	const emojiCards = document.querySelectorAll('ol > li');
 	emojiCards.forEach((emojiCard) => {
 		emojiCard.style.color = 'transparent';
@@ -261,9 +261,11 @@ Testez que la fonction `askQuestion` fonctionne en l'appelant avec un tableau d'
 function askQuestion(randomEmojis) {
 	const randomIndex = Math.floor(Math.random() * randomEmojis.length);
 	const randomEmoji = randomEmojis[randomIndex];
-	const answer = prompt(`Sous quelle carte se trouve l'emoji "${randomEmoji}" ?`);
-	if (answer === randomIndex.toString()) {
+	const answer = prompt(`Sous quelle carte se trouve l'emoji ${randomEmoji} ?`);
+	if (Number.parseInt(answer) === randomIndex) {
+		// Ajoute la classe success pour lancer l'animation CSS
 		document.querySelector('ol#emoji-game').classList.add('success');
+		// Affiche un message de félicitation
 		document.querySelector('#emoji-game-message').textContent = 'Bravo 🎉 !';
 	} else {
 		displayCards(randomEmojis);
@@ -278,10 +280,10 @@ function askQuestion(randomEmojis) {
 
 1. Créer une fonction `startGame` qui appelle successivement les fonctions `getRandomEmojis` et `displayEmojis`.
 
-2. Utilisez la fonction `setTimeout` pour appeler la fonction `hideEmoji` après 5 secondes.
+2. Utilisez la fonction `setTimeout` pour appeler la fonction `hideEmojis` après 5 secondes.
 
    ```js
-   setTimeout(hideEmoji, 5000);
+   setTimeout(hideEmojis, 5000);
    ```
 
 3. Utilisez la fonction `setTimeout` pour appeler la fonction `askQuestion` après 5 secondes et 100 millisecondes.
@@ -294,7 +296,7 @@ function startGame() {
 	const emojis = getRandomEmojis();
 	displayEmojis(emojis);
 
-	setTimeout(hideEmoji, 5000);
+	setTimeout(hideEmojis, 5000);
 
 	setTimeout(() => {
 		askQuestion(emojis);

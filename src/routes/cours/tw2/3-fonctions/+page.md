@@ -3,6 +3,10 @@
 	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
+	import { showSolution } from '$lib/showSolution.ts';
+
+	showSolution.set(true);
+
 </script>
 
 <Reveal>
@@ -257,6 +261,8 @@ export function sortStudentsByGroup(students) {
 export function zipArrays(arr1, arr2) {
 	// A compléter (on pourra utiliser Array.map, et le second argument de la fonction de callback qui contient l'index)
 	// Voir https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map#parameters
+
+	// arr contiendra le tableau le plus long
 	const arr = arr1.length > arr2.length ? arr1 : arr2;
 	return arr.map((_, i) => [arr1[i], arr2[i]]);
 }
@@ -270,8 +276,8 @@ export function zipArrays(arr1, arr2) {
  * @example
  * const addOne = (x) => x + 1;
  * const multiplyByTwo = (y) => y * 2;
- * const addOneAndMultiplyByTwo = pipeAll([addOne, multiplyByTwo]);
- * addOneAndMultiplyByTwo(2); // 6
+ * const plusOneTimesTwoPlusOne = pipeAll([addOne, multiplyByTwo, addOne]);
+ * plusOneTimesTwoPlusOne(2); // (2 + 1) * 2 + 1 = 7
  */
 
 export function pipeAll(fns) {
@@ -333,7 +339,7 @@ export function addClass(elements, className) {
  *  <li data-priority="1">Appeler le plombier</li>
  *  <li data-priority="2">Acheter des fleurs</li>
  * </ul>
- * sortElements(Array.from(document.querySelectorAll('.todo-list > li')), 'data-priority');
+ * sortElements(Array.from(document.querySelectorAll('.todo-list > li')), 'priority');
  * // Retourne les li triés par priorité
  *
  **/
