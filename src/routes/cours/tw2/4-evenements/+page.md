@@ -23,34 +23,40 @@ git clone https://sources.univ-jfc.fr/techno-web-2/tp-4.git
 
 Vous utiliserez les identifiants de votre compte universitaire pour vous connecter.
 
-**Important** : Cette étape est obligatoire pour ce TP. En effet, vous sauvegarderez votre travail sur le dépôt gitlab de l'université. Vous pourrez ainsi récupérer votre travail à la prochaine séance beaucoup plus facilement. Si vous ne parvenez pas à cloner le projet, demandez de l'aide à votre enseignant.
+**Important** : Cette étape est obligatoire pour ce TP. En effet, vous sauvegarderez votre travail sur le dépôt gitlab de l'université. Vous pourrez ainsi récupérer votre travail à la prochaine séance. Si vous ne parvenez pas à cloner le projet, demandez de l'aide à votre enseignant.
 
-2. Ouvrez le dossier `tp-4` dans votre éditeur de code (VSCode par exemple).
+1. Ouvrez le dossier `tp-4` dans votre éditeur de code (VSCode par exemple).
+
+```bash
+cd tp-4
+code .
+```
 
 Ce projet contient un fichier `index.html` et un fichier `script.js`. Le fichier `script.js` est vide. C'est dans ce fichier que vous allez écrire votre code JavaScript.
 
 Vous pouvez ouvrir le fichier `index.html` dans votre navigateur pour voir le rendu de la page. Elle contient une liste de lieux abandonnés à explorer, avec des images, des descriptions, des avis, etc.
 
-3. **En fin de TP**, pensez à sauvegarder votre travail sur le dépôt gitlab de l'université. Pour cela, ouvrez un terminal dans le dossier `tp-4` et tapez les commandes suivantes, en remplaçant `<branch>` par le nom votre prénom et nom, en remplacant les espace par des tiret : `prenom.nom`.
+1. **En fin de TP**, pensez à sauvegarder votre travail sur le dépôt gitlab de l'université. Pour cela, ouvrez un terminal dans le dossier `tp-4` et tapez les commandes suivantes, en remplaçant `prenom` et `nom` par votre prénom et nom :
 
 ```bash
-git checkout -b <branch>
-git add .
+git config --global user.name "Votre nom"
+git config --global user.email "votremail@univ-jfc.fr"
+```
+
+```bash
+git checkout -b prenom.nom
+git add :/
 git commit -m "TP 4 - seance 1"
-git push origin <branch>
+git push -u
 ```
 
 4. **Pour récupérer votre travail à la prochaine séance**, vous pourrez utiliser la commande suivante :
 
 ```bash
-git config --global user.name "prenom.nom"
-git config --global user.email "votremail@univ-jfc.fr"
 git clone https://sources.univ-jfc.fr/techno-web-2/tp-4.git
 cd tp-4
-git checkout <branch>
+git checkout prenom.nom
 ```
-
-en remplaçant `<branch>` par le nom de votre branche sauvegardée au TP précédent.
 
 ### Exercice 1 : Ajouter et enlever la modale d'avertissement
 
@@ -58,25 +64,25 @@ Au tout début du fichier `index.html`, vous trouverez le code de la modale d'av
 
 1. Faire en sorte que la modale s'affiche au chargement de la page :
 
-   - Créer une fonction `renderModal` dans le fichier `script.js`.
-   - Dans cette fonction, récupérez l'élément `<dialog>` dans une variable `modal`.
-   - Utilisez la méthode `showModal()` de l'élément `<dialog>` pour afficher la modale.
-   - Appelez cette fonction
+   - Créer une fonction `displayModal` dans le fichier `script.js`.
+   - Dans cette fonction, récupérez l'élément HTML `<dialog>` dans une variable `modal`.
+   - Utilisez la méthode `modal.showModal()` pour afficher la modale.
+   - Appelez `displayModal`.
 
 2. Faire en sorte que la modale se ferme quand on clique sur le bouton "J'ai compris"
 
-   - Dans la même fonction, récupérez le bouton "J'ai compris" dans une variable `button`.
+   - Dans la même fonction, récupérez le noeud DOM du bouton "J'ai compris" dans une variable `button`.
    - Ajoutez un écouteur d'événement "click" sur le bouton (avec la méthode `addEventListener`).
-   - Dans la fonction de rappel de l'écouteur d'événement, utilisez la méthode `close()` de l'élément `<dialog>` pour fermer la modale.
+   - Dans la fonction de rappel de l'écouteur d'événement, appelez la méthode `modal.close()` pour fermer la modale.
 
 3. Tester que tout fonctionne correctement : la modale doit s'afficher au chargement de la page, et se fermer quand on clique sur le bouton "J'ai compris".
 
-_**Astuce** : pour éviter d'avoir à refermer la modale à chaque fois que vous rechargez la page pour les exercices suivants, vous pouvez commenter l'appel à la fonction `renderModal`._
+_**Astuce** : pour éviter d'avoir à refermer la modale à chaque fois que vous rechargez la page pour les exercices suivants, vous pouvez commenter l'appel à la fonction `displayModal`._
 
 <Solution>
 
 ```js
-function renderModal() {
+function displayModal() {
 	const modal = document.querySelector('dialog');
 	modal.showModal();
 	const button = modal.querySelector('button');
@@ -85,7 +91,7 @@ function renderModal() {
 	});
 }
 
-renderModal();
+displayModal();
 ```
 
 </Solution>
@@ -94,58 +100,105 @@ renderModal();
 
 Dans le fichier `index.html`, vous pourrez voir que chaque lieu est représenté par un élément `<article>`. Chaque article contient un titre, ainsi que plusieurs images. Seule l'image avec la classe `displayed` est visible. L'objectif de cet exercice est de faire défiler les images au survol de la souris.
 
-1. Première étape : créer la fonction de défilement
+#### Première étape : créer la fonction de défilement
 
-   - Créer une fonction `loopImage` dans le fichier `script.js`.
-   - Cette fonction prendra en paramètre un élément `<article>`.
-   - Lorsque cette fonction est appelée, elle doit faire en sorte que l'image suivante s'affiche. Pour cela, il faudra déplacer la classe `displayed`. Si l'image affichée est la dernière, elle doit revenir à la première.
-   - Testez que cette fonction fonctionne en appelant `loopImage` dans la console de votre navigateur.
+Nous allons créer une fonction qui change l'image affichée à chaque fois qu'elle est appellée. Pour cela, elle déplacera la classe `displayed` sur l'image suivante.
 
-2. Deuxième étape : appeler la fonction sur chaque élément `<article>`
+1. Créer une fonction `loopImage` dans le fichier `script.js`. Cette fonction prendra en paramètre `article`, l'élément DOM `<article>` sur lequel elle doit opérer.
+2. Dans cette fonction, récupérez l'image actuellement affichée dans l'élément `article` (on pourra utiliser `article.querySelector`) dans une variable `currentImage`.
+3. Supprimez la classe `displayed` de l'image actuelle.
+4. Récupérez l'image suivante dans une variable `nextImage` (on pourra utiliser la propriété `nextElementSibling` par exemple).
+5. Si `nextElementSibling` est `null`, cela signifie que l'image actuelle est la dernière. Dans ce cas, faire en sorte que la variable `nextImage` contienne la première image de l'élément `article`.
+6. Ajoutez la classe `displayed` à l'image suivante.
 
-   - Pour chaque élément `<article>`, appelez-la fonction `loopImage` toute les secondes avec `setInterval`
-   - Testez que les images défilent correctement.
-
-3. Troisième étape : faire en sorte que les images défilent seulement au survol de la souris
-
-   - Ajoutez un écouteur d'événement "mouseenter" sur chaque élément `<article>`, et déplacez l'appel à `setInterval` dans la fonction de rappel de cet écouteur. Stockez l'identifiant de l'intervalle dans une variable `intervalId` pour pouvoir l'arrêter plus tard. L'identifiant de l'intervalle est retourné par la fonction `setInterval`.
-   - Ajoutez un écouteur d'événement "mouseleave" sur chaque élément `<article>`, et utilisez la méthode `clearInterval` avec l'identifiant de l'intervalle pour arrêter le défilement.
-   - Bonus : pour plus de réactivité, vous pouvez faire en sorte que la fonction `loopImage` soit appelée immédiatement au survol de la souris, et non pas après une seconde.
-
-4. Tester que tout fonctionne correctement : les images doivent défiler au survol de la souris, et s'arrêter quand la souris quitte l'élément `<article>`.
+Testez que cette fonction fonctionne en appelant par exemple `loopImage(document.querySelector('article'))` dans la console de votre navigateur.
 
 <Solution>
 
 ```js
 function loopImages(article) {
-	const currentImage = article.querySelector('.displayed');
-	const nextImage = currentImage.nextElementSibling;
+	const currentImage = article.querySelector('img.displayed');
 	currentImage.classList.remove('displayed');
-	if (nextImage) {
-		nextImage.classList.add('displayed');
-	} else {
-		article.querySelector('.img-container img').classList.add('displayed');
+	let nextImage = currentImage.nextElementSibling;
+	if (!nextImage) {
+		nextImage = article.querySelector('.img-container img');
 	}
+	nextImage.classList.add('displayed');
 }
 
-document.querySelectorAll('article').forEach((article) => {
+loopImages(document.querySelector('article'));
+```
+
+</Solution>
+
+#### Deuxième étape : faire défiler les images
+
+1. Faire en sorte que les images du premier lieu défilent automatiquement chaque seconde. Pour cela, appelez-la fonction `loopImage` toute les secondes avec `setInterval`
+
+2. Généraliser le défilement automatique à tous les lieux.
+
+#### Troisième étape : les images défilent seulement au survol de la souris
+
+Nous allons maintenant faire en sorte que les images ne défilent que lorsque la souris est sur le lieu. Pour cela, nous allons utiliser les événements `mouseenter` et `mouseleave`.
+
+`mouseenter` est déclenché quand la souris entre dans un élément, et `mouseleave` quand elle en sort.
+
+1. **Débuter le défilement au survol**. Ajoutez un écouteur d'événement sur chaque élément `<article>`, et déplacez l'appel à `setInterval` dans la fonction de rappel de cet écouteur,
+
+2. **Arrêter le défilement quand la souris quitte le lieu**. Il vous faudra annuler le `setInterval` débuté précédement. Comment ? En utilisant la fonction `clearInterval`, avec comme paramètre l'identifiant de l'intervalle retourné par `setInterval`.
+
+   ```js
+   // exemple
+   const intervalId = setInterval(() => {
+   	console.log('Hello');
+   }, 1000);
+
+   clearInterval(intervalId); // arrête l'intervalle
+   ```
+
+3. Pour plus de réactivité, vous pouvez faire en sorte que la fonction `loopImage` soit appelée immédiatement au survol de la souris, puis toute les secondes.
+
+Tester que tout fonctionne correctement : les images doivent défiler au survol de la souris, et s'arrêter quand la souris quitte le lieu.
+
+<Solution>
+
+```js
+for (article of document.querySelectorAll('article')) {
 	let intervalId;
+
 	article.addEventListener('mouseenter', () => {
 		intervalId = setInterval(() => {
 			loopImages(article);
 		}, 1000);
 	});
+
 	article.addEventListener('mouseleave', () => {
 		clearInterval(intervalId);
 	});
-});
+}
 ```
 
 </Solution>
 
-### Exercice 3 : Filtrer par type de lieu
+### Exercice 3 : Filtrer par catégorie de lieu
 
-Chaque lieu a un type, qui est indiqué dans le dataset de l'élément `<article>`. L'objectif de cet exercice est de faire en sorte que l'utilisateur puisse filtrer les lieux par type.
+Chaque lieu contient des données structurées dans des attributs `data-`. Par exemple, `data-category` contient le type de lieu, `data-difficulty` contient la difficulté d'accès, etc.
+
+<Message>
+
+<div slot="title">
+	Les attributs `data-&lt;*&gt;` en HTML
+</div>
+
+    Les attributs commençant par `data-` sont des attributs personnalisés qui permettent de stocker des données supplémentaires dans un élément HTML. Ils sont très utiles pour stocker des données structurées dans une page web.
+
+    On peut accéder à ces données directement en utilisant la propriété `dataset` de l'élément.
+
+    Par exemple, `element.dataset.category` permet de récupérer la valeur de l'attribut `data-category` de l'élément `element`.
+
+</Message>
+
+L'objectif de cet exercice est de faire en sorte que l'utilisateur puisse filtrer les lieux par type.
 
 Le bouton de filtre est déjà présent dans le fichier `index.html`. Il est représenté par un élément `<select>` qui a comme id `category`.
 
@@ -156,7 +209,7 @@ Le bouton de filtre est déjà présent dans le fichier `index.html`. Il est rep
 
    Pour cacher un élément, vous pouvez utiliser la méthode `style.display = "none"`. Pour le réafficher, on utilisera `style.display = ""`.
 
-2. Tester cette fonction en appelant `filterByCategory` dans la console de votre navigateur.
+2. Tester cette fonction en appelant `filterByCategory('militaire')` dans la console de votre navigateur.
 3. Ajouter un écouteur d'événement "change" sur l'élément `<select>`. Dans la fonction de rappel de cet écouteur, appelez la fonction `filterByCategory` avec la valeur de l'élément `<select>` en paramètre.
 4. Tester que tout fonctionne correctement : les lieux doivent se filtrer en fonction du type sélectionné.
 
@@ -181,19 +234,20 @@ document.querySelector('select#category').addEventListener('change', (event) => 
 
 ### Exercice 4 : implémenter le tri
 
-Le bouton de tri est déjà présent dans le fichier `index.html`. Il est représenté par un groupe de boutons radio qui ont comme nom `sort`.
+Le bouton de tri est déjà présent dans le fichier `index.html`. Il est représenté par un groupe de boutons radio qui ont pour `name` : `sort`.
 
 1. Créer une fonction `sortBy` dans le fichier `script.js`. Cette fonction prendra le type de tri à effectuer en paramètre, l'ordre de trie et triera les lieux en fonction de ce paramètre.
 
-   - ```js
-     // Exemple d'appel
-     sortBy('difficulty', 'ascending'); // tri par difficulté croissante
-     ```
+   ```js
+   // Exemple d'appel
+   sortBy('difficulty', 'ascending'); // tri par difficulté croissante
+   sortBy('difficulty', 'descending'); // tri par difficulté décroissante
+   ```
 
-   - Pour modifier l'ordre des éléments dans le DOM, vous pouvez utiliser la méthode `appendChild` pour les déplacer. Il vous suffit ainsi de trier les éléments dans un tableau, puis de les ajouter dans l'ordre dans le DOM, ils seront automatiquement déplacés.
+   Pour modifier l'ordre des éléments dans le DOM, vous pouvez utiliser la méthode `appendChild` pour les déplacer. Il vous suffit ainsi de trier les éléments dans un tableau, puis de les ajouter dans l'ordre dans le DOM, ils seront automatiquement déplacés.
 
-2. Tester cette fonction en appelant `sortBy` dans la console de votre navigateur.
-3. Ajouter un écouteur d'événement "change" sur chaque bouton radio. Dans la fonction de rappel de cet écouteur, appelez la fonction `sortBy` avec les bons paramètres. Vous aurez besoin de récupérer la valeur des éléments `<input>` pour savoir quel type de tri a été sélectionné, et si l'ordre est croissant ou décroissant. Pour cela, on pourra utiliser `document.querySelector('input[name="sort"]:checked').value` pour récupérer la valeur du bouton radio sélectionné. Le pseudo sélecteur `:checked` permet de récupérer l'élément sélectionné.
+1. Tester cette fonction en appelant `sortBy` dans la console de votre navigateur.
+1. Ajouter un écouteur d'événement "change" sur chaque bouton radio. Dans la fonction de rappel de cet écouteur, appelez la fonction `sortBy` avec les bons paramètres. Vous aurez besoin de récupérer la valeur des éléments `<input>` pour savoir quel type de tri a été sélectionné, et si l'ordre est croissant ou décroissant. Pour cela, on pourra utiliser `document.querySelector('input[name="sort"]:checked').value` pour récupérer la valeur du bouton radio sélectionné. Le pseudo sélecteur `:checked` permet de récupérer l'élément sélectionné.
 
 <Solution >
 
