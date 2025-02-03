@@ -15,6 +15,7 @@
 		"@sveltejs/adapter-auto": "^3.2.5",
 		"@sveltejs/kit": "^2.6.2",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
+		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.15",
 		"@types/reveal.js": "^5.0.3",
 		"@typescript-eslint/eslint-plugin": "^8.8.0",
@@ -40,6 +41,9 @@
 		"highlight.js": "^11.10.0",
 		"reveal.js": "^5.1.0",
 		"shiki": "^1.22.0"
+	},
+	"engines": {
+		"node": ">=22.0"
 	},
 	"packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b"
 }
