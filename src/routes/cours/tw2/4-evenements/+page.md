@@ -3,6 +3,9 @@
 	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
+	import { showSolution } from '$lib/showSolution.ts';
+
+	showSolution.set(true);
 </script>
 
 <Reveal>
@@ -119,13 +122,9 @@ Dans le fichier `index.html`, vous pourrez voir que chaque lieu est représenté
 ```js
 function loopImages(article) {
 	const currentImage = article.querySelector('.displayed');
-	const nextImage = currentImage.nextElementSibling;
 	currentImage.classList.remove('displayed');
-	if (nextImage) {
-		nextImage.classList.add('displayed');
-	} else {
-		article.querySelector('.img-container img').classList.add('displayed');
-	}
+	const nextImage = currentImage.nextElementSibling || article.querySelector('.img-container img');
+	nextImage.classList.add('displayed');
 }
 
 document.querySelectorAll('article').forEach((article) => {
@@ -160,14 +159,15 @@ Le bouton de filtre est déjà présent dans le fichier `index.html`. Il est rep
 3. Ajouter un écouteur d'événement "change" sur l'élément `<select>`. Dans la fonction de rappel de cet écouteur, appelez la fonction `filterByCategory` avec la valeur de l'élément `<select>` en paramètre.
 4. Tester que tout fonctionne correctement : les lieux doivent se filtrer en fonction du type sélectionné.
 
-<Solution >
+<Solution>
 
 ```js
 function filterByCategory(category) {
 	const articles = Array.from(document.querySelectorAll('article'));
 	articles.forEach((article) => {
-		if (article.dataset.category !== category && category !== 'all') {
-			article.style.display = 'none';
+		article.style.display = 'none';
+		if (article.dataset.category === category || category === 'all') {
+			article.style.display = '';
 		}
 	});
 }
@@ -181,24 +181,66 @@ document.querySelector('select#category').addEventListener('change', (event) => 
 
 ### Exercice 4 : implémenter le tri
 
-Le bouton de tri est déjà présent dans le fichier `index.html`. Il est représenté par un groupe de boutons radio qui ont comme nom `sort`.
+Les boutons de tri sont déjà présents dans le fichier `index.html`.
 
-1. Créer une fonction `sortBy` dans le fichier `script.js`. Cette fonction prendra le type de tri à effectuer en paramètre, l'ordre de trie et triera les lieux en fonction de ce paramètre.
+1. Retrouvez l'endroit où ils sont définis. Quel élément est utilisé ? Comment sont-ils liés entre eux ?
+   <Solution>
 
-   - ```js
-     // Exemple d'appel
-     sortBy('difficulty', 'ascending'); // tri par difficulté croissante
-     ```
+   Les boutons de tri sont des éléments `<input type="radio">` qui ont comme attribut `name` la valeur "sort". Ils sont liés entre eux grâce à cet attribut, qui permet de n'en sélectionner qu'un à la fois.
 
-   - Pour modifier l'ordre des éléments dans le DOM, vous pouvez utiliser la méthode `appendChild` pour les déplacer. Il vous suffit ainsi de trier les éléments dans un tableau, puis de les ajouter dans l'ordre dans le DOM, ils seront automatiquement déplacés.
+   </Solution>
 
-2. Tester cette fonction en appelant `sortBy` dans la console de votre navigateur.
-3. Ajouter un écouteur d'événement "change" sur chaque bouton radio. Dans la fonction de rappel de cet écouteur, appelez la fonction `sortBy` avec les bons paramètres. Vous aurez besoin de récupérer la valeur des éléments `<input>` pour savoir quel type de tri a été sélectionné, et si l'ordre est croissant ou décroissant. Pour cela, on pourra utiliser `document.querySelector('input[name="sort"]:checked').value` pour récupérer la valeur du bouton radio sélectionné. Le pseudo sélecteur `:checked` permet de récupérer l'élément sélectionné.
+2. Créer une fonction `sortBy` dans le fichier `script.js`. Cette fonction prendra le type de tri à effectuer en paramètre (on ne prend pas en compte l'ordre croissant ou décroissant pour commencer)
+
+   ```js
+   // Exemple d'appel
+   sortBy('difficulty'); // tri par difficulté d'accès
+   ```
+
+   **A noter** : un élément du DOM ne peut pas se retrouver à deux endroits en même temps. Pour le déplacer, il suffit juste de l'insérer à un autre endroit (il sera automatiquement retiré de son emplacement précédent).
+
+3. Tester cette fonction en appelant `sortBy` dans la console de votre navigateur.
+   _\*\*A noter : il y a une erreur dans le code HTML : la riziere n'a pas la bonne valeur pour le data-diffulty_
+
+4. Ajouter un écouteur d'événement "change" pour les boutons de selection du tri.
+5. Dans la fonction de rappel de cet écouteur, récupérez la nature du tri a effectuer (difficulté ou avis)
+
+   Pour cela, vous pouvez utiliser le selecteur `input[name="sort"]:checked`.
+
+   Ce dernier récupère le premier élément `<input>` de type "radio" qui a comme attribut `name` la valeur "sort" et qui est sélectionné.
+
+6. Tester que tout fonctionne correctement : les lieux doivent se trier en fonction du type sélectionné.
+
+   <Solution >
+
+   ```js
+   function sortBy(name) {
+   	// On transforme en tableau pour pouvoir appeler la méthode `sort`
+   	const articles = Array.from(document.querySelectorAll('article'));
+   	articles.sort((a, b) => {
+   		return a.dataset[name] < b.dataset[name] ? 1 : -1;
+   	});
+   	const articlesContainer = document.querySelector('div[role="list"]');
+   	articles.forEach((article) => articlesContainer.appendChild(article));
+   }
+
+   document.querySelectorAll('input[type="radio"]').forEach((input) =>
+   	input.addEventListener('change', () => {
+   		const triSelectionné = document.querySelector('input[name="sort"]:checked').value;
+   		sortBy(triSelectionné);
+   	})
+   );
+   ```
+
+   </Solution>
+
+7. Faire en sorte que les boutons pour sélectionner l'ordre croissant ou décroissant fonctionnent.
 
 <Solution >
 
 ```js
 function sortBy(name, order) {
+	// On transforme en tableau pour pouvoir appeler la méthode `sort`
 	const articles = Array.from(document.querySelectorAll('article'));
 	articles.sort((a, b) => {
 		if (order === 'ascending') {
@@ -207,8 +249,8 @@ function sortBy(name, order) {
 			return a.dataset[name] > b.dataset[name] ? 1 : -1;
 		}
 	});
-	const parent = document.querySelector('div[role="list"]');
-	articles.forEach((article) => parent.appendChild(article));
+	const articlesContainer = document.querySelector('div[role="list"]');
+	articles.forEach((article) => articlesContainer.appendChild(article));
 }
 
 document.querySelectorAll('input[type="radio"]').forEach((input) =>
@@ -224,9 +266,13 @@ document.querySelectorAll('input[type="radio"]').forEach((input) =>
 
 ### Exercice 5 : Ajouter une recherche
 
-Pour la recherche, nous allons utiliser un élément `<input>` de type "text" qui a comme id `search`. L'objectif est de faire en sorte que l'utilisateur puisse taper un mot dans cet élément, et que les lieux qui ne contiennent pas ce mot dans leur titre soient cachés.
+Pour la recherche, nous allons ajouter un élément `<input>` de type "text" qui a comme id `search`.
 
-1. Créer une fonction `search` dans le fichier `script.js`. Cette fonction prendra le mot à rechercher en paramètre, et cachera les lieux qui ne contiennent pas ce mot dans leur titre.
+L'objectif est de faire en sorte que l'utilisateur puisse taper un mot dans cet élément, et que les lieux qui ne contiennent pas ce mot dans leur titre soient cachés.
+
+Créer une fonction `search` dans le fichier `script.js`. Cette fonction prendra le mot à rechercher en paramètre, et cachera les lieux qui ne contiennent pas ce mot dans leur titre.
+
+Cette fonction doit être appelée à chaque fois que l'utilisateur tape une lettre dans l'élément `<input>`. Pour cela, ajoutez un écouteur d'événement "input" sur cet élément.
 
 <Solution >
 
@@ -295,6 +341,7 @@ navigator.geolocation.getCurrentPosition((position) => {
 		const lon = Number.parseFloat(article.dataset.lng);
 		const distance = haversine([position.coords.latitude, position.coords.longitude], [lat, lon]);
 		const distanceSpan = document.createElement('span');
+		article.dataset.distance = distance;
 		distanceSpan.textContent = `Distance : ${Math.round(distance)} km`;
 		article.appendChild(distanceSpan);
 	});
