@@ -1,41 +1,25 @@
 <main class="container mx-auto my-12 px-4 lg:px-0">
-	<h1>Salut ! Je suis Johan Girod</h1>
+	<h1>Johan Girod</h1>
 
 	<p>
-		Je suis <strong>développeur indépendant</strong> pour l'administration, au sein du réseau
-		<a
-			href="https://beta.gouv.fr"
-			target="_blank"
-			aria-label="beta.gouv.fr, accéder au site, nouvelle fenêtre">beta.gouv.fr</a
-		>.
+		Je suis un <strong>développeur web indépendant</strong>. Je conçois des
+		<strong>outils, des langages, et des applications</strong> pour rendre simple des choses complexes.
 	</p>
 
-	<p>
-		Pendant six ans, j'ai co-crée et fait grandir <a href="https://mon-entreprise.urssaf.fr"
-			>mon-entreprise.urssaf.fr</a
-		>, le site de référence pour <strong>simuler</strong> les cotisations sociales et l'impôt sur le
-		revenu des
-		<strong>indépendants et salariés</strong>.
-	</p>
+	<p>En télétravail depuis le Tarn.</p>
 
-	<p>
-		J'ai ensuite travaillé à améliorer l'<a href="https://annuaire-entreprises.data.gouv.fr/"
-			>Annuaire des Entreprises</a
-		> pendant une année.
-	</p>
-
-	<p>
-		Parallèlement, j'ai participé à la création de plusieurs <strong>communs numériques</strong>,
-		dont
-		<a href="https://publi.codes">publi.codes</a>, un langage déclaratif de modélisation de domaines
-		complexe. Je continue à développer et à maintenir ce dernier.
-	</p>
-
-	<p>
-		J'utilise l'écosystème <strong>JavaScript</strong>, en développant en
-		<strong>cycle itératifs courts</strong>, avec un focus sur la
-		<strong>performance, l'accessibilité, et l'experience usager</strong>.
-	</p>
+	<ul>
+		<li>Ingénieur logiciel</li>
+		<li>Service public numérique</li>
+		<li>Écosystème JavaScript</li>
+		<li>Accessibilité</li>
+		<li>Simulateur</li>
+		<li>Open-source</li>
+		<li>Performance</li>
+		<li>Frontend</li>
+		<li>UX</li>
+		<li>Conception de langage</li>
+	</ul>
 
 	<p>En télétravail depuis le Tarn.</p>
 
