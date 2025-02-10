@@ -3,7 +3,7 @@
 	import '../app.css';
 	onMount(() => {
 		// Add copy button to code blocks
-		document.querySelectorAll('pre.shiki').forEach((pre) => {
+		document.querySelectorAll(':not(.no-copy) > pre.shiki').forEach((pre) => {
 			const button = document.createElement('button');
 
 			button.innerHTML = 'Copier';
@@ -11,7 +11,6 @@
 			button.className =
 				'absolute top-0 right-0 px-2 py-1 bg-pink-500 text-white rounded-bl-md rounded-tr-md   transition-opacity will-change opacity-0 group-hover:opacity-100  hover:brightness-95';
 
-			console.log('hjoojijoijoi');
 			// create a div and move pre inside
 			const div = document.createElement('div');
 			div.className = 'relative group';
