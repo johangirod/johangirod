@@ -19,6 +19,11 @@
 			if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
 				e.preventDefault();
 			}
+
+			// Prevent Ctrl+P
+			if (e.ctrlKey && e.key === 'P') {
+				e.preventDefault();
+			}
 		});
 	});
 </script>
@@ -37,12 +42,18 @@
 	:global(div) {
 		background-color: white;
 	}
-
-	:global(.important) {
-		z-index: -1;
-		position: absolute;
-		top: 0;
-		overflow: hidden;
-		max-width: 100px;
+	@media print {
+		:global(*) {
+			display: none;
+		}
+	}
+	@media screen {
+		:global(.important) {
+			z-index: -1;
+			position: absolute;
+			top: 0;
+			overflow: hidden;
+			max-width: 100px;
+		}
 	}
 </style>

@@ -45,7 +45,9 @@ Si quelque chose ne marche pas :
 
 ### Mise en place
 
-Cloner le dépôt avec la commande
+**Important : ces commandes sont à faire dès maintenant ! Elles sont obligatoires, sinon le rendu ne pourra pas se faire.**
+
+Cloner le dépôt avec la commande.
 
 ```bash
 git clone https://sources.univ-jfc.fr/techno-web-2/evaluation-2025-1.git
@@ -216,6 +218,6 @@ sh save.sh
 
 Puis, vérifier que votre travail a bien été sauvegardé en consultant le dépôt Gitlab : [https://sources.univ-jfc.fr/techno-web-2/evaluation-2025-1.git](https://sources.univ-jfc.fr/techno-web-2/evaluation-2025-1.git).
 
-**Important : vous êtes responsable de bien vérifier que votre travail a été sauvegardé, tout rendu incomplet ne sera pas corrigé.**
+**Important : vous êtes tenu responsable de bien vérifier que votre travail a été sauvegardé. Tout rendu incomplet sera corrigé tel quel.**
 
 En cas de problème, faites signe à votre enseignant.
