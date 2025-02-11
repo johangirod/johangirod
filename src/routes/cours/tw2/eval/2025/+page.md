@@ -60,6 +60,12 @@ Configurer votre nom et votre email avec la commande suivante :
 sh start.sh
 ```
 
+Puis installer les dépendances avec :
+
+```bash
+npm install
+```
+
 Ouvrir le projet dans votre éditeur de texte favori et commencer à travailler. Par exemple VSCode :
 
 ```bash
