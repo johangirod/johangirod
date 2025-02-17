@@ -24,17 +24,14 @@
 
 		<RevealCode>
 			<script type="text/template">
-				// Dans un fichier hello.js
+				export const helloStr = 'Hello world!';
+			</script>
+		</RevealCode>
+		<RevealCode>
+			<script type="text/template">
 				export function sayHello() {
 					console.log('Hello world!');
 				}
-
-				export const helloStr = 'Hello world!';
-
-				function sayGoodbye() {
-					console.log('Goodbye world!');
-				}
-				export { sayGoodbye };
 			</script>
 		</RevealCode>
 	</section>
@@ -50,7 +47,9 @@
 		<strong>à noter</strong>
 		<ul>
 			<li>Les instructions <code>import</code> doivent être au début du fichier</li>
-			<li>Les noms des variables importées doivent être les mêmes que ceux exportés</li>
+			<li>
+				Les noms des variables importées <strong>doivent être les mêmes que ceux exportés</strong>
+			</li>
 			<li>Le chemin du fichier est relatif au fichier qui importe</li>
 		</ul>
 	</section>

@@ -15,7 +15,7 @@ Créer un jeu de puissance 4 en JavaScript.
 
 ### Partie 1 : le moteur de jeu
 
-Nous allons créer un moteur de jeu qui permet de jouer une partie de puissance 4.
+Nous allons créer un moteur de jeu qui permet de jouer une partie de [puissance 4](https://www.jeu-puissance-4.com/).
 
 Créer un fichier `puissance4.js` qui contiendra le moteur de jeu.
 
@@ -24,93 +24,151 @@ Créer une classe `Puissance4` qui contiendra les méthodes suivantes :
 - `constructor()` : initialise le jeu
 - `play(column)` : joue un coup dans la colonne `column`
 - `getCurrentPlayer()` : retourne le joueur dont c'est le tour
-- `isWin()` : vérifie si un joueur a gagné
+- `getWinner()` : retourne le joueur gagnant (ou `null` si personne n'a gagné)
 - `getBoard()` : retourne le plateau de jeu (le tableau de tableau)
 - `logBoard()` : affiche le tableau de jeu dans la console (on pourra utiliser `console.table`)
 
-Le plateau de jeu sera représenté par un tableau de 6 lignes et 7 colonnes. Chaque case pourra contenir un des trois états suivants : `undefined` (case vide), `A` (joueur A) ou `B` (joueur B).
+Le plateau de jeu sera représenté par un tableau de 6 lignes et 7 colonnes. Chaque case pourra contenir un des trois états suivants : `null` (case vide), `A` (joueur A) ou `B` (joueur B).
 
-Le constructeur initialisera le plateau de jeu avec toutes les cases vides.
+#### 1. `constructor()`
 
-La méthode `play(column)` permettra de jouer un coup dans la colonne `column`. Le coup sera joué par le joueur dont c'est le tour (joueur A ou joueur B). La méthode retournera `true` si le coup a été joué, `false` sinon.
+Le constructeur initialisera le plateau de jeu avec toutes les cases vides (initialisées à `null`).
 
-La méthode `getCurrentPlayer()` retournera le joueur dont c'est le tour.
+Le plateau est représenté par un tableau de 6 lignes, chaque ligne contenant un tableau de 7 éléments représentant les cases de chaque colonnes.
 
-La méthode `isWin()` vérifiera si un joueur a gagné. Elle retournera `A` si le joueur A a gagné, `B` si le joueur B a gagné, `false` sinon.
+Ainsi, pour accéder à la case en ligne 3 et colonne 4, on pourra utiliser `this.#grid[3][4]`.
 
-Pour vérifier les fonctions vous pouvez créer un fichier `test.js` qui appellera les fonctions de la classe `Puissance4` et affichera le résultat dans la console.
+Pour cela, on pourra utiliser la méthode [`Array.from`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/from).
 
+**Exemple d'utilisation de `Array.from`**
+
+```javascript
+const nombreJusqua10 = Array.from({ length: 10 }, (v, i) => i);
 ```
-node test.js
-```
-
-**`constructor()`**
 
 <Solution>
 
 ```javascript
 export class Puissance4 {
-	winner = false;
-	currentPlayer = 'A';
+	#winner = null;
+
+	#grid;
+
 	constructor() {
 		// On crée un tableau de 6 lignes contenant chacune un tableau de 7 cases
 		// Il est initialisé à null
 
 		// Pour atteindre la case positionnée en ligne 3 et colonne 4
-		// this.grid[3][4]
-		this.grid = Array.from({ length: 6 }, () => Array.from({ length: 7 }, () => null));
+		// this.#grid[3][4]
+		this.#grid = Array.from({ length: 6 }, () => Array.from({ length: 7 }, () => null));
 	}
 }
 ```
 
 </Solution>
 
-**`getCurrentPlayer()`**
+#### 2. `logBoard()`
+
+La méthode `logBoard()` permettra d'afficher le plateau de jeu dans la console. On pourra utiliser la méthode `console.table` pour afficher le tableau.
+
+Vérifier que votre code fonctionne en initialisant une instance de la classe `Puissance4` et en affichant le plateau de jeu dans la console.
+
+```javascript
+const game = new Puissance4();
+game.logBoard();
+```
 
 <Solution>
 
 ```javascript
-	getCurrentPlayer() {
-		return this.currentPlayer;
+	logBoard() {
+		console.table(this.#grid);
 	}
 ```
 
 </Solution>
 
-**`play(column)`**
+#### 3. `getCurrentPlayer()`
+
+Le premier joueur sera le joueur A. La méthode `getCurrentPlayer()` retournera le joueur dont c'est le tour. Ce dernier changera à chaque coup joué.
+
+Faire en sorte que le joueur courant ne puisse pas être modifié directement depuis l'extérieur de la classe (on pourra utiliser le mot-clé `private`).
+
+<Solution>
+
+```javascript
+	#currentPlayer = 'A';
+
+	getCurrentPlayer() {
+		return this.#currentPlayer;
+	}
+```
+
+</Solution>
+
+#### 4. `play()`
+
+La méthode `play(column)` permettra de jouer un coup dans la colonne `column`. Le coup sera joué par le joueur dont c'est le tour (joueur A ou joueur B). La méthode retournera `true` si le coup a été joué, `false` sinon.
+
+Vérifier que votre code fonctionne en jouant un coup dans une colonne.
+
+```javascript
+const game = new Puissance4();
+game.play(3);
+game.logBoard();
+```
 
 <Solution>
 
 ```javascript
 
 	play(column) {
-		if (this.grid[this.grid.length - 1][column] !== null) {
+		// Si la colonne est pleine, on ne peut pas jouer
+		if (this.#grid[0][column]) {
 			return false;
 		}
 		// On cherche la première case vide
-		const row = this.grid.findIndex((row) => row[column] === null);
+		const ligneCaseVide = this.#grid.findIndex((ligne) => ligne[column] === null);
 		// On ajoute un jeton correspondant au joueur actuel
-		this.grid[row][column] = this.currentPlayer;
-		// On verifie si le coup est gagnant
-		this.#checkWin(row, column);
-		this.currentPlayer = this.currentPlayer === 'A' ? 'B' : 'A';
+		this.#grid[ligneCaseVide][column] = this.#currentPlayer;
+		// On change le joueur courant
+		this.#currentPlayer = this.#currentPlayer === 'A' ? 'B' : 'A';
 	}
 ```
 
 </Solution>
 
-**`isWin()`**
+#### 5. `getWinner()`
+
+La méthode `getWinner()` retournera le joueur gagnant (ou `null` si personne n'a gagné).
+
+_Indice : on pourra utiliser une méthode privée `#checkWin(row, column)` qui vérifiera si un joueur a gagné à la fin de la méthode `play`. De cette manière, on sait à partir de quel jeton il faut vérifier les alignements._
+
+Vérifier que votre code fonctionne :
+
+```javascript
+const game = new Puissance4();
+game.play(3); // A
+game.play(1);
+game.play(3); // A
+game.play(8);
+game.play(3); // A
+game.play(4);
+game.play(3); // A
+game.logBoard();
+console.log(game.getWinner()); // A
+```
 
 <Solution>
 
 ```javascript
 
-	isWin() {
-		return this.winner;
+	getWinner() {
+		return this.#winner;
 	}
 
 	#checkWin(row, column) {
-		if (this.winner) {
+		if (this.#winner) {
 			return;
 		}
 		const directions = [
@@ -122,48 +180,32 @@ export class Puissance4 {
 		// Pour chacune des direction possible (vertical, horizontal, diagonale droite, diagonale gauche)
 		for (const [dx, dy] of directions) {
 			let count = 1;
+			// On compte le nombre de jeton aligné après le jeton joué
 			for (let i = 1; i < 4; i++) {
-				// On compte le nombre de jeton aligné après le jeton joué
 				const x = column + i * dx;
 				const y = row + i * dy;
-				if (this.grid[y]?.[x] !== this.currentPlayer) {
+				if (this.#grid[y]?.[x] !== this.#currentPlayer) {
 					break;
 				}
 				count++;
 			}
+			// On compte le nombre de jeton aligné avant le jeton joué
 			for (let i = 1; i < 4; i++) {
-				// On compte le nombre de jeton aligné avant le jeton joué
 				const x = column - i * dx;
 				const y = row - i * dy;
 
-				if (this.grid[y]?.[x] !== this.currentPlayer) {
+				if (this.#grid[y]?.[x] !== this.#currentPlayer) {
 					break;
 				}
 				count++;
 			}
+
 			// Si on a 4 jetons alignés (ou plus), on a un gagnant
 			if (count >= 4) {
-				this.winner = this.currentPlayer;
+				this.#winner = this.#currentPlayer;
 				break;
 			}
 		}
-	}
-```
-
-</Solution>
-
-**`logBoard()`**
-
-<Solution>
-
-```javascript
-	logBoard() {
-		// On retourne le tableau inversé pour l'afficher dans le bon sens dans la console
-		return console.table(this.grid.toReversed());
-	}
-
-	getBoard() {
-		return this.grid;
 	}
 ```
 
@@ -254,17 +296,17 @@ function renderBoard() {
 	const board = game.getBoard();
 	const numberOfRow = board.length;
 	const numberOfColumn = board[0].length;
-	for (let i = 0; i < numberOfColumn; i++) {
+	for (let j = 0; j < numberOfColumn; j++) {
 		// On crée chaque colonne dans une boucle
 		const columnDiv = document.createElement('div');
 		columnDiv.classList.add('column');
 
-		for (let j = numberOfRow - 1; j >= 0; j--) {
+		for (let i = 0; i < numberOfRow; i++) {
 			// Pour chaque colonne, on ajoute les cases avec les jetons,
 			// en commençant par la dernière ligne
 			const caseDiv = document.createElement('div');
 			caseDiv.classList.add('case');
-			const jeton = board[j][i];
+			const jeton = board[i][j];
 			if (jeton === 'A') {
 				caseDiv.classList.add('player-A');
 				caseDiv.innerText = 'A';
@@ -295,9 +337,9 @@ function renderBoard() {
 	playerInfo.textContent = `C'est au joueur ${game.getCurrentPlayer()} de jouer`;
 
 	// Affiche un message de victoire si un joueur a gagné
-	if (game.isWin()) {
+	if (game.getWinner()) {
 		const message = document.createElement('div');
-		message.textContent = `Le joueur ${game.isWin()} a gagné !`;
+		message.textContent = `Le joueur ${game.getWinner()} a gagné !`;
 		document.body.appendChild(message);
 	}
 }
