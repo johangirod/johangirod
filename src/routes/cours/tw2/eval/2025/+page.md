@@ -1,3 +1,11 @@
+<script>
+  import Solution from '$lib/Solution.svelte';
+  import { showSolution } from '$lib/showSolution.ts';
+
+	showSolution.set(true);
+
+</script>
+
 <svelte:head>
 
 <title>Évaluation Technologie Web 2 - 2025</title>
@@ -103,6 +111,16 @@ Voici la description de chaque fonction :
   - `affiche(0.5)` retourne `"50%"`
   - `affiche(0.123)` retourne `"12.3%"`
 
+<Solution>
+
+```javascript
+function affiche(number) {
+	return number * 100 + '%';
+}
+```
+
+</Solution>
+
 ### `filtrer(arr)` - 1.5pts
 
 - Filtre un tableau en supprimant les éléments `null` ou `undefined`
@@ -111,6 +129,16 @@ Voici la description de chaque fonction :
   - `filtrer([1, null, 2, undefined, 3])` retourne `[1, 2, 3]`
   - `filtrer([null, null, null])` retourne `[]`
 
+<Solution>
+
+```javascript
+function filtrer(arr) {
+	return arr.filter((x) => x !== null && x !== undefined);
+}
+```
+
+</Solution>
+
 ### `applique(arr, fn)` - 1.5pts
 
 - Applique une fonction aux éléments impairs uniquement
@@ -118,6 +146,16 @@ Voici la description de chaque fonction :
 - Exemples :
   - `applique([1, 2, 3, 4], x => x * x)` retourne `[1, 2, 9, 4]`
   - `applique([], x => x + 2)` retourne `[]`
+
+<Solution>
+
+```javascript
+function applique(arr, fn) {
+	return arr.map((x) => (x % 2 === 1 ? fn(x) : x));
+}
+```
+
+</Solution>
 
 ### `interrupteur(value1, value2)` - 1.5pts
 
@@ -141,6 +179,24 @@ Voici la description de chaque fonction :
 
 </div>
 
+<Solution>
+
+```javascript
+function interrupteur(value1, value2) {
+	let value = value1;
+	return {
+		toggle() {
+			value = value === value1 ? value2 : value1;
+		},
+		get() {
+			return value;
+		}
+	};
+}
+```
+
+</Solution>
+
 ### `bienAccompagné(people)` - 1.5pts
 
 - Vérifie si au moins une personne est majeure dans un tableau
@@ -159,6 +215,16 @@ bienAccompagné(people); // retourne true car Alice est majeure
 ```
 
 </div>
+
+<Solution>
+
+```javascript
+function bienAccompagné(people) {
+	return people.some((person) => person.age >= 18);
+}
+```
+
+</Solution>
 
 ## Exercice 2 - 12pts
 
@@ -186,11 +252,63 @@ Lorsque l'option `Tous les genres` est sélectionnée, tous les livres doivent �
 
 _**Note** Ne prenez pas en compte la dernière option du select «Populaire » dans le HTML, faites comme si elle n'était pas là_
 
+<Solution>
+
+```html
+<html>
+	<head>
+		...
+		<script src="exercice-2.js" defer></script>
+	</head>
+	<body>
+		...
+	</body>
+</html>
+```
+
+```javascript
+const books = document.querySelectorAll('.book');
+function filterGenre(genre) {
+	for (const book of books) {
+		if (genre === 'all' || book.dataset.genre === genre) {
+			book.style.display = '';
+		} else {
+			book.style.display = 'none';
+		}
+	}
+}
+document.querySelector('#genre-filter').addEventListener('change', (evt) =>
+	filterGenre(evt.target.value);
+);
+
+```
+
+</Solution>
+
 ### Question 2 : trier les livres (4pts)
 
 Implémenter le tri par nombre de téléchargements. Lorsque le bouton `Trier par nombre de téléchargements` est cliqué, les livres doivent être triés par nombre de téléchargements, du plus grand au plus petit.
 
 _**Note** Ignorer le bouton « trier par nom » dans le HTML, faite comme si il n'était pas là_
+
+<Solution>
+
+```javascript
+const books = document.querySelectorAll('.book');
+function sortDownloads() {
+	const sortedBooks = Array.from(books).sort((a, b) => {
+		const downloadsA = parseInt(a.dataset.downloads);
+		const downloadsB = parseInt(b.dataset.downloads);
+		return downloadsB - downloadsA;
+	});
+	for (const book of sortedBooks) {
+		document.querySelector('.books-grid').appendChild(book);
+	}
+}
+document.querySelector('#sort-rating').addEventListener('click', sortDownloads);
+```
+
+</Solution>
 
 ### Question 3 : changer la couverture (4pts)
 
@@ -210,9 +328,35 @@ const possibleCoverClasses = [
 
 Faire en sorte que les livres s'affichent avec une couverture aléatoire à chaque rechargement de la page. Pour cela, on leur appliquera une classe aléatoire parmi celles disponibles.
 
+<Solution>
+
+```javascript
+for (const book of books) {
+	const randomIndex = Math.floor(Math.random() * possibleCoverClasses.length);
+	book.classList.add(possibleCoverClasses[randomIndex]);
+}
+```
+
+</Solution>
+
 #### 3.2 : changer la couverture (2pts)
 
 Faire en sorte qu'un clique sur un livre change sa couverture. Lorsqu'on clique sur un livre, sa couverture doit changer dans l'ordre suivant : 'cover-sand', 'cover-pleiade', 'cover-dark', 'cover-modern`, `cover-vintage`. Si le livre a déjà la dernière couverture, il revient à la première.
+
+<Solution>
+
+```javascript
+for (const book of books) {
+	book.addEventListener('click', () => {
+		const currentCoverIndex = possibleCoverClasses.findIndex((cls) => book.classList.contains(cls));
+		const nextCoverIndex = (currentCoverIndex + 1) % possibleCoverClasses.length;
+		book.classList.remove(possibleCoverClasses[currentCoverIndex]);
+		book.classList.add(possibleCoverClasses[nextCoverIndex]);
+	});
+}
+```
+
+</Solution>
 
 ## Rendu
 

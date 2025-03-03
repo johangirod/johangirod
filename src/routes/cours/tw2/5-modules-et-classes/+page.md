@@ -46,7 +46,7 @@ Pour cela, on pourra utiliser la méthode [`Array.from`](https://developer.mozil
 const nombreJusqua10 = Array.from({ length: 10 }, (v, i) => i);
 ```
 
-<Solution>
+<Solution showAnyway>
 
 ```javascript
 export class Puissance4 {
@@ -78,7 +78,7 @@ const game = new Puissance4();
 game.logBoard();
 ```
 
-<Solution>
+<Solution showAnyway>
 
 ```javascript
 	logBoard() {
@@ -94,7 +94,7 @@ Le premier joueur sera le joueur A. La méthode `getCurrentPlayer()` retournera 
 
 Faire en sorte que le joueur courant ne puisse pas être modifié directement depuis l'extérieur de la classe (on pourra utiliser le mot-clé `private`).
 
-<Solution>
+<Solution showAnyway>
 
 ```javascript
 	#currentPlayer = 'A';
@@ -118,7 +118,7 @@ game.play(3);
 game.logBoard();
 ```
 
-<Solution>
+<Solution showAnyway>
 
 ```javascript
 
@@ -127,8 +127,8 @@ game.logBoard();
 		if (this.#grid[0][column]) {
 			return false;
 		}
-		// On cherche la première case vide
-		const ligneCaseVide = this.#grid.findIndex((ligne) => ligne[column] === null);
+		// On cherche la première case vide en partant du bas
+		const ligneCaseVide = this.#grid.findLastIndex((ligne) => ligne[column] === null);
 		// On ajoute un jeton correspondant au joueur actuel
 		this.#grid[ligneCaseVide][column] = this.#currentPlayer;
 		// On change le joueur courant
@@ -151,7 +151,7 @@ const game = new Puissance4();
 game.play(3); // A
 game.play(1);
 game.play(3); // A
-game.play(8);
+game.play(6);
 game.play(3); // A
 game.play(4);
 game.play(3); // A
@@ -159,7 +159,7 @@ game.logBoard();
 console.log(game.getWinner()); // A
 ```
 
-<Solution>
+<Solution showAnyway>
 
 ```javascript
 
@@ -177,7 +177,7 @@ console.log(game.getWinner()); // A
 			[1, 1],
 			[1, -1]
 		];
-		// Pour chacune des direction possible (vertical, horizontal, diagonale droite, diagonale gauche)
+		// Pour chacune des direction possible (vertical, horizontal, diagonale montante, diagonale descendante)
 		for (const [dx, dy] of directions) {
 			let count = 1;
 			// On compte le nombre de jeton aligné après le jeton joué
@@ -346,3 +346,26 @@ function renderBoard() {
 ```
 
 </Solution>
+
+### Partie 3 : Améliorations
+
+Ces améliorations vous familiariseront avec des notions CSS plus avancées. Ces notions ne seront pas vues en cours, mais elles vous seront très utiles si vous souhaitez vous spécialiser en développement front-end.
+
+1. Ajouter un **jeton de la couleur du joueur** au dessus de la colonne survolée par la souris. Vous pouvez le faire uniquement en CSS en utilisant la pseudo-classe `:hover` et la propriété `::before`. Pour connaître la changer la couleur du jeton en fonction du joueur, vous pouvez ajouter une classe CSS à la grille de jeu contenant le joueur courant.
+
+   - Voir la documentation sur [::before](https://developer.mozilla.org/en-US/docs/Web/CSS/::before)
+   - Tutoriel sur [l'utilisation des pseudo-classes CSS](https://web.dev/learn/css/pseudo-classes?hl=fr)
+   - Tutoriel sur [les pseudo-éléments CSS](https://web.dev/learn/css/pseudo-elements?hl=fr)
+
+2. Faire en sorte que les joueurs puissent **choisir la couleur de leur jeton**.
+
+   - Utiliser un `input` de type `color` pour permettre aux joueurs de choisir leur couleurs
+   - Lorsque les couleurs seront modifiée, le code javascript devra mettre à jour une variable CSS contenant la couleur du joueur A et B. Les classes CSS des jetons devront être modifiées pour utiliser ces variables CSS.
+
+   - Voir la documentation sur les [input de type color](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/color)
+   - Voir une [explication sur les variables CSS](https://developer.mozilla.org/fr/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties)
+
+3. **Ajouter une animation** lorsqu'un jeton est joué. Le jeton doit tomber depuis le haut et rebondir très lègerement sur le jeton du dessous. Pour cela, vous pourrez utiliser une **animation CSS**. Il vous faudra vous souvenir du dernier coup joué pour ajouter une classe spécifique déclenchant l'animation sur la case correspondante.
+
+   - Voir la documentation sur les [animations CSS](https://developer.mozilla.org/fr/docs/Web/CSS/animation)
+   - Tutoriel sur [l'utilisation des animations CSS](https://web.dev/learn/css/animations?hl=fr)
