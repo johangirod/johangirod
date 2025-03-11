@@ -1,6 +1,6 @@
 const WIDTH = 1000;
 const HEIGHT = 800;
-const NUMBER_PARTICLES = 100;
+const NUMBER_PARTICLES = 1500;
 
 class Particle {
 	constructor(x, y, dx, dy) {
@@ -10,7 +10,20 @@ class Particle {
 		this.dy = dy;
 		this.color = randomColor();
 	}
-	update() {
+	update(mouseX, mouseY) {
+		if (mouseX && mouseY) {
+			const distance = Math.sqrt((mouseX - this.x) ** 2 + (mouseY - this.y) ** 2);
+			if (distance < 300) {
+				const angle = Math.atan2(mouseY - this.y, mouseX - this.x);
+				const force = distance / 1000;
+				this.dx += Math.cos(angle) * force;
+				this.dy += Math.sin(angle) * force;
+			} else {
+				this.dx *= 0.995;
+				this.dy *= 0.995;
+			}
+		}
+
 		this.x += this.dx;
 		this.y += this.dy;
 		if (this.x < 0 || this.x > WIDTH) {
@@ -22,7 +35,9 @@ class Particle {
 	}
 	draw(context) {
 		context.fillStyle = this.color;
-		context.fillRect(this.x, this.y, 3, 3);
+		context.beginPath();
+		context.arc(this.x, this.y, 2, 0, Math.PI * 2);
+		context.fill();
 	}
 }
 
@@ -49,10 +64,17 @@ document.body.appendChild(canvas);
 const context = canvas.getContext('2d');
 let particles = Array.from({ length: NUMBER_PARTICLES }, () => new RandomParticle());
 
+let mouseX = 0;
+let mouseY = 0;
+
+canvas.addEventListener('mousemove', (event) => {
+	mouseX = event.x;
+	mouseY = event.y;
+});
 function renderParticles() {
 	context.clearRect(0, 0, WIDTH, HEIGHT);
 	particles.forEach((particle) => {
-		particle.update();
+		particle.update(mouseX, mouseY);
 		particle.draw(context);
 	});
 	requestAnimationFrame(renderParticles);
@@ -62,7 +84,7 @@ renderParticles();
 
 canvas.addEventListener('click', (event) => {
 	const { x, y } = event;
-	const RADIUS = 10;
+	const RADIUS = 20;
 	particles = particles.concat(
 		Array.from(
 			{ length: 100 },
@@ -70,8 +92,8 @@ canvas.addEventListener('click', (event) => {
 				new Particle(
 					random(x - RADIUS, x + RADIUS),
 					random(y - RADIUS, y + RADIUS),
-					random(-1, 1) * 2,
-					random(-1, 1) * 2
+					random(-2, 2),
+					random(-2, 2)
 				)
 		)
 	);

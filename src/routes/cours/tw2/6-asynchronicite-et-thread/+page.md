@@ -80,6 +80,26 @@ Ajoutez un écouteur d'événement sur le canvas pour détecter les clics de sou
 
 Pour cela, vous pouvez ajouter une méthode `explode(x, y)` qui ajoutera des particules autour du point `(x, y)`.
 
+### 5. Champs de force gravitationnel
+
+Ajoutez un champ de force gravitationnel autour de la souris. Lorsque l'utilisateur bouge la souris, les particules doivent être repoussées par la souris.
+
+Pour cela, vous devrez modifier la vitesse par rapport à la position de souris.
+
+Vous pouvez utiliser la formule suivante :
+
+```js
+const angle = Math.atan2(mouseY - this.y, mouseX - this.x);
+this.dx += Math.cos(angle);
+this.dy += Math.sin(angle);
+```
+
+- Faire en sorte que le champs de force ne s'applique qu'à une certaine distance de la souris.
+- Faire en sorte que les particules hors de cette distance rallentissent progressivement.
+- Faire en sorte de pouvoir paramétrer la force du champs de force.
+- Faire en sorte que le champs de force dépende de la distance à la souris.
+- Modifier les différents paramètres jusq'à obtenir un résultat qui vous plait.
+
 ## Corrigé
 
 <Solution>
@@ -97,7 +117,9 @@ class Particle {
 		this.dy = dy;
 		this.color = randomColor();
 	}
-	update() {
+	update(mouseX, mouseY) {
+		this.dx += 1 / (mouseX - this.x) ** 2;
+		this.dy += 1 / (mouseY - this.y) ** 2;
 		this.x += this.dx;
 		this.y += this.dy;
 		if (this.x < 0 || this.x > WIDTH) {
@@ -136,6 +158,13 @@ document.body.appendChild(canvas);
 const context = canvas.getContext('2d');
 let particles = Array.from({ length: NUMBER_PARTICLES }, () => new RandomParticle());
 
+let mouseX = 0;
+let mouseY = 0;
+
+canvas.addEventListener('mousemove', (event) => {
+	mouseX = event.x;
+	mouseY = event.y;
+});
 function renderParticles() {
 	context.clearRect(0, 0, WIDTH, HEIGHT);
 	particles.forEach((particle) => {
