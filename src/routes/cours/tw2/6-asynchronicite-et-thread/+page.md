@@ -17,7 +17,12 @@
 Nous allons implémenter un système de particules en JavaScript, grâce à la balise `canvas`.
 
 Voici une capture d'écran de ce que nous allons réaliser :
+
+<div style="background-color: black">
+
 ![]({particles})
+
+</div>
 
 Bien sûr dans notre cas, les particules se déplaceront.
 
