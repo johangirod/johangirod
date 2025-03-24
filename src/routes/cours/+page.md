@@ -14,6 +14,7 @@
 5. [**Evaluation**](./tw2/eval/2025)
 6. [Les modules et classes](./tw2/5-modules-et-classes)
 7. [Asynchronicité et thread](./tw2/6-asynchronicite-et-thread/)
+8. [JSON et stockage local](./tw2/7-json-et-stockage-local/)
 
 ## Technologie web 3
 

@@ -3,6 +3,9 @@
 	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
+	import { showSolution } from '$lib/showSolution.ts';
+
+	showSolution.set(true);
 </script>
 
 <Reveal>
@@ -46,7 +49,7 @@ Pour cela, on pourra utiliser la méthode [`Array.from`](https://developer.mozil
 const nombreJusqua10 = Array.from({ length: 10 }, (v, i) => i);
 ```
 
-<Solution showAnyway>
+<Solution >
 
 ```javascript
 export class Puissance4 {
@@ -78,7 +81,7 @@ const game = new Puissance4();
 game.logBoard();
 ```
 
-<Solution showAnyway>
+<Solution >
 
 ```javascript
 	logBoard() {
@@ -94,7 +97,7 @@ Le premier joueur sera le joueur A. La méthode `getCurrentPlayer()` retournera 
 
 Faire en sorte que le joueur courant ne puisse pas être modifié directement depuis l'extérieur de la classe (on pourra utiliser le mot-clé `private`).
 
-<Solution showAnyway>
+<Solution >
 
 ```javascript
 	#currentPlayer = 'A';
@@ -118,7 +121,7 @@ game.play(3);
 game.logBoard();
 ```
 
-<Solution showAnyway>
+<Solution >
 
 ```javascript
 
@@ -159,7 +162,7 @@ game.logBoard();
 console.log(game.getWinner()); // A
 ```
 
-<Solution showAnyway>
+<Solution >
 
 ```javascript
 
@@ -234,44 +237,44 @@ console.log(game.getWinner()); // A
    ```
 
 1. Pour pouvoir utiliser les modules avec votre projet, il faudra installer une extension VSCode qui permet de lancer un serveur local. Vous pouvez installer l'extension `Live Server` par exemple. Puis, faire un clic droit sur le fichier `puissance4.html` et choisir `Open with Live Server`.
-1. Créer une fonction `renderBord` qui affiche le plateau de jeu dans la div `board`. Le plateau sera représenté par plusieurs `div` représentant les colonnes et les cases du jeu.
+1. Créer une fonction `renderBord` qui affiche le plateau de jeu dans la div `board`. **Cette fonction devra créer les éléments HTML du plateau de jeu**. Le plateau sera représenté par plusieurs `div` représentant les colonnes et les cases du jeu.
 
-   ```html
-   <div id="board">
-   	<div class="column">
-   		<div class="case"></div>
-   		...
-   	</div>
-   </div>
-   ```
+```html
+<div id="board">
+	<div class="column">
+		<div class="case"></div>
+		...
+	</div>
+</div>
+```
 
-   Les case seront représentées par des `div` avec la classe `case`. Les cases du joueur A auront en plus la classe `player-A`, les cases du joueur B auront la classe `player-B`.
+Les case seront représentées par des `div` avec la classe `case`. Les cases du joueur A auront en plus la classe `player-A`, les cases du joueur B auront la classe `player-B`.
 
-   Pour styliser le plateau de jeu, vous pouvez utiliser le fichier `style.css` suivant :
+Pour styliser le plateau de jeu, vous pouvez utiliser le fichier `style.css` suivant :
 
-   ```css
-   #board {
-   	display: flex;
-   }
+```css
+#board {
+	display: flex;
+}
 
-   .column {
-   	display: flex;
-   	flex-direction: column;
-   }
+.column {
+	display: flex;
+	flex-direction: column;
+}
 
-   .case {
-   	width: 50px;
-   	height: 50px;
-   	border: 1px solid black;
-   }
+.case {
+	width: 50px;
+	height: 50px;
+	border: 1px solid black;
+}
 
-   .case.player-A {
-   	background: radial-gradient(circle, #ff0000, #990000);
-   }
-   .case.player-B {
-   	background: radial-gradient(circle, #ffff00, #999900);
-   }
-   ```
+.case.player-A {
+	background: radial-gradient(circle at 50% 50%, #ff0000 50%, #990000 50%, #990000 70%, white 70%);
+}
+.case.player-B {
+	background: radial-gradient(circle at 50% 50%, #0000ff 50%, #000099 50%, #000099 70%, white 70%);
+}
+```
 
 1. Faire en sorte que le jeu puisse être joué en cliquant sur les colonnes du plateau :
    - Afficher en haut le joueur dont c'est le tour.
@@ -294,8 +297,10 @@ function renderBoard() {
 	}
 	boardElem.innerHTML = '';
 	const board = game.getBoard();
+
 	const numberOfRow = board.length;
 	const numberOfColumn = board[0].length;
+
 	for (let j = 0; j < numberOfColumn; j++) {
 		// On crée chaque colonne dans une boucle
 		const columnDiv = document.createElement('div');
@@ -306,11 +311,13 @@ function renderBoard() {
 			// en commençant par la dernière ligne
 			const caseDiv = document.createElement('div');
 			caseDiv.classList.add('case');
-			const jeton = board[i][j];
-			if (jeton === 'A') {
+
+			const jetonJoueur = board[i][j];
+
+			if (jetonJoueur === 'A') {
 				caseDiv.classList.add('player-A');
 				caseDiv.innerText = 'A';
-			} else if (jeton === 'B') {
+			} else if (jetonJoueur === 'B') {
 				caseDiv.classList.add('player-B');
 				caseDiv.innerText = 'B';
 			}
@@ -320,7 +327,7 @@ function renderBoard() {
 
 		// On ajoute un écouteur d'événement pour chaque colonne
 		columnDiv.addEventListener('click', () => {
-			game.play(i);
+			game.play(j);
 			// On réaffiche le plateau après chaque coup
 			renderBoard();
 		});
@@ -357,6 +364,45 @@ Ces améliorations vous familiariseront avec des notions CSS plus avancées. Ces
    - Tutoriel sur [l'utilisation des pseudo-classes CSS](https://web.dev/learn/css/pseudo-classes?hl=fr)
    - Tutoriel sur [les pseudo-éléments CSS](https://web.dev/learn/css/pseudo-elements?hl=fr)
 
+<Solution>
+
+```css
+#board[data-player='A'] .column:hover::before,
+.case.player-A {
+	background: radial-gradient(circle at 50% 50%, #ff0000 50%, #990000 50%, #990000 70%, white 70%);
+}
+
+#board[data-player='B'] .column:hover::before,
+.case.player-B {
+	background: radial-gradient(circle at 50% 50%, #0000ff 50%, #000099 50%, #000099 70%, white 70%);
+}
+
+.column:hover::before {
+	content: '';
+	position: absolute;
+	top: -50px;
+	width: 50px;
+	height: 50px;
+}
+
+.column {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	margin-top: 50px;
+}
+```
+
+```javascript
+// Fichier index.js
+
+// ...
+boardElem.dataset.player = game.getCurrentPlayer();
+// ...
+```
+
+</Solution>
+
 2. Faire en sorte que les joueurs puissent **choisir la couleur de leur jeton**.
 
    - Utiliser un `input` de type `color` pour permettre aux joueurs de choisir leur couleurs
@@ -364,6 +410,59 @@ Ces améliorations vous familiariseront avec des notions CSS plus avancées. Ces
 
    - Voir la documentation sur les [input de type color](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/color)
    - Voir une [explication sur les variables CSS](https://developer.mozilla.org/fr/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties)
+
+<Solution>
+
+```html
+<div>
+	<label for="colorA">Couleur joueur A</label>
+	<input type="color" id="colorA" value="#ff0000" />
+	<label for="colorB">Couleur joueur B</label>
+	<input type="color" id="colorB" value="#0000ff" />
+</div>
+```
+
+```css
+#board[data-player='A'] .column:hover::before,
+.case.player-A {
+	--color-jeton: var(--color-player-A);
+}
+#board[data-player='B'] .column:hover::before,
+.case.player-B {
+	--color-jeton: var(--color-player-B);
+}
+.column:hover::before,
+.case.player-A,
+.case.player-B {
+	--color-jeton-fonce: hsl(from var(--color-jeton) h s l / 50%);
+	background: radial-gradient(
+		circle at 50% 50%,
+		var(--color-jeton) 50%,
+		var(--color-jeton-fonce) 50%,
+		var(--color-jeton-fonce) 70%,
+		white 70%
+	);
+}
+```
+
+```javascript
+const colorA = document.querySelector('#colorA');
+const colorB = document.querySelector('#colorB');
+
+function updateColorA() {
+	document.documentElement.style.setProperty('--color-player-A', colorA.value);
+}
+function updateColorB() {
+	document.documentElement.style.setProperty('--color-player-B', colorB.value);
+}
+
+colorA.addEventListener('input', updateColorA);
+colorB.addEventListener('input', updateColorB);
+updateColorA();
+updateColorB();
+```
+
+</Solution>
 
 3. **Ajouter une animation** lorsqu'un jeton est joué. Le jeton doit tomber depuis le haut et rebondir très lègerement sur le jeton du dessous. Pour cela, vous pourrez utiliser une **animation CSS**. Il vous faudra vous souvenir du dernier coup joué pour ajouter une classe spécifique déclenchant l'animation sur la case correspondante.
 

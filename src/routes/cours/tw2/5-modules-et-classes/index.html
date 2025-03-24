@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <style>
+            #board {
+	display: flex;
+}
+
+.column {
+	display: flex;
+    position: relative;
+	flex-direction: column;
+    margin-top: 50px;
+}
+
+.case {
+	width: 50px;
+	height: 50px;
+	border: 1px solid black;
+}
+
+:root {
+	--color-player-A: #ff0000;
+	--color-player-B: #0000ff;
+}
+
+#board[data-player="A"] .column:hover::before, .case.player-A {
+    --color-jeton: var(--color-player-A);
+}
+#board[data-player="B"] .column:hover::before, .case.player-B {
+    --color-jeton: var(--color-player-B);
+}
+.column:hover::before, .case.player-A, .case.player-B{
+    --color-jeton-fonce: hsl(from var(--color-jeton) h s l / 50%);
+	background: radial-gradient(circle at 50% 50%, var(--color-jeton) 50%, var(--color-jeton-fonce) 50%, var(--color-jeton-fonce) 70%, white 70%);
+}
+
+
+.column:hover::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    width: 50px;
+    height: 50px;
+}
+
+        </style>
+        <meta charset="UTF-8" />
+        <title>Puissance 4</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>		
+        
+		<div>
+			<label for="colorA">Couleur joueur A</label>
+			<input type="color" id="colorA" value="#ff0000"/>
+			<label for="colorB">Couleur joueur B</label>
+			<input type="color" id="colorB" value="#0000ff"/>
+		</div>
+
+
+    
+        <script src="index.js" defer ></script>
+        <h1>Puissance 4</h1>
+        <div id="board"></div>
+    </body>
+</html>
