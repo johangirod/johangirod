@@ -99,6 +99,28 @@ Vous devrez penser à :
 
 N'oubliez pas, pour stocker un objet dans le `localStorage`, vous devez le transformer en chaîne de caractères avec `JSON.stringify`.
 
+<Solution showAnyway>
+
+```js
+const questions = JSON.parse(localStorage.getItem('questions')) ?? [];
+const form = document.querySelector('form');
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault(); // Empêche le rechargement de la page
+  const data = Object.fromEntries(new FormData(form)); // Récupère les données du formulaire
+  const question = {
+    question: data.question,
+    correct: Number.parseInt(data.correct),
+    answers: [data.answer1, data.answer2, data.answer3, data.answer4]
+  }
+  questions.push(question);
+  localStorage.setItem('questions', JSON.stringify(questions)); // Stocke les questions dans le localStorage
+  form.reset(); // Réinitialise le formulaire
+});
+```
+
+</Solution>
+
 #### 3. Affichage des questions
 
 Nous souhaitons afficher les questions précédemment ajoutées sous forme de liste en dessous du formulaire.
@@ -112,6 +134,24 @@ Pour cela, vous allez créer une fonction `renderQuestions` qui sera appelée à
  */
 function renderQuestion(questions)
 ```
+
+<Solution showAnyway>
+
+```js
+// à appeler juste avant form.reset()
+function renderQuestion(questions) {
+  const list = document.querySelector('#questions-container');
+  list.innerHTML = '';
+  questions.forEach((question, index) => {
+    const item = document.createElement('li');
+    item.textContent = `${question.question}`;
+    list.appendChild(item);
+  });
+}
+
+```
+
+</Solution>
 
 ### Page de jeu
 
