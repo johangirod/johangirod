@@ -15,7 +15,7 @@
 
 # API REST
 
-Ce TP vous permettra de créer une filmothèque pour rechercher les films que nous avons vus, et leur donner une note (un peu comme sur le site [sens-critique](www.senscritique.com)).
+Ce TP vous permettra de créer une filmothèque pour rechercher les films que nous avons vus, et leur donner une note (un peu comme sur le site [sens-critique](https://www.senscritique.com)).
 
 Cette application sera sous forme d'une page web dynamique échangeant avec le serveur via une API REST.
 

@@ -38,6 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/adapter-static": "^3.0.8",
 		"highlight.js": "^11.10.0",
 		"reveal.js": "^5.1.0",
 		"shiki": "^1.22.0"

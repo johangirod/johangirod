@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="../../../favicon.png" />
+
+		<meta name="viewport" content="width=device-width" />
+		
+		<link href="../../../_app/immutable/assets/0.DeOizrWX.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/2.Dz1qT87F.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/Reveal.BYkb6MAx.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../../_app/immutable/entry/start.Bnp5303b.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/Cugo8Sw9.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/_Roc1N7j.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/Du4uIILg.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/DYGiXs1v.js">
+		<link rel="modulepreload" href="../../../_app/immutable/entry/app.gFT0rYy9.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/jKjWACjA.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/CozvbqRy.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/CU3E0FLs.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/B4pklceG.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/pFiT_qqh.js">
+		<link rel="modulepreload" href="../../../_app/immutable/nodes/0.BjDQT2Bq.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/CMei0t4b.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/Bgovi1YL.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/D4AmcDfz.js">
+		<link rel="modulepreload" href="../../../_app/immutable/nodes/2.CBLjlu0K.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/B0BGekoV.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/BMkXc6el.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/Cv3pZryr.js">
+		<link rel="modulepreload" href="../../../_app/immutable/nodes/17.BwIoQpAR.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/Cs1o_ong.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/OjqImkSQ.js">
+		<link rel="modulepreload" href="../../../_app/immutable/chunks/Dayddfh2.js"><!--[--><!--]--><!--[--><!--]--><!--[--><!--]--><title>Promise et fonctiona async - TW3 - Johan Girod</title>
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents"><!--[--><!--[--><!----><div class="screen:container prose-h2 container prose prose-slate mx-auto my-12 px-4 lg:prose-xl prose-headings:text-slate-800 prose-h1:font-semibold prose-a:transition prose-a:duration-75 hover:prose-a:text-pink-500 lg:px-0 print:mx-0 print:max-w-none"><!----><!--[--><!----><div class="lg:prose-lg"><div style="view-transition-name: breadcrumb"><div class="mb-2 inline" role="list"><!--[--><li class="inline-block"><a href="/" class="text-pink-600" aria-label="Accueil">Accueil</a> <!--[--><span class="mx-2 text-gray-500">/</span><!--]--></li><li class="inline-block"><a href="/cours/" class="text-pink-600" aria-label="Cours et TP">Cours et TP</a> <!--[--><span class="mx-2 text-gray-500">/</span><!--]--></li><li class="inline-block"><a href="http://sveltekit-prerender/cours/tw3/2-async/" class="text-pink-600" aria-label="...">...</a> <!--[!--><!--]--></li><!--]--></div><!----> <!--[--><span class="ml-2 inline-block rounded-full bg-pink-500 px-2 py-1 text-sm font-semibold text-white">Avec corrigé</span><!--]--></div> <main class="mt-8 prose-h1:inline-block prose-h1:border-y-8 prose-h1:border-pink-500 prose-h1:px-2 prose-h1:pb-3 prose-h1:pt-2 prose-h1:text-4xl prose-h2:text-3xl"><!----><!--[!--><!----><div class="prose-code:radius-none prose-code:font-mono prose-code:font- mt-14 prose-h1:text-5xl prose-h2:text-3xl prose-h2:text-pink-500 prose-p:text-2xl prose-blockquote:text-2xl prose-blockquote:font-normal prose-blockquote:text-pink-500 prose-code:w-auto prose-code:rounded prose-pre:bg-slate-100 prose-pre:text-left prose-pre:text-xl prose-li:text-left prose-li:text-2xl md:-ml-14 md:-mr-14"><div class="reveal rounded-md border border-gray-200 shadow-lg svelte-1xe5mne"><!--[--><div class="absolute z-50 flex h-full w-full items-center justify-center bg-white"><div class="absolute z-50 flex h-full w-full items-center justify-center bg-white"><div class="h-32 w-32 animate-spin"><svg class="h-full w-full text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0
+                                3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></div></div></div><!--]--> <div class="slides"><!----><section><h1><code>Promise</code> et fonctions <code>async</code></h1> <h2 class="text-pink-500">Technologie web 3</h2> <p class="text-gray-500">Johan Girod</p></section> <section><section><h2>Rappel : code asynchrone = callback</h2> <pre><code class="language-js" data-trim="" data-line-numbers="">
+        <script type="text/template">
+					domNode.addEventListener('click', function () {
+						console.log('click');
+					});
+
+					setTimeout(function () {
+						console.log('timeout');
+					}, 1000);
+				</script>
+</code></pre></section> <section><h2>Problème : callback hell</h2> <pre><code class="language-js" data-trim="" data-line-numbers="">
+        <script type="text/template">
+					setTimeout(() => {
+						console.log('A');
+						setTimeout(() => {
+							console.log('B');
+							setTimeout(() => {
+								console.log('C');
+								setTimeout(() => {
+									console.log('D');
+								}, 1000);
+							}, 1000);
+						}, 1000);
+					}, 1000);
+				</script>
+</code></pre> <p>Les <code>Promise</code> (promesses) permettent de résoudre ce problème.</p></section></section> <section><section><h2>Utiliser une <code>Promise</code></h2> <p class="text-xl">Une promesse est un objet avec une méthode <code>then</code> qui prend un callback appelé une
+			fois : quand la <strong>promesse est résolue</strong>.</p> <pre><code class="language-ts" data-trim="" data-line-numbers="">
+        <script type="text/template">
+                    function attendre(ms: number): Promise<void> {
+                        // ...
+                    }
+                    
+                    attendre(10ms).then(() => {
+                        console.log(value);
+                    });
+				</script>
+</code></pre></section> <section><h2>Enchainer les <code>Promise</code></h2> <p>Si on retourne une promesse dans un <code>.then()</code>, on peut enchainer les promesses.</p> <pre><code class="language-ts" data-trim="" data-line-numbers="">
+        <script type="text/template">
+                    attendre(100ms)
+                        .then(() => {
+                            console.log('A');
+                            return attendre(100ms);
+                        })
+                        .then(() => {
+                            console.log('B');
+                            return attendre(100ms);
+                        })
+                        .then(() => {
+                            console.log('C');
+                        });
+				</script>
+</code></pre></section> <section><h2>Créer une <code>Promise</code></h2> <p>On utilise <code>new Promise</code>, un constructeur qui accepte une fonction avec un argument <code>resolve</code></p> <pre><code class="language-ts" data-trim="" data-line-numbers="">
+        <script type="text/template">
+					function attendre(ms: number): Promise<void> {
+						return new Promise((resolve) => {
+							setTimeout(resolve, ms);
+						});
+					}
+				</script>
+        </code></pre></section> <section><h2>Les promesses peuvent retourner des valeurs</h2> <p>On peut voir les promesse comme des <strong>boites</strong> qui contiennent une valeur qui existera
+			dans le futur.</p> <pre><code class="language-ts" data-trim="" data-line-numbers="">
+        <script type="text/template">
+					// Attend un nombre de seconde aléatoire (max 10) puis retourne le temps écoulé
+					function attendreRandom(): Promise<number> {
+						const ms = Math.random() * 10000;
+						return new Promise((resolve) => {
+							setTimeout(() => {
+								resolve(ms);
+							}, ms);
+						});
+					}
+
+					attendreRandom().then((value) => {
+						console.log(`Temps écoulé : ${value}ms`);
+					});
+				</script>
+        </code></pre></section> <section><h2>Combiner les promesses - <code>Promise.all</code></h2> <pre><code class="language-ts" data-trim="" data-line-numbers="">
+        <script type="text/template">
+					Promise.all([attendre(1000), attendre(3000)]).then(() => {
+						console.log('Temps écoulé : ?');
+					});
+				</script>
+        </code></pre> <p>Les promesses sont exécutées en parallèle, puis le <code>.then()</code> est appelé une fois que
+			toutes les promesses sont résolues.</p></section> <section><h2>Combiner les promesses - <code>Promise.race</code></h2> <pre><code class="language-ts" data-trim="" data-line-numbers="">
+        <script type="text/template">
+					Promise.race([attendre(1000), attendre(3000)]).then(() => {
+						console.log('Temps écoulé : ?');
+					});
+				</script>
+        </code></pre> <p>Le <code>.then()</code> est appelé dès que la première promesse est résolue.</p></section></section> <section><section><h2><code>async</code> / <code>await</code></h2> <p class="text-xl">Quand une fonction manipule des promesses, on peut utiliser <code>async</code> et <code>await</code> pour rendre le code plus lisible.</p> <pre><code class="language-ts" data-trim="" data-line-numbers="">
+        <script type="text/template">
+					async function main() {
+						await attendre(1000);
+						console.log('A');
+						await attendre(1000);
+						console.log('B');
+						await attendre(1000);
+						console.log('C');
+					}
+
+					main();
+				</script>
+</code></pre></section> <section><p class="text-xl">Les fonctions <code>async</code> retournent une promesse, qui est résolue avec la valeur retournée.</p> <pre><code class="language-ts" data-trim="" data-line-numbers="">
+        <script type="text/template">
+					async function main(): Promise<string> {
+						await attendre(1000);
+						return 'A';
+					}
+
+					main().then((value) => {
+						console.log(value);
+					});
+				</script>
+	</code></pre></section> <section><h2>A savoir</h2> <ul><li>On peut utiliser <code>await</code> pour attendre n'importe quelle promesse</li> <li>Pour utiliser <code>await</code>, la fonction doit être déclarée avec <code>async</code>.</li> <li>On peut utiliser <code>await</code> dans une boucle ou dans une condition</li></ul></section></section> <section><h2>À vous de jouer !</h2></section><!----></div></div></div><!----> <h2>TP Memory (suite)</h2> <p>On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.</p> <ol><li><p>Créer une fonction asynchrone <code>boucleJeu</code>. La fonction doit :</p> <ul><li>attendre que l’utilisateur clique sur une carte</li> <li>retourner la carte cliquée</li> <li>répéter ces étapes jusqu’à ce que toutes les cartes soient retournées.</li></ul> <p>On pourra utiliser la fonction suivante :</p> <!----><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#6A737D">/**</span></span>
+<span class="line"><span style="color:#6A737D"> * Renvoie une &#96;Promise&#96; qui &#96;resolve&#96; quand une carte a été cliquée. Le contenu de la Promise est l'index de cette carte dans le tableau.</span></span>
+<span class="line"><span style="color:#6A737D"> */</span></span>
+<span class="line"><span style="color:#D73A49">type</span><span style="color:#6F42C1"> CardIndex</span><span style="color:#D73A49"> =</span><span style="color:#005CC5"> number</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#D73A49">async</span><span style="color:#D73A49"> function</span><span style="color:#6F42C1"> clickOnCard</span><span style="color:#24292E">()</span><span style="color:#D73A49">:</span><span style="color:#6F42C1"> Promise</span><span style="color:#24292E">&#x3C;</span><span style="color:#6F42C1">CardIndex</span><span style="color:#24292E">> &#123;</span></span>
+<span class="line"><span style="color:#D73A49">	return</span><span style="color:#D73A49"> new</span><span style="color:#005CC5"> Promise</span><span style="color:#24292E">((</span><span style="color:#E36209">resolve</span><span style="color:#24292E">) </span><span style="color:#D73A49">=></span><span style="color:#24292E"> &#123;</span></span>
+<span class="line"><span style="color:#D73A49">		const</span><span style="color:#6F42C1"> listener</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> (</span><span style="color:#E36209">event</span><span style="color:#D73A49">:</span><span style="color:#6F42C1"> MouseEvent</span><span style="color:#24292E">) </span><span style="color:#D73A49">=></span><span style="color:#24292E"> &#123;</span></span>
+<span class="line"><span style="color:#24292E">			console.</span><span style="color:#6F42C1">log</span><span style="color:#24292E">(event.target);</span></span>
+<span class="line"><span style="color:#D73A49">			if</span><span style="color:#24292E"> (</span><span style="color:#D73A49">!</span><span style="color:#24292E">event.target.classList.</span><span style="color:#6F42C1">contains</span><span style="color:#24292E">(</span><span style="color:#032F62">'carte'</span><span style="color:#24292E">)) &#123;</span></span>
+<span class="line"><span style="color:#D73A49">				return</span><span style="color:#24292E">;</span></span>
+<span class="line"><span style="color:#24292E">			&#125;</span></span>
+<span class="line"><span style="color:#D73A49">			const</span><span style="color:#005CC5"> index</span><span style="color:#D73A49"> =</span><span style="color:#24292E"> Array.</span><span style="color:#6F42C1">from</span><span style="color:#24292E">(event.target.parentNode.children).</span><span style="color:#6F42C1">indexOf</span><span style="color:#24292E">(</span></span>
+<span class="line"><span style="color:#24292E">				event.target </span><span style="color:#D73A49">as</span><span style="color:#6F42C1"> HTMLElement</span></span>
+<span class="line"><span style="color:#24292E">			);</span></span>
+<span class="line"><span style="color:#6F42C1">			resolve</span><span style="color:#24292E">(index);</span></span>
+<span class="line"><span style="color:#24292E">			document.</span><span style="color:#6F42C1">removeEventListener</span><span style="color:#24292E">(</span><span style="color:#032F62">'click'</span><span style="color:#24292E">, listener);</span></span>
+<span class="line"><span style="color:#24292E">		&#125;;</span></span>
+<span class="line"><span style="color:#24292E">		document.</span><span style="color:#6F42C1">addEventListener</span><span style="color:#24292E">(</span><span style="color:#032F62">'click'</span><span style="color:#24292E">, listener);</span></span>
+<span class="line"><span style="color:#24292E">	&#125;);</span></span>
+<span class="line"><span style="color:#24292E">&#125;</span></span></code></pre><!----> <p>Cette fonction retourne une promesse resolvant sur la l’index de la carte cliqué. On peut donc l’utiliser dans une fonction asynchrone pour attendre que l’utilisateur clique sur une carte.</p> <!----><pre class="shiki github-light" style="background-color:#fff;color:#24292e" tabindex="0"><code><span class="line"><span style="color:#D73A49">async</span><span style="color:#D73A49"> function</span><span style="color:#6F42C1"> boucleJeu</span><span style="color:#24292E">() &#123;</span></span>
+<span class="line"><span style="color:#6A737D">	// à compléter ...</span></span>
+<span class="line"><span style="color:#D73A49">	const</span><span style="color:#005CC5"> index</span><span style="color:#D73A49"> =</span><span style="color:#D73A49"> await</span><span style="color:#6F42C1"> clickOnCard</span><span style="color:#24292E">();</span></span>
+<span class="line"><span style="color:#24292E">	console.</span><span style="color:#6F42C1">log</span><span style="color:#24292E">(</span><span style="color:#032F62">&#96;Carte cliquée : $&#123;</span><span style="color:#24292E">index</span><span style="color:#032F62">&#125;&#96;</span><span style="color:#24292E">);</span></span>
+<span class="line"><span style="color:#6A737D">	// à compléter ...</span></span>
+<span class="line"><span style="color:#24292E">&#125;</span></span>
+<span class="line"><span style="color:#6F42C1">boucleJeu</span><span style="color:#24292E">();</span></span></code></pre><!----> <!--[--><div class="-ml-5 border-l-2 border-dotted border-pink-500 pl-4"><span class="mr-2 inline-block rounded-full bg-pink-500 px-2 py-1 text-sm font-semibold text-white">Corrigé</span> <button class="inline-block text-sm text-gray-500 hover:text-gray-700" aria-label="Afficher la solution" aria-expanded="false" aria-controls="bz9uoi36ukc"><!--[!-->Afficher<!--]--></button> <!--[!--><!--]--></div><!--]--><!----></li> <li><p>Modifier la fonction ci-dessus pour ajouter le comportement suivant :</p> <blockquote><p>Si deux cartes sont retournées, les cacher après une seconde si elles ne sont pas identiques.</p></blockquote> <!--[--><div class="-ml-5 border-l-2 border-dotted border-pink-500 pl-4"><span class="mr-2 inline-block rounded-full bg-pink-500 px-2 py-1 text-sm font-semibold text-white">Corrigé</span> <button class="inline-block text-sm text-gray-500 hover:text-gray-700" aria-label="Afficher la solution" aria-expanded="false" aria-controls="8m9bwthsn92"><!--[!-->Afficher<!--]--></button> <!--[!--><!--]--></div><!--]--><!----></li> <li><p>Créer une fonction principale asynchrone <code>main</code>. Le jeu se termine si toutes les cartes sont retournées en moins de 30 secondes, ou si le joueur a gagné. Lorsque le jeu se termine :</p> <ul><li>retourner face visible toutes les cartes restantes</li> <li>afficher un message de félicitations si le joueur a gagné, ou un message d’encouragement sinon.</li> <li>afficher un bouton pour rejouer.</li></ul> <blockquote><p>On pourra utiliser <code>Promise.race</code>.</p></blockquote> <!--[--><div class="-ml-5 border-l-2 border-dotted border-pink-500 pl-4"><span class="mr-2 inline-block rounded-full bg-pink-500 px-2 py-1 text-sm font-semibold text-white">Corrigé</span> <button class="inline-block text-sm text-gray-500 hover:text-gray-700" aria-label="Afficher la solution" aria-expanded="false" aria-controls="gu2dj184mu5"><!--[!-->Afficher<!--]--></button> <!--[!--><!--]--></div><!--]--><!----></li> <li><p>Faire en sorte d’afficher le nombre de secondes restantes avant la fin du jeu.</p></li></ol><!----><!--]--><!----></main></div><!----><!--]--><!----></div><!----><!--]--> <!--[!--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_pqo0dy = {
+						base: new URL("../../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../../_app/immutable/entry/start.Bnp5303b.js"),
+						import("../../../_app/immutable/entry/app.gFT0rYy9.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 2, 17],
+							data: [{"type":"data","data":null,"uses":{}},null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>
