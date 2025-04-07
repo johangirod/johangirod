@@ -5,5 +5,6 @@
 	"markdown.updateLinksOnFileMove.enabled": "prompt",
 	"markdown.extension.completion.root": "/src/routes/",
 	"prettier.documentSelectors": ["**/*.svelte"],
-	"markdown.suggest.paths.enabled": true
+	"markdown.suggest.paths.enabled": true,
+	"liveServer.settings.root": "/public"
 }

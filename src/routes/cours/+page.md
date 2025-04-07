@@ -16,6 +16,7 @@
 7. [Asynchronicité et thread](./tw2/6-asynchronicite-et-thread/)
 8. [JSON et stockage local](./tw2/7-json-et-stockage-local/)
 9. [Evaluation 2024 (entraînement)](https://sources.univ-jfc.fr/techno-web-2/evaluation-2024-2/-/blob/master/REAMDE.md)
+10. [Récapitulatif (cheatsheet)](./tw2/cheatsheet/)
 
 ## Technologie web 3
 
