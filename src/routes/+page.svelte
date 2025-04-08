@@ -1,4 +1,4 @@
-<main class="container mx-auto my-12 px-4 lg:px-0">
+<main class="container prose prose-lg mx-auto my-12 px-4 lg:px-0">
 	<h1>Salut ! Je suis Johan Girod</h1>
 
 	<p>
