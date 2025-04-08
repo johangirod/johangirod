@@ -12,6 +12,8 @@
 			title = document.querySelector('h1')?.textContent || '';
 		});
 	});
+	const { data, children } = $props();
+	const headings = $derived((data.headings ?? []).filter((heading) => heading.level >= 2));
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -49,12 +51,38 @@
 			>
 		{/if}
 	</div>
+	<div class="-mx-80">
+		<div
+			class="container m-auto lg:grid lg:grid-cols-[0,auto,1fr] lg:gap-8 lg:pl-16 lg:pr-8 xl:grid-cols-[1fr,auto,1fr]"
+		>
+			<div></div>
+			<main
+				class="prose prose-lg mt-8 flex-1 prose-h1:inline-block prose-h1:border-y-8 prose-h1:border-pink-500 prose-h1:px-2 prose-h1:pb-3 prose-h1:pt-2 prose-h1:text-4xl prose-h2:text-3xl xl:col-start-2"
+			>
+				<button class="mb-4 block rounded bg-pink-100 px-4 py-2 text-pink-700 lg:hidden">
+					Afficher le sommaire
+				</button>
+				{@render children()}
+			</main>
 
-	<main
-		class=" mt-8 prose-h1:inline-block prose-h1:border-y-8 prose-h1:border-pink-500 prose-h1:px-2 prose-h1:pb-3 prose-h1:pt-2 prose-h1:text-4xl prose-h2:text-3xl"
-	>
-		<slot />
-	</main>
+			<nav class="not-prose hidden bg-white lg:block lg:pl-8 xl:col-start-3">
+				<div class="lg:sticky lg:top-8 lg:mt-20">
+					<ul>
+						{#each headings as heading}
+							<li>
+								<a
+									class="inline-block text-sm text-gray-400 hover:text-gray-600 {heading.level === 2
+										? 'pl-4'
+										: 'pl-8'}"
+									href={'#' + heading.slug}>{heading.title}</a
+								>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
 </div>
 
 <style>

@@ -4,37 +4,6 @@
 </script>
 
 # JavaScript Cheatsheet - TW2
-<!--
-## Sommaire
-
-- [Bases du langage](#bases-du-langage)
-  - [Variables et constantes](#variables-et-constantes)
-  - [Types de données](#types-de-données)
-  - [Opérateurs](#opérateurs)
-  - [Structures conditionnelles](#structures-conditionnelles)
-  - [Boucles](#boucles)
-- [Fonctions](#fonctions)
-- [Manipulation de tableaux](#manipulation-de-tableaux)
-- [Manipulation d'objets](#manipulation-dobjets)
-- [Manipulation du DOM](#manipulation-du-dom)
-  - [Sélection d'éléments](#sélection-déléments)
-  - [Manipulation du contenu](#manipulation-du-contenu)
-  - [Manipulation d'attributs](#manipulation-dattributs)
-  - [Manipulation des classes](#manipulation-des-classes)
-  - [Manipulation des styles](#manipulation-des-styles)
-- [Gestion des événements](#gestion-des-événements)
-  - [Types d'événements courants](#types-dévénements-courants)
-  - [Objet Event](#objet-event)
-- [Formulaires](#formulaires)
-- [LocalStorage et SessionStorage](#localstorage-et-sessionstorage)
-- [JSON](#json)
-- [Modules JavaScript](#modules-javascript)
-- [Classes JavaScript](#classes-javascript)
-- [Asynchronicité](#asynchronicité)
-  - [setTimeout et setInterval](#settimeout-et-setinterval)
-  - [requestAnimationFrame](#requestanimationframe)
-- [Canvas](#canvas)
-- [Bonnes pratiques](#bonnes-pratiques) -->
 
 ## Bases du langage
 

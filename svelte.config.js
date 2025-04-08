@@ -3,6 +3,9 @@ import adapterStatic from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex';
 import { createHighlighter } from 'shiki';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'rehype-slug';
+import { remarkHeadings } from './src/lib/utils/remarkHeadings.js';
 
 const highlighter = await createHighlighter({
 	themes: ['github-light'],
@@ -11,6 +14,8 @@ const highlighter = await createHighlighter({
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
 	extensions: ['.md'],
+	rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
+	remarkPlugins: [remarkHeadings],
 	highlight: {
 		highlighter: async (code, lang = 'text') => {
 			const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme: 'github-light' }));
