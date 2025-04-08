@@ -1,19 +1,17 @@
 <script lang="ts">
-	import { onNavigate } from '$app/navigation';
+	import { afterNavigate, onNavigate } from '$app/navigation';
+	import { page } from '$app/state';
 
-	import { page } from '$app/stores';
 	import Breadcrumb from '$lib/Breadcrumb.svelte';
 	import { showSolution } from '$lib/showSolution';
-	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
 
-	let title: string = '...';
-	onMount(() => {
-		page.subscribe(() => {
-			title = document.querySelector('h1')?.textContent || '';
-		});
+	let title: string = $state('');
+	afterNavigate(() => {
+		title = document.querySelector('h1')?.textContent || '';
 	});
 	const { data, children } = $props();
-	const headings = $derived((data.headings ?? []).filter((heading) => heading.level >= 2));
+	const headings = $derived((data.headings ?? []).filter((heading) => heading.level > 2));
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -27,13 +25,13 @@
 	});
 </script>
 
-<div class="lg:grid lg:grid-cols-[0,auto,1fr] lg:gap-8 xl:grid-cols-[1fr,auto,1fr]">
+<div class="gap-8 lg:grid lg:grid-cols-[0,auto,1fr] xl:grid-cols-[1fr,3fr,1fr]">
 	<div></div>
 
 	<div
-		class="prose flex-1 lg:prose-lg prose-h1:inline-block prose-h1:border-y-8 prose-h1:border-pink-500 prose-h1:px-2 prose-h1:pb-3 prose-h1:pt-2 prose-h1:text-4xl prose-h2:text-3xl xl:col-start-2"
+		class="prose mx-auto flex-1 lg:prose-lg xl:prose-xl prose-h1:inline-block prose-h1:border-y-8 prose-h1:border-pink-500 prose-h1:px-2 prose-h1:pb-3 prose-h1:pt-2 prose-h1:text-4xl prose-h2:text-3xl max-lg:mx-auto xl:col-start-2"
 	>
-		<div style="view-transition-name: breadcrumb" class="container prose mx-auto">
+		<div style="view-transition-name: breadcrumb">
 			<Breadcrumb
 				links={[
 					{ href: '/', label: 'Accueil' },
@@ -41,15 +39,15 @@
 						href: '/cours/',
 						label: 'Cours et TP'
 					},
-					$page.route.id?.match(/cours\/.+/)
+					page.route.id?.match(/cours\/.+/)
 						? {
-								href: $page.url,
+								href: page.url,
 								label: title
 							}
 						: null
 				].filter(Boolean)}
 			/>
-			{#if $showSolution && $page.route.id?.match(/cours\/.+/)}
+			{#if title && $showSolution && page.route.id?.match(/cours\/.+/)}
 				<span
 					class="ml-2 inline-block rounded-full bg-pink-500 px-2 py-1 text-sm font-semibold text-white
 		">Avec corrigé</span
@@ -64,30 +62,29 @@
 			{@render children()}
 		</main>
 	</div>
-
-	<nav>
-		<div class="prose-sm top-0 max-h-[100vh] overflow-auto lg:sticky lg:mt-20">
+	{#if headings.length > 0}
+		<nav
+			in:fly={{ x: 10 }}
+			class="prose-sm top-0 max-lg:col-start-1 lg:sticky lg:mt-[700px] lg:max-h-[100vh]"
+		>
 			<ul>
+				<h3 class="not-prose mb-4 ml-1 text-sm font-semibold">Contenu</h3>
 				{#each headings as heading}
 					<li
-						class="block {heading.level === 2
+						class="block {heading.level === 3
 							? ''
-							: heading.level === 3
+							: heading.level === 4
 								? '!pl-4'
-								: heading.level === 4
-									? '!pl-8'
-									: heading.level === 5
-										? '!pl-12'
-										: '!pl-16'}"
+								: heading.level === 5
+									? '!pl-12'
+									: '!pl-16'}"
 					>
-						<a class="text-gray-400 hover:text-gray-600" href={'#' + heading.slug}
-							>{heading.title}</a
-						>
+						<a class="text-slate-600" href={'#' + heading.slug}>{heading.title}</a>
 					</li>
 				{/each}
 			</ul>
-		</div>
-	</nav>
+		</nav>
+	{/if}
 </div>
 
 <style>
