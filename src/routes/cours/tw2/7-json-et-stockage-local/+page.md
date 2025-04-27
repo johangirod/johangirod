@@ -3,7 +3,8 @@
 	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
-
+  import { showSolution } from '$lib/showSolution.ts';
+  showSolution.set(true);
 </script>
 
 <Reveal>
@@ -136,7 +137,7 @@ Pour cela, vous allez créer une fonction `renderQuestions` qui sera appelée à
 function renderQuestion(questions)
 ```
 
-<Solution showAnyway>
+<Solution>
 
 ```js
 // à appeler juste avant form.reset()

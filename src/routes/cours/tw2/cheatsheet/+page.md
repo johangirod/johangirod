@@ -46,7 +46,7 @@ const personne = {
 
 // Valeurs spéciales
 const rien = null; // Absence délibérée de valeur
-let nonDefini = undefined; // Variable déclarée mais sans valeur
+let nonDefini = undefined; // Variable déclarée mais sans valeur (non affectée)
 ```
 
 ### Opérateurs
@@ -379,10 +379,6 @@ element.addEventListener('click', (event) => {
 
 	// Pour les événements de clavier
 	console.log(event.key); // Touche pressée ('a', 'Enter', etc.)
-	console.log(event.keyCode); // Code de la touche (76 pour 'l')
-	console.log(event.altKey); // Si la touche Alt était enfoncée
-	console.log(event.ctrlKey); // Si la touche Ctrl était enfoncée
-	console.log(event.shiftKey); // Si la touche Shift était enfoncée
 
 	// Empêcher le comportement par défaut
 	event.preventDefault();
@@ -400,11 +396,15 @@ Exemple de formulaire HTML:
 
 ```html
 <form id="mon-formulaire">
+  <!-- Un champs de type texte avec un label -->
+  <label for="nom">Votre nom</label>
 	<input type="text" id="nom" name="nom" placeholder="Votre nom" />
 
+  <!-- Une checkbox -->
 	<label for="abonnement">S'abonner à la newsletter</label>
 	<input type="checkbox" id="abonnement" name="abonnement" />
 
+  <!--  Un ensemble de boutons radio -->
 	<fieldset>
 		<legend>Comment préférez-vous être désigné(e) ?</legend>
 		<input type="radio" id="option1" name="designation" value="monsieur" />
@@ -415,12 +415,18 @@ Exemple de formulaire HTML:
 		<label for="option3">Aucun des deux</label>
 	</fieldset>
 
+  <!--  Une liste déroulante -->
 	<select id="pays" name="pays">
 		<option value="fr">France</option>
 		<option value="be">Belgique</option>
 		<option value="ch">Suisse</option>
 	</select>
 
+  <!--  Une zone de texte -->
+  <label for="commentaire">Votre commentaire</label>
+  <textarea id="commentaire" name="commentaire"></textarea>
+
+  <!-- Bouton de soumission du formulaire -->
 	<button type="submit">Envoyer</button>
 </form>
 ```
@@ -443,16 +449,22 @@ const designation = document.querySelector('input[name="designation"]:checked').
 // Récupérer la valeur d'une liste déroulante
 const pays = document.querySelector('#pays').value;
 
-// Récupérer toutes les valeurs du formulaire (utilise FormData)
+// Récupérer toutes les valeurs du formulaire d'un coup (utilise FormData)
 form.addEventListener('submit', (event) => {
 	event.preventDefault(); // Empêche l'envoi du formulaire
 
 	const formData = new FormData(form);
 
-	// Convertir FormData en objet
-	const data = Object.fromEntries(formData);
-	console.log(data); // { nom: "...", email: "...", ... }
+	// Accès aux valeurs avec FormData (relié avec l'attribut « name »)
+	const nom = formData.get('nom');
+	const abonnement = formData.get('abonnement');
+	const message = formData.get('designation');
+	const pays = formData.get('pays');
+
 });
+
+// Réinitialiser les champs du formulaire
+form.reset();
 ```
 
 ## LocalStorage et SessionStorage
@@ -591,12 +603,7 @@ import Calculator, { PI } from './calculator.js';
 
 **Utiliser Live Server pour les modules ES**
 
-Les modules ES ne fonctionnent pas avec le protocole `file://` par mesure de sécurité. Pour les tester localement, vous devez utiliser un serveur web :
-
-1. Installer l'extension **Live Server** dans Visual Studio Code
-2. Faire un clic droit sur votre fichier HTML dans l'explorateur de VSCode
-3. Sélectionner "Open with Live Server"
-4. Votre page s'ouvrira à l'adresse `http://127.0.0.1:5500/` (ou similaire)
+Les modules ES ne fonctionnent pas avec le protocole `file://` par mesure de sécurité. Pour les tester localement, vous devez utiliser un serveur web (Live Server, ou un serveur HTTP local).
 
 ## Classes JavaScript
 
@@ -727,5 +734,5 @@ console.log('Message simple');
 const street = user?.address?.street;
 
 // Valeurs par défaut pour éviter les nulls ou undefined
-const nom = utilisateur.nom || 'Inconnu';
+const nom = utilisateur.nom ?? 'Inconnu';
 ```
