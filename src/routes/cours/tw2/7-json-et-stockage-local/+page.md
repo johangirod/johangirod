@@ -67,11 +67,12 @@ Pour cela, vous allez ajouter un écouteur d'événement sur le formulaire pour 
 document.querySelector('form').addEventListener('submit', (event) => {
 	event.preventDefault();
 	const formData = new FormData(event.target);
-	console.log(Object.fromEntries(formData));
+	console.log(formData);
+	console.log(formData.get('question'));
 });
 ```
 
-A quoi ressemble l'objet `formData` ? Comment est-il créé à votre avis ?
+A quoi ressemble l'objet `formData` ? Comment est-il créé à votre avis ? Que fait `formData.get` ?
 
 #### 2. Stockage des données
 
@@ -107,11 +108,11 @@ const form = document.querySelector('form');
 
 form.addEventListener('submit', (event) => {
   event.preventDefault(); // Empêche le rechargement de la page
-  const data = Object.fromEntries(new FormData(form)); // Récupère les données du formulaire
+  const data = new FormData(form); // Récupère les données du formulaire
   const question = {
-    question: data.question,
-    correct: Number.parseInt(data.correct),
-    answers: [data.answer1, data.answer2, data.answer3, data.answer4]
+    question: data.get('question'),
+    correct: Number.parseInt(data.get('correct')),
+    answers: [data.get('answer1'), data.get('answer2'), data.get('answer3'), data.get('answer4')]
   }
   questions.push(question);
   localStorage.setItem('questions', JSON.stringify(questions)); // Stocke les questions dans le localStorage
@@ -166,6 +167,137 @@ Pour cela, vous allez :
 - Afficher la première question
 - Gérer la soumission du formulaire pour passer à la question suivante
 - Enregistrer les réponses de l'utilisateur au fur et à mesure
+
+<Solution>
+
+**play.html**
+```html
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quiz Creator - Création</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="play.js" type="module"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Quizz Creator</h1>
+            <nav>
+                <a href="create.html">Créer</a>
+                <a href="play.html" aria-current="page">Jouer</a>
+            </nav>
+        </header>
+        <main>
+            <h2>Quizz</h2>
+            <form id="question-form">
+                <div id="question">
+                </div>
+                <fieldset>
+                    <legend>Réponses</legend>
+                    <div class="form-group">
+                        <input
+                            type="radio"
+                            id="answer1"
+                            name="answer"
+                            value="0"
+                            required
+                        />
+                        <label for="answer1">
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input
+                            type="radio"
+                            id="answer2"
+                            name="answer"
+                            value="1"
+                            required
+                        />
+                        <label for="answer2">
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <input
+                            type="radio"
+                            id="answer3"
+                            name="answer"
+                            value="2"
+                            required
+                        />
+                        <label for="answer3"></label>
+                    </div>
+                    <div class="form-group">
+                        <input
+                            type="radio"
+                            id="answer4"
+                            name="answer"
+                            value="3"
+                            required
+                        />
+                    </div>
+                    <label for="answer4"></label>
+                </fieldset>
+                <button type="submit">Valider</button>
+            </form>
+        </main>
+    </body>
+</html>
+```
+
+**play.js**
+```javascript
+const questions = JSON.parse(localStorage.getItem("questions"));
+
+const quizzQuestions = questions
+    .sort(() => Math.random() - 0.5) // Mélange le tableau questions
+    .slice(0, 5); // Récupère les cinq premières questions
+
+let indice = 0;
+let score = 0;
+
+const formElement = document.querySelector("form");
+formElement.addEventListener("submit", (event) => {
+  // Empecher que la page se recharge
+  event.preventDefault();
+
+  // Récupérer les données du formulaire
+  const data = new FormData(formElement);
+
+  // Récupérer la réponse selectionnée par l'utilisateur
+  const answer = data.get("answer");
+
+  // Récupérer la réponse correcte à la question
+  const correctAnswer = quizzQuestions[indice].correct;
+
+  if (Number.parseInt(answer) === correctAnswer) {
+    score++;
+  }
+
+  formElement.reset(); // Réinitialise le formulaire
+  indice++; // On passe à la question suivante
+  renderQuestion(); // On affiche la question suivante
+});
+
+function renderQuestion() {
+  const currentQuestion = quizzQuestions[indice];
+  const questionContainer = document.querySelector("#question");
+  questionContainer.textContent = currentQuestion.question;
+
+  // Affiche les réponse
+  document.querySelector('label[for="answer1"]').textContent = currentQuestion.answers[0];
+  document.querySelector('label[for="answer2"]').textContent = currentQuestion.answers[1];
+  document.querySelector('label[for="answer3"]').textContent = currentQuestion.answers[2];
+  document.querySelector('label[for="answer4"]').textContent = currentQuestion.answers[3];
+}
+
+renderQuestion();
+
+```
+
+</Solution>
+
 
 #### `sessionStorage`
 

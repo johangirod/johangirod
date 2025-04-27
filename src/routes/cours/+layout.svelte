@@ -11,7 +11,16 @@
 		title = document.querySelector('h1')?.textContent || '';
 	});
 	const { data, children } = $props();
-	const headings = $derived((data.headings ?? []).filter((heading) => heading.level > 2));
+	const headings = $derived.by(() => {
+		const filteredHeadings = (data.headings ?? []).filter((heading) => heading.level >= 2);
+		if (
+			filteredHeadings.find(({ level }) => level === 2) ===
+			filteredHeadings.findLast(({ level }) => level === 2)
+		) {
+			return filteredHeadings.filter(({ level }) => level !== 2);
+		}
+		return filteredHeadings;
+	});
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -65,17 +74,17 @@
 	{#if headings.length > 0}
 		<nav
 			in:fly={{ x: 10 }}
-			class="prose-sm top-0 max-lg:col-start-1 lg:sticky lg:mt-[700px] lg:max-h-[100vh]"
+			class="prose-sm top-0 overflow-auto max-lg:col-start-1 lg:sticky lg:mt-[700px] lg:max-h-[100vh]"
 		>
 			<ul>
 				<h3 class="not-prose mb-4 ml-1 text-sm font-semibold">Contenu</h3>
 				{#each headings as heading}
 					<li
-						class="block {heading.level === 3
+						class="block {heading.level === 2
 							? ''
-							: heading.level === 4
+							: heading.level === 3
 								? '!pl-4'
-								: heading.level === 5
+								: heading.level === 4
 									? '!pl-12'
 									: '!pl-16'}"
 					>
