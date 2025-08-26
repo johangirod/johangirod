@@ -29,25 +29,33 @@
 
 	function formatDate(date: Date): string {
 		return new Intl.DateTimeFormat('fr-FR', {
-			year: '2-digit',
+			year: 'numeric',
 			month: 'long'
 		}).format(date);
 	}
 
+	function formatDuration(start: Date, end: Date = new Date()) {
+		const years = end.getFullYear() - start.getFullYear();
+		const months = end.getMonth() - start.getMonth() + 1;
+
+		const durationFormatter = new Intl.DurationFormat('fr-FR', { style: 'long' });
+		return durationFormatter.format({ years, months }, 'year');
+	}
+
 	function formatDateRange(start: Date, end?: Date): string {
 		if (end) {
-			return `${formatDate(start)} - ${formatDate(end)}`;
+			return `${formatDate(start)} - ${formatDate(end)} | ${formatDuration(start, end)}`;
 		}
-		return `Depuis ${formatDate(start)}`;
+		return `Depuis ${formatDate(start)} | ${formatDuration(start)}`;
 	}
 </script>
 
 <article
-	class="mb-8 max-w-full rounded-lg border-gray-200 bg-white p-6 md:border md:shadow-sm lg:p-8 print:p-0"
+	class="mb-8 max-w-full rounded-lg border-gray-200 bg-white md:border md:p-6 md:shadow-sm lg:p-8 print:p-0"
 >
 	<!-- En-tête avec titre et période -->
 	<header>
-		<div class="mb-4 flex flex-wrap items-center justify-between gap-4">
+		<div class="mb-4 flex flex-wrap-reverse items-baseline justify-between gap-4">
 			<h3 class="!m-0">
 				{#if href}
 					<a
@@ -63,8 +71,10 @@
 					{title}
 				{/if}
 			</h3>
-			<small>
-				<time class="rounded-full bg-gray-100 px-4 py-2 font-medium capitalize text-gray-600">
+			<small class="mt-4">
+				<time
+					class="whitespace-nowrap rounded-full bg-gray-100 px-4 py-2 font-medium text-gray-600"
+				>
 					{formatDateRange(start, end)}
 				</time>
 			</small>

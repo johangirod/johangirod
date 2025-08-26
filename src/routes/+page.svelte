@@ -42,7 +42,7 @@
 			"sameAs": [
 				"https://github.com/johangirod",
 				"https://www.linkedin.com/in/johangirod/",
-				"https://www.calinou.coop/"
+				"https://calinou.coop/"
 			],
 			"worksFor": {
 				"@type": "Organization",
@@ -65,9 +65,9 @@
 	class=" container prose mx-auto max-w-screen-md lg:prose-lg xl:prose-xl print:prose-sm xl:max-w-screen-lg"
 >
 	<header class="">
-		<div class=" flex items-baseline">
+		<div class=" flex flex-wrap items-baseline justify-center">
 			<h1>Johan Girod</h1>
-			<div role="list" class="inline-flex flex-1 justify-end space-x-4">
+			<div role="list" class="mb-6 inline-flex flex-1 justify-center space-x-4 md:justify-end">
 				<span role="listitem">
 					<a
 						href="https://github.com/johangirod/"
@@ -84,7 +84,7 @@
 				</span>
 				<span role="listitem">
 					<a
-						href="https://www.calinou.coop/"
+						href="https://calinou.coop/"
 						aria-label="Accéder au site de ma coopérative, Calinou, nouvelle fenêtre"
 						target="_blank">Coopérative</a
 					>
@@ -94,14 +94,13 @@
 				</span>
 			</div>
 		</div>
-		<p class="!m-0 max-w-screen-md text-2xl text-pink-600">
+		<p class="!m-0 max-w-screen-md text-2xl leading-relaxed text-pink-600">
 			<strong>Développeur full-stack | Expert technologies front-end</strong>
 		</p>
 	</header>
 
 	<p>
-		Je conçois des <strong>applications web performantes et accessibles</strong> qui transforment des
-		réglementations complexes en outils simples pour tous.
+		Je conçois des <strong>applications web performantes et accessibles</strong>.
 	</p>
 
 	<p>
@@ -120,9 +119,11 @@
 	</p>
 
 	<p>
-		Ma spécialité : <strong
-			>traduire l'expertise métier en expériences numériques compréhensibles</strong
-		>. J'ai cocréé le langage
+		Ma spécialité : traduire <strong>l'expertise métier</strong> en expériences numériques facile d'accès.
+	</p>
+
+	<p>
+		J'ai cocréé le langage
 		<a href="https://publi.codes" target="_blank" rel="noopener">Publicodes</a>
 		pour modéliser des domaines métiers complexes, aujourd'hui adopté par
 		<strong>plus d'une dizaine d'équipes</strong> dans l'administration et le privé.
@@ -154,7 +155,7 @@
 				'Tailwind',
 				'LayerChart'
 			]}
-			keyFigures={['10 jours pour le prototype', '100 en performance sur lighthouse']}
+			keyFigures={['10 jours pour le MVP', '100 performance lighthouse']}
 		>
 			{#snippet description()}
 				<p>Application web de <strong>suivi de décarbonation</strong> de parc hôtelier</p>
@@ -186,7 +187,7 @@
 			role="Co-créateur et mainteneur principal"
 			start={new Date('2018-05')}
 			technologies={['TypeScript', 'OCaml', 'Compilateur', 'React', 'Théorie des langages']}
-			keyFigures={['+10 équipes utilisatrices', '+30 contributeurs']}
+			keyFigures={['+10 équipes utilisatrices', '+30 contributeurs', '+35 releases']}
 		>
 			{#snippet description()}
 				<p>
@@ -209,12 +210,19 @@
 				<li>Publication de releases et communication sur le blog</li>
 				<li>Réécriture du compilateur en OCaml pour une v2</li>
 			</ul>
+			{#snippet feeling()}
+				<p>
+					Un projet qui me tient particulièrement à coeur, auquel je crois beaucoup, et qui me
+					stimule techniquement et humainement.
+				</p>
+			{/snippet}
 		</Experience>
 
 		<Experience
 			title="Annuaire des entreprises"
 			href="https://annuaire-entreprises.data.gouv.fr/"
 			start={new Date('2023-10')}
+			keyFigures={['6M utilisateurs/mois', '22 APIs externes interrogées']}
 			end={new Date('2024-10')}
 			technologies={[
 				'React (NextJS)',
@@ -267,8 +275,8 @@
 			title="mon-entreprise.urssaf.fr"
 			href="https://mon-entreprise.urssaf.fr/"
 			role="Lead Developer - Product Owner - Intrapreneur"
-			start={new Date('2018-01')}
-			end={new Date('2024-01')}
+			start={new Date('2018-04')}
+			end={new Date('2024-08')}
 			technologies={[
 				'React',
 				'TypeScript',
@@ -279,12 +287,7 @@
 				'Vite',
 				'Cypress'
 			]}
-			keyFigures={[
-				'1 million de visites par mois',
-				'Plus de 25 simulateurs et assistants',
-				'6 années de développement continu',
-				"Gestion d'équipe de 5 personnes"
-			]}
+			keyFigures={['1M de visites/mois', '25 simulateurs', '6 années de développement continu']}
 		>
 			{#snippet description()}
 				<p>
@@ -302,11 +305,10 @@
 					<li>Amélioration de l'accessibilité suite à audit</li>
 					<li>Tests, bonnes pratiques, gestion de la dette technique</li>
 				</ul>
-				<h4 class="mb-2 font-semibold text-gray-900">Gestion de projet</h4>
+				<h4 class="mb-2 font-semibold text-gray-900">Gestion de produit (intrapreneur)</h4>
 				<ul>
-					<li>Gestion du produit (intrapreneur)</li>
 					<li>Animation d'équipe (dev, UX, support, chargé de déploiement)</li>
-					<li>Recrutement et suivi budgétaire</li>
+					<li>Recrutement, suivi budgétaire</li>
 					<li>Analyse des besoins des usagers</li>
 					<li>Planification de feuille de route</li>
 					<li>
@@ -314,6 +316,22 @@
 					</li>
 				</ul>
 			</div>
+			{#snippet people()}
+				<p>
+					L'équipe a beaucoup varié. Au début en binôme de développeur avec <a
+						href="https://kont.me/"
+						aria-label="Voir le site de Maël, nouvelle fenêtre"
+						target="_blank"
+						rel="noopener noreferrer">Maël</a
+					>, puis avec
+					<a
+						href="https://github.com/mquandalle/"
+						aria-label="Voir le site de Jean-Baptiste, nouvelle fenêtre"
+						target="_blank"
+						rel="noopener noreferrer">Maxime</a
+					>. J'ai ensuite pris le rôle d'intrapreneur, au sein d'une équipe de cinq personnes.
+				</p>
+			{/snippet}
 			{#snippet feeling()}
 				<p>
 					Ma première expérience en tant que freelance à beta.gouv.fr, et quelle expérience ! J'ai
@@ -329,7 +347,7 @@
 			start={new Date('2014-04')}
 			href="https://www.evaneos.fr/"
 			end={new Date('2017-05')}
-			technologies={['React', 'Redux', 'JavaScript', 'Progressive Web App']}
+			technologies={['React', 'Redux', 'JavaScript', 'Progressive Web App', 'PHP', 'PostgreSQL']}
 			keyFigures={["Formation d'une équipe de 6 développeurs"]}
 		>
 			{#snippet description()}
