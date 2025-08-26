@@ -50,7 +50,7 @@
 </svelte:head>
 
 <div
-	class="prose-code:radius-none prose-code:font-mono prose-code:font- mt-14 prose-h1:text-5xl prose-h2:text-3xl prose-h2:text-pink-500 prose-p:text-2xl prose-blockquote:text-2xl prose-blockquote:font-normal prose-blockquote:text-pink-500 prose-code:w-auto prose-code:rounded prose-pre:bg-slate-100 prose-pre:text-left prose-pre:text-xl
+	class="prose-code:radius-none prose-code:font-mono prose-code:font- mt-14 prose-h1:text-5xl prose-h2:text-3xl prose-h2:text-pink-600 prose-p:text-2xl prose-blockquote:text-2xl prose-blockquote:font-normal prose-blockquote:text-pink-600 prose-code:w-auto prose-code:rounded prose-pre:bg-slate-100 prose-pre:text-left prose-pre:text-xl
 	 prose-li:text-left prose-li:text-2xl md:-ml-14 md:-mr-14"
 >
 	<div class="reveal rounded-md border border-gray-200 shadow-lg">
@@ -66,7 +66,7 @@
 				>
 					<div class="h-32 w-32 animate-spin">
 						<svg
-							class="h-full w-full text-pink-500"
+							class="h-full w-full text-pink-600"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24"

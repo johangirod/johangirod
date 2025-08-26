@@ -47,7 +47,7 @@
 </svelte:head>
 
 <div
-	class="screen:container prose-h2 container prose-slate mx-auto my-12 px-4 lg:prose-xl prose-headings:text-slate-800 prose-h1:font-semibold prose-a:transition prose-a:duration-75 hover:prose-a:text-pink-500 lg:px-0 print:mx-0 print:max-w-none"
+	class=" prose-h2 prose-slate mx-auto my-12 px-4 lg:prose-xl prose-headings:text-slate-800 prose-h1:font-semibold prose-a:transition prose-a:duration-75 hover:prose-a:text-pink-600 prose-strong:text-inherit lg:px-0 print:mx-0 print:max-w-none"
 >
 	<slot />
 </div>

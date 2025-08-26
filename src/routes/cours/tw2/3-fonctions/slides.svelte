@@ -3,7 +3,7 @@
 
 <section>
 	<h1>Utilisations des fonctions en Javascript</h1>
-	<h2 class="text-pink-500">Technologie web 2</h2>
+	<h2 class="text-pink-600">Technologie web 2</h2>
 	<p class="text-gray-500">Johan Girod</p>
 </section>
 <section>
@@ -201,7 +201,7 @@
 
 					console.log(namesStartingWithS); // ['Sarah', 'Sam']
 				</script>
-					
+
 				</code></pre>
 	</section>
 	<section data-auto-animate>

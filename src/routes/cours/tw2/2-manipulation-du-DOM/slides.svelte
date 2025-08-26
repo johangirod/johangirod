@@ -5,7 +5,7 @@
 
 <section>
 	<h1>Manipulation du DOM</h1>
-	<h2 class="text-pink-500">Technologie web 2</h2>
+	<h2 class="text-pink-600">Technologie web 2</h2>
 	<p class="text-gray-500">Johan Girod</p>
 </section>
 <section>
@@ -186,7 +186,7 @@
 			<script type="text/template">
 					document.write('Hello world');
 				</script>
-			
+
 </code></pre>
 		<p class="fragment">
 			Cet objet contient des <strong>propriétés et des méthodes</strong> pour manipuler le document
@@ -276,7 +276,7 @@
 		<h3>Code HTML</h3>
 		<pre><code class="language-html" data-trim>
 				<script type="text/template">
-					<h1 class="text-4xl text-pink-500">Titre</h1>;
+					<h1 class="text-4xl text-pink-600">Titre</h1>;
 				</script>
 					</code></pre>
 
@@ -285,16 +285,16 @@
 		<pre><code class="language-js" data-trim>
 						<script type="text/template">
 					const classes = element.classList;
-					// ["text-4xl", "text-pink-500"] (liste des classes)
+					// ["text-4xl", "text-pink-600"] (liste des classes)
 
-					const isPink = classes.contains('text-pink-500'); // true
+					const isPink = classes.contains('text-pink-600'); // true
 				</script>
 						</code></pre>
 		<pre class="fragment"><code class="language-js" data-trim>
 		<script type="text/template">
 					element.classList.add('font-bold'); // Ajoute la classe
 					element.classList.remove('text-4xl'); // Supprime la classe
-					element.classList.toggle('text-pink-500');
+					element.classList.toggle('text-pink-600');
 				</script>
 	</code></pre>
 	</section>
@@ -313,7 +313,7 @@
 		<h3>Code JavaScript</h3>
 		<pre data-id="pre-code"><code class="language-js" data-trim>
 	/* Lire et modifier les attributs : méthode générique */
-	const placeholder = element.getAttribute('placeholder'); 
+	const placeholder = element.getAttribute('placeholder');
 	element.setAttribute('src', 'image.jpg');
 
 	/* Lire et modifier les attributs : accesseur direct
@@ -346,7 +346,7 @@
 	</code></pre>
 		</div>
 		<p class="fragment">
-			<strong class="text-pink-500">Attention !</strong> Un noeud doit être inséré pour être visible
+			<strong class="text-pink-600">Attention !</strong> Un noeud doit être inséré pour être visible
 			sur la page. Sinon, il n'existe que dans la mémoire de l'ordinateur.
 		</p>
 	</section>

@@ -3,7 +3,7 @@
 
 <section>
 	<h1>Stockage côté client</h1>
-	<h2 class="text-pink-500">
+	<h2 class="text-pink-600">
 		JSON, <code>localStorage</code>
 		et
 		<code>sessionStorage</code>
@@ -113,7 +113,7 @@
 <section>
 	<section>
 		<h1>Stockage côté client</h1>
-		<h2 class="text-pink-500">
+		<h2 class="text-pink-600">
 			<code>localStorage</code>
 			et
 			<code>sessionStorage</code>

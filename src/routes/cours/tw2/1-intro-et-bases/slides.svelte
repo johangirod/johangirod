@@ -4,7 +4,7 @@
 
 <section>
 	<h1>Introduction et bases de JavaScript</h1>
-	<h2 class="text-pink-500">Technologie web 2</h2>
+	<h2 class="text-pink-600">Technologie web 2</h2>
 	<p class="text-gray-500">Johan Girod</p>
 </section>
 <section>
@@ -194,15 +194,15 @@ button.addEventListener('click', () => alert('Hello world!'));
 		<h1>Introduction à JavaScript</h1>
 		<ul>
 			<li>
-				JavaScript (JS) est un <strong class="text-pink-500"
+				JavaScript (JS) est un <strong class="text-pink-600"
 					>langage de programmation interprété</strong
 				>
 			</li>
 			<li class="fragment">
-				<strong class="text-pink-500">Ubiquitaire</strong> dans le développement web (et au dela)
+				<strong class="text-pink-600">Ubiquitaire</strong> dans le développement web (et au dela)
 			</li>
 			<li class="fragment">
-				En <strong class="text-pink-500">constante évolution</strong> (standardisé par l'ECMA)
+				En <strong class="text-pink-600">constante évolution</strong> (standardisé par l'ECMA)
 			</li>
 		</ul>
 		<aside class="notes">
@@ -293,8 +293,8 @@ const maConstante = 12;
 const maConstante = 12;
 
 maConstante = 42; // Erreur
-/* 
-    À noter : si une variable n'est pas réaffectée, 
+/*
+    À noter : si une variable n'est pas réaffectée,
     il est préférable de la déclarer en constante
 */
 </code></pre>

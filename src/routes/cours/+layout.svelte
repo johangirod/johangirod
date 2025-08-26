@@ -34,7 +34,7 @@
 	});
 </script>
 
-<div class="gap-8 lg:grid lg:grid-cols-[0,auto,1fr] xl:grid-cols-[1fr,3fr,1fr]">
+<div class="container mx-auto gap-8 lg:grid lg:grid-cols-[0,auto,1fr] xl:grid-cols-[1fr,3fr,1fr]">
 	<div></div>
 
 	<div
@@ -43,7 +43,6 @@
 		<div style="view-transition-name: breadcrumb">
 			<Breadcrumb
 				links={[
-					{ href: '/', label: 'Accueil' },
 					{
 						href: '/cours/',
 						label: 'Cours et TP'

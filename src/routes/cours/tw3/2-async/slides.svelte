@@ -1,6 +1,6 @@
 <section>
 	<h1><code>Promise</code> et fonctions <code>async</code></h1>
-	<h2 class="text-pink-500">Technologie web 3</h2>
+	<h2 class="text-pink-600">Technologie web 3</h2>
 	<p class="text-gray-500">Johan Girod</p>
 </section>
 <section>
@@ -52,7 +52,7 @@
                     function attendre(ms: number): Promise<void> {
                         // ...
                     }
-                    
+
                     attendre(10ms).then(() => {
                         console.log(value);
                     });
