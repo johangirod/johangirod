@@ -366,7 +366,45 @@
 	</div>
 	<div class="prose-sm lg:prose xl:prose-lg">
 		<h2 class="sr-only">Informations additionnelles</h2>
-
+		<h3>Petit guide à l'usage de mes futurs collègues</h3>
+		<ul>
+			<li>
+				<strong>J'aime discuter de vive voix</strong> quand il s'agit de la vision produit, les
+				choix techniques. J'aime le débat contradictoire argumenté.
+				<strong>Je n'hésite pas à m'engager</strong>
+				si je crois dans la pertinence de mon point de vue. À l'inverse, j'arrive tout à fait à
+				<strong>me taire si je n'ai pas d'avis tranché</strong>.
+			</li>
+			<li>
+				Globalement, <strong>je ne prends rien personnellement</strong>, et même si j'aime proposer,
+				contre-proposer, discuter, je sais me laisser convaincre, ou me ranger derrière une décision
+				collégiale quand le temps est venu.
+			</li>
+			<li>
+				Lorsque <strong>j'entreprends une tâche longue et complexe</strong>, j'ai tendance à m'y
+				plonger à fond et de n'émerger que lorsque je parviens à la résoudre.
+				<strong>Ne pas hésiter à me sortir la tête hors de l'eau</strong> si ça dure trop longtemps.
+			</li>
+			<li>
+				<strong>Je ne me force pas à travailler, au risque de ne pas être productif</strong>. J'ai
+				des horaires plutôt flexibles, et je les note chaque jour. Je convertis le volume horaire en
+				jours à la fin du mois.
+			</li>
+			<li>
+				Je peux manquer d'esprit de synthèse et je peux parfois me lancer dans <strong
+					>des développements un peu longs</strong
+				> de mes arguments. Ne pas hésiter à faire un petit signe si c'est le cas.
+			</li>
+			<li>
+				<strong>J'aime l'autonomie</strong>, je préfère les tâches définies par leur but, plutôt que
+				leur « comment ».
+			</li>
+			<li>
+				J'aime <strong>appartenir à une équipe</strong>, et participer aux
+				<strong>moments collectifs</strong>
+				(séminaires, standup, repas, etc.).
+			</li>
+		</ul>
 		<h3>Éducation</h3>
 
 		<a
