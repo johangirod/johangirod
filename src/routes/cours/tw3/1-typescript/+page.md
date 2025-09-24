@@ -3,8 +3,8 @@
   import Solution from '$lib/Solution.svelte';
   import Reveal from '$lib/Reveal.svelte';
   import Slides from './slides.svelte';
-        import { showSolution } from '$lib/showSolution.ts';
-        showSolution.set(false);
+  import { showSolution } from '$lib/showSolution.ts';
+  showSolution.set(true);
 </script>
 
 <svelte:head>
@@ -189,7 +189,6 @@ Pour éviter de lancer la commande `tsc` à chaque modification, vous pouvez cr�
    <Message>
 
    <div slot="title">Rappel</div>
-
    - Pour **créer un élément HTML**, on utilise la méthode [`document.createElement('div')`](https://developer.mozilla.org/fr/docs/Web/API/Document/createElement)
    - Pour **ajouter un élément** à un autre, on utilise la méthode [`myDomNode.appendChild(myElement)`](https://developer.mozilla.org/fr/docs/Web/API/Node/appendChild)
    - Pour **ajouter une classe** à un élément, on utilise la propriété [`classList.add()`](https://developer.mozilla.org/fr/docs/Web/API/Element/classList)
