@@ -1,8 +1,6 @@
 <script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
-  import { showSolution } from '$lib/showSolution.ts';
-  
 </script>
 
 <svelte:head>
@@ -418,7 +416,8 @@ Pour cela, nous allons créer une connection à la base de données avec le modu
    ```typescript
    // function getAllMenus()
    const queryResult = await db.execute('SELECT * FROM menus');
-   return queryResult[0] as Array<Menu>;
+   const result = queryResult[0] as Array<Menu>;
+   return result;
    ```
 
    - _Note : `execute` retourne un tableau de deux éléments : le résultat de la requête (les menus), et les métadonnées de la requête (le type des colonnes retournées par exemple)._
@@ -464,8 +463,9 @@ const db = await mysql.createConnection({
 });
 
 export async function getAllMenus(): Promise<Array<Menu>> {
-	const queryResult = await db.execute('SELECT * FROM menus");
-	return queryResult[0] as Array<Menu>;
+	const queryResult = await db.execute('SELECT * FROM menus');
+	const result = queryResult[0] as Array<Menu>;
+	return result;
 }
 ```
 
@@ -486,6 +486,7 @@ La fonction `execute` remplacera les `?` par les valeurs passées dans un tablea
 db.execute('SELECT * FROM menus WHERE id = ?', [id]);
 ```
 
+Attention, on veut récupérer un menu unique, et non un tableau de menu.
 Vérifiez que tout fonctionne en cliquant sur « commander » sur la page des menus (n'oubliez pas de modifier le controller également).
 
 <Solution >
@@ -531,12 +532,9 @@ export async function createCommandeFromFormulaire(req: Request, res: Response) 
 
 ```typescript
 export async function getMenuById(id: string): Promise<Menu | undefined> {
-	const query = await db.execute('SELECT * FROM menus WHERE id = ?', [id]);
-	const menus = query[0] as Array<Menu>;
-	if (menus.length === 0) {
-		return undefined;
-	}
-	return menus[0];
+	const query = await db.execute(`SELECT * FROM menus WHERE id = ?`, [id]);
+	const result = query[0] as Array<Menu>;
+	return result[0];
 }
 ```
 
@@ -552,7 +550,6 @@ Le but de cet exercice est de sauvegarder les commandes passées par les clients
 
 1. Ajouter une section `commandes` dans le fichier `models.ts` (comme pour les sections `menus` et `restaurant`).
 2. Créer un type typescript `Commande` avec les propriétés suivantes :
-
    - `id` : un identifiant unique pour la commande
    - `name` : le nom du client
    - `address` : l'adresse du client
@@ -584,6 +581,12 @@ INSERT INTO orders (name, address, phone, menu_id) VALUES (?, ?, ?, ?)
 const commandeId = queryResult[0].insertId;
 ```
 
+Pour indiquer à typescript que la commande SQL est une « insert » qui retourne un id, on peut préciser un paramètre de type à la fonction `db.execute` (nous verrons ce qu'est un paramètre de type dans un autre cours)
+
+```typescript
+await db.execute<ResultSetHeader>(// ...)
+```
+
 6. Modifier le controller `createCommandeFromFormulaire` pour qu'il utilise la fonction `createCommande` et qu'il affiche l'id de la commande dans le message de confirmation.
 
 _Pour tester, vous pouvez créer une commande avec le formulaire, et vérifier que la commande est bien créée dans la base de données avec la commande `SELECT * FROM orders`, via le script `scripts/database-cli.sh`._
@@ -608,13 +611,12 @@ export async function createCommande(
 	phone: string,
 	menuId: string
 ): Promise<Commande> {
-	const queryResult = await db.execute(
+	const queryResult = await db.execute<ResultSetHeader>(
 		'INSERT INTO orders (name, address, phone, menu_id) VALUES (?, ?, ?, ?)',
 		[name, address, phone, menuId]
 	);
 	return {
-		// @ts-ignore because insertId is not in the types
-		id: queryResult[0].insertId,
+		id: queryResult[0].insertId.toString(),
 		name,
 		address,
 		phone,
@@ -735,8 +737,6 @@ Dans la liste des commandes, on veut afficher le nom du menu commandé plutôt q
    SELECT orders.*, orders.menu_id as menuId, menus.name AS menuName FROM orders JOIN menus ON orders.menu_id = menus.id
    ```
 3. Modifier la vue et le controller
-
-## Bonus : améliorations
 
 ### Ajouter des filtres sur la page des commandes
 

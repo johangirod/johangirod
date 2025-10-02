@@ -3,6 +3,8 @@
   import Solution from '$lib/Solution.svelte';
   import Reveal from '$lib/Reveal.svelte';
   import Slides from './slides.svelte';
+  import { showSolution } from '$lib/showSolution.ts';
+  showSolution.set(true);
 </script>
 
 <svelte:head>
@@ -19,7 +21,6 @@
 On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
 
 1. Créer une fonction asynchrone `boucleJeu`. La fonction doit :
-
    - attendre que l'utilisateur clique sur une carte
    - retourner la carte cliquée
    - répéter ces étapes jusqu'à ce que toutes les cartes soient retournées.
@@ -108,7 +109,6 @@ On continue le jeu de memory en ajoutant des fonctionnalités asynchrones.
    </Solution>
 
 3. Créer une fonction principale asynchrone `main`. Le jeu se termine si toutes les cartes sont retournées en moins de 30 secondes, ou si le joueur a gagné. Lorsque le jeu se termine :
-
    - retourner face visible toutes les cartes restantes
    - afficher un message de félicitations si le joueur a gagné, ou un message d'encouragement sinon.
    - afficher un bouton pour rejouer.

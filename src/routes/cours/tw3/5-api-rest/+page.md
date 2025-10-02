@@ -213,7 +213,7 @@ Pour récuperer les données du serveur, nous allons utiliser la fonction [`fetc
 
 Pour afficher les films, vous pourrez utiliser la fonction `createMovieCard` du fichier `client/movie-card.js`.
 
-Cette fonction prend en paramètre un objet contenant la propriété `movie` du même type que celui retourné par la route `/movies`.
+Cette fonction prend en paramètre un objet contenant la propriété `movie` du même type que celui retourné par la route `/movies`. Elle crée un élément HTML correspondant au film à afficher (image, titre, etc), et le retourne. Vous n'aurez plus qu'à l'insérer dans le DOM.
 
 1. Créer une la fonction `async function getMovies` qui retourne la liste des films récupérée depuis le serveur avec la fonction `fetch`.
    ```js
@@ -268,7 +268,6 @@ Nous allons maintenant ajouter la possibilité de rechercher des films par titre
 2. Modifier la fonction `getMovies` côté client pour qu'elle prenne en paramètre une chaîne de caractère `query` et qu'elle l'envoie au serveur dans la requête `fetch`.
 
 3. Brancher le champs de recherche sur la fonction `getMovies` pour qu'elle soit appelée à chaque fois que l'utilisateur tape une lettre dans le champs de recherche.
-
    - Dans la fonction `main`, récuperer l'élement HTML du champs de recherche avec la fonction [`document.querySelector([data-search-input])`](https://developer.mozilla.org/fr/docs/Web/API/Document/querySelector).
    - Écoutez les événements `input` sur le champs de recherche avec la fonction [`addEventListener`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event). Cet événement est déclenché à chaque fois que l'utilisateur tape une lettre dans le champs de recherche.
    - A chaque fois que l'événement est déclenché, appeler la fonction `getMovies` avec la valeur du champs de recherche en paramètre pour récupérer la liste des films correspondant à la recherche, puis appeler la fonction `renderMovies` pour actualiser l'affichage.
@@ -379,7 +378,6 @@ Pour chaque objet `movie` affiché, nous allons faire un appel à la route `/lib
 1. Créer une fonction `aync function getLibraryMovie(movieId)` qui vérifie si le film est dans la bibliothèque de l'utilisateur en appelant la route `GET /library/:movieId` du serveur. Cette fonction renvoie `false` si le film n'est pas dans la bibliothèque de l'utilisateur (le seveur renvoie 404), et l'objet renvoyé par le serveur si il est présent (contenant les propriétés `rating` et `movieId`).
 
 2. Modifier la fonction `async function getMovies` pour ajouter les propriété de la bibliothèque à chaque film de la liste avant de la retourner. Pour modifier la liste, vous pouvez utiliser au choix :
-
    - une boucle for : `for (const movie of movies) { ... }` (méthode impérative)
    - la fonction [`map`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/map) : `movies.map(movie => { ... })` et [`Promise.all`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) pour attendre la fin de toutes les requêtes (méthode fonctionnelle)
 
@@ -433,7 +431,6 @@ Cela, grâce à deux nouvelles routes à la ressource `library` qui vont faire l
 ### Côté serveur
 
 1. Créer une route `POST /library` dans le fichier `server/routes/library.ts`
-
    - Cette route paramètre un objet `LibraryMovie` présent dans le corps de la requête
    - Elle appelle la fonction `addMovieToLibrary` du fichier `server/models/library.ts` pour ajouter le film à la bibliothèque de l'utilisateur. Cette fonction renvoie une erreur `BadRequestError` si le film est déjà dans la bibliothèque de l'utilisateur.
    - Si le film est déjà dans la bibliothèque de l'utilisateur, la route renvoie un code d'erreur 400 (Bad Request) avec le message d'erreur. Sinon, elle retourne l'objet ajouté.
@@ -602,17 +599,13 @@ function renderMovies(movies) {
 
 </Solution>
 
-<Reveal>
-  <Slides/>
-</Reveal>
-
 ## Bonus
 
-- Séparer les films de la filmotheque dans une section à part
+- Séparer les films de la bibliothèque de l'utilisateur dans une section à part sur la page d'accueil
 
 ## Questions de fin
 
 - Quels sont les avantages d'une API REST par rapport à une architecture MVC ?
 - Quels sont les inconvénients d'une API REST par rapport à une architecture MVC ?
 - Nous souhaitons ajouter la possibilité à l'administrateur de l'application d'ajouter des films à la base de donnée. Quelle route devons-nous créer ? Quel verbe HTTP utiliser ?
-- Et pour modifier un film présent ? -->
+- Et pour modifier un film présent ?
