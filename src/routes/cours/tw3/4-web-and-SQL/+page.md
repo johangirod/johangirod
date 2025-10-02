@@ -1,8 +1,6 @@
 <script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
-  import { showSolution } from '$lib/showSolution.ts';
-  
 </script>
 
 <svelte:head>
@@ -552,7 +550,6 @@ Le but de cet exercice est de sauvegarder les commandes passées par les clients
 
 1. Ajouter une section `commandes` dans le fichier `models.ts` (comme pour les sections `menus` et `restaurant`).
 2. Créer un type typescript `Commande` avec les propriétés suivantes :
-
    - `id` : un identifiant unique pour la commande
    - `name` : le nom du client
    - `address` : l'adresse du client
@@ -735,8 +732,6 @@ Dans la liste des commandes, on veut afficher le nom du menu commandé plutôt q
    SELECT orders.*, orders.menu_id as menuId, menus.name AS menuName FROM orders JOIN menus ON orders.menu_id = menus.id
    ```
 3. Modifier la vue et le controller
-
-## Bonus : améliorations
 
 ### Ajouter des filtres sur la page des commandes
 
