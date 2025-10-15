@@ -1,41 +1,4 @@
-<script>
-  import Message from '$lib/Message.svelte';
-  import Solution from '$lib/Solution.svelte';
-  import {showSolution} from '$lib/showSolution';
-
-  $showSolution = false;
-</script>
-
 # Evaluation TW3 2024
-
-<Message>
-
-<div slot="title">Rattrapage du devoir</div>
-
-Vous avez la possibilité de **rattraper ce devoir à la maison**.
-
-- Selectionner **un ou plusieurs exercices** que vous n'avez pas réussi à faire (vous pouvez refaire tout le devoir si vous le souhaitez)
-- Faire **passer les tests** au vert
-- **Commentez chaque ligne** ajoutée en expliquant ce que vous avez fait
-- Les points rattrapés ainsi compteront pour **moitié de leur valeur initiale**
-
-_Exemple : Si vous aviez une note initiale de 8/20, et que votre rattrapage vous augmente la note de 5 points (en faisant passer à 13), votre note finale sera 8 + (5 / 2) = 10.5_
-
-**Pour récupérer son travail**
-
-- `git clone https://sources.univ-jfc.fr/techno-web-3/eval-2024.git`
-- `cd eval-2024`
-- `git fetch`
-- Cherchez le nom de votre branche dans la [liste des branches du repo](https://sources.univ-jfc.fr/techno-web-3/eval-2024/-/branches)
-- `git checkout <nom_de_votre_branche>` (exemple : `git checkout jgirod`)
-
-**Pour sauvegarder votre travail**
-
-- `git add -A *`
-- `git commit -m "Rattrapage"`
-- `git push origin <nom_de_votre_branche>`
-
-</Message>
 
 Dans ce TP, vous aurez à réaliser un site web qui répertorie les concerts et soirées dans les grandes villes de France, et qui permet d'acheter des billets pour ces événements.
 

@@ -5,7 +5,7 @@
   import Reveal from '$lib/Reveal.svelte';
   import {showSolution} from '$lib/showSolution';
 
-  $showSolution = false;
+  $showSolution = true;
 </script>
 
 <svelte:head>

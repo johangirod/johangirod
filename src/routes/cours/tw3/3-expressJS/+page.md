@@ -3,6 +3,8 @@
   import Solution from '$lib/Solution.svelte';
   import Reveal from '$lib/Reveal.svelte';
   import Slides from './slides.svelte';
+  import { showSolution } from '$lib/showSolution.ts';
+  showSolution.set(true);
 </script>
 
 <svelte:head>
@@ -134,7 +136,7 @@ Il vous faudra importer la bibliothèque express, créer une instance de l'appli
 1. Lancez les tests avec `npm test`
 1. Optionnel : ouvrez votre navigateur et allez sur `http://localhost:3000/ping`
 
-<Solution showAnyway>
+<Solution>
 
 ```typescript
 import express from 'express';
@@ -159,7 +161,7 @@ Pour cela, vous utiliserez la méthode [`sendFile`](https://expressjs.com/fr/4x/
 
 Pour construire le chemin du fichier, vous utiliserez la méthode [`join`](https://nodejs.org/api/path.html#path_path_join_paths) du module `path`. Et pour récupérer le chemin absolu du dossier racine, vous utiliserez la variable `__dirname`.
 
-<Solution showAnyway>
+<Solution>
 
 ```typescript
 import path from 'path';
@@ -231,7 +233,7 @@ Un moteur de template est un outil qui permet de générer des pages HTML à par
 1. Installez le moteur de template handlebars pour express `express-handlebars` en suivant les instructions de la [documentation](https://github.com/express-handlebars/express-handlebars#installation)
 1. Vérifiez que les tests de l'exercice 1 passent toujours grâce à la commande `npm test exercice-1`. Si ce n'est pas le cas, corrigez le code.
 
-<Solution showAnyway>
+<Solution>
 
 ```typescript
 import { engine } from 'express-handlebars';
@@ -275,7 +277,7 @@ Un layout est un fichier qui contient le squelette de la page. Il permet de fact
 1. Changez le titre de la page d'accueil (balise `<title>`) par `<nom du restaurant>`
 1. Faire en sorte que les tests « Exercice 1 - Home » passent
 
-<Solution showAnyway>
+<Solution>
 
 **`main.handlebars`**
 
@@ -353,7 +355,7 @@ Créez une nouvelle page `menu.handlebars`, servi sur l'URL `/menus` qui affiche
 1. Utiliser `{{#each}}` dans la vue pour afficher tous les menus
 1. Modifier le titre de la page pour qu'il soit dynamique `Menus - <nom du restaurant>` (`<nom du restaurant>` vient du fichier `restaurant.ts`)
 
-<Solution showAnyway>
+<Solution>
 
 **`index.ts`**
 
@@ -424,7 +426,7 @@ Il est possible de récuperer les paramètres d'une requête HTTP avec la propri
 
 _Aide : vous pourrez utiliser la méthode `Array.find` pour retrouver le bon menu à partir de l'identifiant_
 
-<Solution showAnyway>
+<Solution>
 
 **`menus.handlebars`**
 
