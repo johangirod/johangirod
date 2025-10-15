@@ -1,6 +1,8 @@
 <script>
   import Message from '$lib/Message.svelte';
   import Solution from '$lib/Solution.svelte';
+  import { showSolution } from '$lib/showSolution.ts';
+  showSolution.set(true);
 </script>
 
 <svelte:head>
