@@ -1,6 +1,8 @@
 <script>
 	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
+	import Message from '$lib/Message.svelte';
+	
 	import Slides from './slides.svelte';
 	import losange from './losange.png';
 	import { showSolution } from '$lib/showSolution.ts';
@@ -16,13 +18,11 @@
 
 Pour effectuer les exercices, nous utiliserons un REPL (Read-Eval-Print-Loop) qui permet d'écrire du code et de l'exécuter directement.
 
-Le REPL JavaScript le plus répandu est celui de la console de votre navigateur. Pour y accéder, il suffit d'ouvrir le débugueur de votre navigateur (F12) et de cliquer sur l'onglet "Console". Nous vous conseillons d'utiliser Firefox ou Chrome.
-
-Vous pouvez utiliser un fichier séparé pour faire les exercices et une trace de votre travail, et copier le code dans la console pour l'exécuter.
+Pour cela, vous installerez l'extension `JavaScript REPL` de VSCode pour directement évaluer le JavaScript dans votre éditeur de code.
 
 ### Exercice 1
 
-Écrire une fonction qui, à partir de la hauteur d’un véhicule saisi par l’utilisateur, retourne la catégorie de tarification d’un véhicule se présentant au péage de l’autoroute :
+Écrire une fonction qui prend en argument la hauteur d’un véhicule et qui retourne la catégorie de tarification pour le péage de l’autoroute :
 
 - hauteur inférieure à 2m : "véhicule léger"
 - hauteur supérieure ou égale à 2m et inférieure à 3m : "véhicule intermédiaire"
@@ -102,11 +102,7 @@ function factorial(n) {
 
 Écrire une fonction qui prend en paramètre un tableau de nombres et qui retourne la moyenne de ces nombres.
 
-Bonus : utilisez la fonction [`reduce`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) pour calculer la somme des nombres du tableau.
-
 <Solution>
-
-**Impératif**
 
 ```js
 function average(numbers) {
@@ -118,75 +114,103 @@ function average(numbers) {
 }
 ```
 
-**Fonctionnelle**
+</Solution>
+
+### Exercice 5
+
+#### 5.1
+
+Écrire une fonction `getBalance` qui prend en paramètre une liste d'opération (credit ou debit) et qui retourne la valeur du compte (les crédit sont ajoutés, les débits sont soustraits).
 
 ```js
-function average(numbers) {
-	return numbers.reduce((acc, n) => acc + n, 0) / numbers.length;
+const operations = [
+  { credit: 550, date: new Date('2023-01-01') },
+  { debit: 50, date: new Date('2023-01-02') },
+  { debit: 200, date: new Date('2023-01-03') }
+  { credit: 400, date: new Date('2023-01-08') }
+];
+getBalance(operations); // 700
+```
+
+<Solution>
+
+```js
+function getBalance(operations) {
+	let balance = 0;
+	for (const operation of operations) {
+		if (operation.credit) {
+			balance += operation.credit;
+		} else if (operation.debit) {
+			balance -= operation.debit;
+		}
+	}
+	return balance;
 }
 ```
 
 </Solution>
 
-### Exercice 5
+#### 5.2
 
-Soit un tableau contenant la liste des couleurs:
+Modifier la fonction pour qu'elle prenne un second argument facultatif qui soit la valeur initiale du compte (par défaut 0).
 
 ```js
-const couleurs = [
-	'rouge',
-	'vert',
-	'bleu',
-	'jaune',
-	'orange',
-	'violet',
-	'rose',
-	'marron',
-	'gris',
-	'noir',
-	'blanc',
-	'turquoise',
-	'indigo',
-	'beige',
-	'fuchsia',
-	'cyan',
-	'corail',
-	'chocolat',
-	'bordeaux',
-	'aquamarine',
-	'auburn',
-	'argent',
-	'améthyste',
-	'ambre',
-	'émeraude',
-	'ivoire',
-	'lavande',
-	'lilas',
-	'magenta',
-	'mauve',
-	'olive',
-	'or',
-	'pourpre',
-	'saumon',
-	'sépia',
-	'sienna',
-	'tan',
-	'turquoise',
-	'vermillon',
-	'violet',
-	'zinzolin'
-];
+getBalance(operations); // 700
+getBalance(operations, 1000); // 1700
 ```
-
-Écrire une fonction `searchColor(query)` qui prend en paramètre une chaîne de caractères et qui retourne un tableau contenant les couleurs qui contiennent la chaîne de caractères passée en paramètre.
-
-Vous pourrez utiliser les fonctions [`filter`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) et [`includes`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) pour résoudre cet exercice.
 
 <Solution>
 
 ```js
-function searchColor(query) {
-	return couleurs.filter((c) => c.includes(query));
+function getBalance(operations, balance = 0) {
+	for (const operation of operations) {
+		if (operation.credit) {
+			balance += operation.credit;
+		} else if (operation.debit) {
+			balance -= operation.debit;
+		}
+	}
+	return balance;
+}
+```
+
+</Solution>
+
+#### 5.3
+
+Modifier la fonction pour qu'elle prenne en argument un objet avec les propriétés suivantes :
+
+- `operations`: une liste d'opération (credit ou debit)
+- `initialValue`: la valeur initiale du compte (par défaut 0)
+- `until`: une date jusqu'à laquelle les opérations doivent être prises en compte (par défaut aujourd'hui)
+
+```js
+const operations = [
+  { credit: 550, date: new Date('2023-01-01') },
+  { debit: 50, date: new Date('2023-01-02') },
+  { debit: 200, date: new Date('2023-01-03') }
+  { credit: 400, date: new Date('2023-01-08') }
+];
+getBalance({ operations }); // 700
+getBalance({ operations, initialValue: 100 }); // 800
+getBalance({ operations, until: new Date('2023-01-05') }); // 300
+```
+
+<Solution>
+
+```js
+function getBalance({ operations, initialValue: balance = 0, until = new Date() }) {
+	for (const operation of operations) {
+		if (operation.date <= until) {
+			continue;
+		}
+		if (operation.credit) {
+			balance += operation.credit;
+		} else if (operation.debit) {
+			balance -= operation.debit;
+		}
+	}
+	return balance;
 }
 ```
 
@@ -194,13 +218,33 @@ function searchColor(query) {
 
 ### Exercice 6
 
-Plutôt que d’ouvrir systématiquement une popup pour chaque affichage nous allons maintenant utiliser la méthode `write` de l’objet `document` pour écrire directement dans la fenêtre du navigateur.
+Nous allons pour cet exercice utiliser le REPL du navigateur. Pour y accéder, il suffit d'ouvrir le débugueur de votre navigateur (F12) et de cliquer sur l'onglet "Console".
+
+<Message>
+<div slot='title'>Coller du code dans la console du navigateur</div>
+
+Pour pouvoir coller du code dans la console du navigateur, vous devrez au préalabable écrire manuellement la phrase « autoriser le collage » et appuyer sur la touche « Entrée ».
+
+</Message>
 
 Pour commencer, nous allons changer la police d'écriture pour une police monospace. Pour cela, nous allons utiliser la propriété `fontFamily` de l'objet `document.body.style` :
+
+Saisissez le code suivant dans la console du navigateur :
 
 ```js
 document.body.style.fontFamily = 'monospace';
 ```
+
+Nous allons maintenant utiliser la méthode `write` de l’objet `document` pour écrire directement dans la fenêtre du navigateur.
+Par exemple pour écrire 4 fois le symbole `+` :
+
+```js
+// testez ce code dans votre navigateur
+const str = '+'.repeat(4);
+document.write(str);
+```
+
+Maintenant :
 
 1. Écrire une fonction qui dessine une ligne d’étoiles `*` (le nb d’étoiles sera un paramètre).
 2. Écrire une fonction qui dessine un triangle composé d’étoiles, c’est-à-dire une succession de lignes d’étoiles de longueur 1 puis 2 puis 3 et ainsi jusqu’à n. Le passage à la ligne se fera à l’aide de la balise HTML adéquate (`<br/>`).

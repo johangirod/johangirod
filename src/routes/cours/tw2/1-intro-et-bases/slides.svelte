@@ -3,9 +3,84 @@
 </script>
 
 <section>
-	<h1>Introduction et bases de JavaScript</h1>
-	<h2 class="text-pink-600">Technologie web 2</h2>
-	<p class="text-gray-500">Johan Girod</p>
+	<section>
+		<h1>Introduction et bases de JavaScript</h1>
+		<h2 class="text-pink-600">Technologie web 2</h2>
+		<p class="text-gray-500">Johan Girod</p>
+	</section>
+	<section>
+		<h1>Avant-propos</h1>
+		<aside class="notes">
+			<h2>A propos de moi</h2>
+			<ul>
+				<li></li>
+			</ul>
+			<h2>Quelques vues d'insiders</h2>
+
+			<ul>
+				<li>Beaucoup de développeurs utilisent les LLMs pour générer du code en grande quantité</li>
+				<li>Peu de personnes capable d'auditer, de comprendre et de critiquer ce code</li>
+				<li>
+					Pourtant c'est 50% du taf de développeur : relire du code, écrit par les autres, écrit par
+					les LLMs, etc.
+				</li>
+				<li>
+					Les LLMs proposent souvent 3 ou 4 solutions. Des fois ils en implémentent une mauvaise. La
+					moitié du temps je dois préciser ou corriger.
+				</li>
+				<li>C'est la différence entre un bon dev et un proxy LLM</li>
+				<li>Comment savoir si une solution est bonne / mauvaise ?</li>
+			</ul>
+			<ul>
+				<li>En apprenant les <strong>bases</strong>. Et c'est ce pourquoi vous êtes ici.</li>
+				<li>
+					Le but de ce cours n'est pas de savoir créer un site en 3 semaines (il y a des bootcamp
+					pour cela).
+				</li>
+				<li>C'est de repartir des fondamentaux du web : le navigateur, et les standards</li>
+				<li>
+					Ça pourra sembler long, ardu, complexe, par rapport à une solution LLM qui utilise des
+					framework prêt à l'emploi (ex. react)
+				</li>
+				<li>Mais trois bonnes nouvelles</li>
+				<li>
+					Les bases, c'est durable. Ce que je vous verrez ici était valable il y a 10 ans et sera
+					valable encore dans 10 ans.
+				</li>
+				<li>Les bases c'est standard, tout les développeurs webs les partagent</li>
+				<li>
+					Les bases c'est ce qui vous permettra de corriger les LLMs. Et c'est ce qui fera la
+					différence aux entretiens d'embauche
+				</li>
+				<li>
+					A garder en tête lorsque vous galererez sur des problèmes, des erreurs de syntaxe, etc.
+				</li>
+			</ul>
+			<ul>
+				<li>Le marché du travail des développeurs est en mutation</li>
+
+				<li>Très peu de postes ouverts aux juniors</li>
+				<li>Vous allez devoir vous former vite, car les entreprises ne veulent plus le faire</li>
+				<li>
+					Il faut que vous développiez un maximum de savoir maintenant. Vous avez accès à des
+					professeurs. Vous avez du temps pour vous former. Profitez-en ! Posez des questions /
+					Codez chez vous / Développez votre curiosité
+				</li>
+				<li>
+					Réussir les TPs, c'est pas le sujet, le plus important c'est de comprendre et d'être
+					curieux
+				</li>
+				<li>
+					Et sur l'utilisation des LLMs, je déconseille **très fortement** de les utiliser en mode
+					écriture pendant votre apprentissage (« write »).
+				</li>
+				<li>Ok pour les utiliser en classe mais avec ces règles :</li>
+				<li>1. Écrivez d'abord du code</li>
+				<li>2. Utilisez le mode apprentissage</li>
+				<li>J'experimente cette année ! Si je vois qu'il y a des abus je reviendrai en arrière</li>
+			</ul>
+		</aside>
+	</section>
 </section>
 <section>
 	<section data-auto-animate>
@@ -357,10 +432,9 @@ maConstante = 42; // Erreur
 </code></pre>
 	</section>
 	<section>
-		<h2>Structures de contrôle</h2>
+		<h2>Structures de contrôle : if/else</h2>
 		<pre><code class="language-js" data-trim data-noescape>
 <script type="text/template">
-					// if ... else if ... else
 					if (condition1) {
 						// ...
 					} else if (condition2) {
@@ -368,8 +442,27 @@ maConstante = 42; // Erreur
 					} else {
 						// ...
 					}
+				</script>
+				</code></pre>
+	</section>
+	<section>
+		<h2>Structures de contrôle : boucles</h2>
+		<pre><code class="language-js" data-trim data-noescape>
+<script type="text/template">
+					for (let i = 0; i < 10; i++) {
+						// ...
+					}
 
-					// switch ... case ... default
+					while (condition) {
+						// ...
+					}
+				</script>
+				</code></pre>
+	</section>
+	<section>
+		<h2>Structures de contrôle : switch</h2>
+		<pre><code class="language-js" data-trim data-noescape>
+<script type="text/template">
 					switch (expression) {
 						case valeur1:
 							// expression === valeur1
@@ -384,16 +477,6 @@ maConstante = 42; // Erreur
 						// autres cas
 						// ...
 					}
-
-					// for
-					for (let i = 0; i < 10; i++) {
-						// ...
-					}
-
-					// while
-					while (condition) {
-						// ...
-					}
 				</script>
 				</code></pre>
 	</section>
@@ -402,7 +485,7 @@ maConstante = 42; // Erreur
 		<pre><code class="language-js" data-trim data-noescape data-line-numbers="">
 <script type="text/template">
 					let a;
-					{
+					if (condition) {
 						a = 12;
 						const b = 42;
 						const c = a + b;
@@ -515,10 +598,10 @@ maConstante = 42; // Erreur
 
 <section>
 	<section>
-		<h1>Tableaux et objets</h1>
+		<h1>Tableaux</h1>
 	</section>
 	<section data-auto-animate>
-		<h2>Tableaux</h2>
+		<h2>Déclaration et accès</h2>
 		<pre data-id="code-5"><code class="language-js" data-trim data-noescape>
 				<script type="text/template">
 					// Déclaration d'un tableau
@@ -530,19 +613,41 @@ maConstante = 42; // Erreur
 					// Accès à un élément
 					const firstFruit = fruits[0]; // pomme
 					const penultimateFruit = fruits.at(-2); // banane
+				</script>
+	</code></pre>
+	</section>
+	<section data-auto-animate>
+		<h2>Modifications de tableau</h2>
+		<pre data-id="code-5"><code class="language-js" data-trim data-noescape>
+				<script type="text/template">
+					// Modifier un élement
+					fruits[0] = 'abricot';
 
-					// Sous-tableau
-					const subFruits = fruits.slice(1, 3); // ['banane', 'orange']
+					// Ajouter un élément à la fin
+					fruits.push('cerise');
+					const nouveauxFruits = [...fruits, 'framboise']; // Version immutable
+				</script>
+	</code></pre>
+	</section>
 
-					// Utilisation des tableaux comme tuple (déstructuration)
-					const bob = ['Bob', 42];
-					const [name, age] = bob; // name = 'Bob', age = 42
-
-					// Concaténation de tableaux
-					const allFruits = [...fruits, 'fraise', 'citron']; // ['pomme', 'banane', 'orange', 'fraise', 'citron']
-
-					// Utilisation des tableaux comme liste
-					const [first, ...rest] = fruits; // first = 'pomme', rest = ['banane', 'orange']
+	<section data-auto-animate>
+		<h2>Portion de tableau</h2>
+		<pre data-id="code-5"><code class="language-js" data-trim data-noescape>
+				<script type="text/template">
+					// Récupérer un sous tableau
+					const sousTableau = [1, 2, 3, 4].slice(0, 2); // [1, 2]
+					const sousTableau = [1, 2, 3, 4].slice(1, -1); // [2, 3, 4]
+				</script>
+	</code></pre>
+	</section>
+	<section data-auto-animate>
+		<h2>Portion de tableau</h2>
+		<pre data-id="code-5"><code class="language-js" data-trim data-noescape>
+				<script type="text/template">
+					// Récupérer un sous tableau
+					const sousTableau = [1, 2, 3, 4].slice(0, 2); // [1, 2]
+					const sousTableau = [1, 2, 3, 4].slice(1, -1); // [2, 3, 4]
+					const sousTableau = [1, 2, 3, 4].slice(-1); // ?
 				</script>
 	</code></pre>
 	</section>
@@ -550,31 +655,37 @@ maConstante = 42; // Erreur
 		<h2>Itération sur un tableau</h2>
 		<pre data-id="code-5"><code class="language-js" data-trim data-noescape>
 				<script type="text/template">
-					// Itération sur un tableau
+					// Version « à l'ancienne » (à éviter)
 					for (let i = 0; i < fruits.length; i++) {
 						const fruit = fruits[i];
 						console.log(fruit);
 					}
 
-					// Itération sur un tableau
+					// Version standard
 					for (const fruit of fruits) {
 						console.log(fruit);
 					}
 
-					// Itération sur un tableau
+					// Version fonctionnelle
 					fruits.forEach((fruit) => {
 						console.log(fruit);
 					});
 				</script>
 	</code></pre>
 	</section>
-	<section data-auto-animate>
-		<h2>Objets</h2>
+</section>
+<section>
+	<section>
+		<h1>Objets</h1>
+	</section>
+
+	<section>
+		<h2>Objets: Déclaration et accès</h2>
 		<pre data-id="code-6"><code
 				class="language-js"
 				data-trim
 				data-noescape
-				data-line-numbers="1-7|9-10|12-14|16-18|20-23|25-27">
+				data-line-numbers="1-7|9-10|12-14|16-18">
 				<script type="text/template">
 					// Déclaration d'un objet
 					const person = {
@@ -593,7 +704,13 @@ maConstante = 42; // Erreur
 
 					// Propriété inexistante
 					person.hairColor; // undefined
-
+				</script>
+	</code></pre>
+	</section>
+	<section>
+		<h2>Objet: modification de propriété</h2>
+		<pre><code class="language-js" data-trim data-noescape data-line-numbers="1-2|4-5|7">
+		<script type="text/template">
 					// Modification d'une propriété
 					person.firstName = 'Alice';
 
@@ -601,42 +718,45 @@ maConstante = 42; // Erreur
 					person.city = 'Paris'; // Autorisé, car javascript est un langage dynamique
 
 					delete person.city;
-
-					// Déstructuration d'un objet
-					const { firstName, lastName } = person;
-					console.log(`Hello ${firstName} ${lastName}!`);
 				</script>
-	</code></pre>
+		</code></pre>
 	</section>
 	<section data-auto-animate>
-		<h2>Itération sur un objet</h2>
-		<pre data-id="code-6"><code
-				class="language-js"
-				data-trim
-				data-noescape
-				data-line-numbers="1-6|8-12|14-19">
-				<script type="text/template">
-					const countries = {
-						fr: 'France',
-						de: 'Allemagne',
-						es: 'Espagne'
-						// ...
-					};
+		<h2>Objet: destructuration</h2>
+		<pre data-id="obj-destructuring"><code class="language-js" data-trim data-noescape>
+		<script type="text/template">
+					const person = { firstName: 'Bob', lastName: 'Dylan' };
 
-					// Avec une boucle for ... in
-					for (const key in countries) {
-						const value = countries[key];
-						console.log(`${key} = ${value}`);
+					function greet(person) {
+						console.log(`Hello ${person.firstName} ${person.lastName}!`);
 					}
-
-					// Avec Object.keys
-					const keys = Object.keys(countries); // ['fr', 'de', 'es']
-					keys.forEach((key) => {
-						const value = countries[key];
-						console.log(`${key} = ${value}`);
-					});
 				</script>
-	</code></pre>
+		</code></pre>
+	</section>
+	<section data-auto-animate>
+		<h2>Objet: destructuration</h2>
+		<pre data-id="obj-destructuring"><code class="language-js" data-trim data-noescape>
+		<script type="text/template">
+					const person = { firstName: 'Bob', lastName: 'Dylan' };
+
+					function greet(person) {
+						const { firstName, lastName } = person;
+						console.log(`Hello ${firstName} ${lastName}!`);
+					}
+				</script>
+		</code></pre>
+	</section>
+	<section data-auto-animate>
+		<h2>Objet: destructuration</h2>
+		<pre data-id="obj-destructuring"><code class="language-js" data-trim data-noescape>
+		<script type="text/template">
+					const person = { firstName: 'Bob', lastName: 'Dylan' };
+
+					function greet({ firstName, lastName }) {
+						console.log(`Hello ${firstName} ${lastName}!`);
+					}
+				</script>
+		</code></pre>
 	</section>
 </section>
 <section>

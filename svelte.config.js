@@ -3,6 +3,7 @@ import { escapeSvelte, mdsvex } from 'mdsvex';
 import { createHighlighter } from 'shiki';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import adapterCloudflare from '@sveltejs/adapter-cloudflare';
+import adapterStatic from '@sveltejs/adapter-static';
 import rehypeSlug from 'rehype-slug';
 import { remarkHeadings } from './src/lib/utils/remarkHeadings.js';
 
@@ -30,7 +31,8 @@ const config = {
 	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
 
 	kit: {
-		adapter: adapterCloudflare({})
+		// adapter: adapterCloudflare({})
+		adapter: adapterStatic({})
 	},
 
 	extensions: ['.svelte', '.md']

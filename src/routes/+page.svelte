@@ -144,8 +144,47 @@
 	<h2>Expériences</h2>
 	<div class="md:-mx-6 lg:-mx-8">
 		<Experience
+			title="Nos Gestes Climat"
+			href="https://nosgestesclimat.fr"
+			start={new Date('2025-09')}
+			role="Lead Développeur"
+			technologies={[
+				'React (NextJS)',
+				'Publicodes',
+				'PostgreSQL',
+				'Playwright',
+				'PostHog',
+				'Tailwind'
+			]}
+			keyFigures={['600 000 simulations par an', '2 empreintes calculées (eau et carbone)']}
+		>
+			{#snippet description()}
+				<p>
+					Calculateur de reference de l'empreinte carbone individuelle <strong>10 minutes</strong>
+				</p>
+			{/snippet}
+			{#snippet people()}
+				<p>Grande équipe (12 personnes), avec PO, UX, devs, chargés de déploiements, etc.</p>
+			{/snippet}
+			<p>🚀 En cours</p>
+			<!-- <ul>
+				<li>Parcours d'authentification et création de compte</li>
+				<li>Recherche full-text sur plusieurs entitées</li>
+				<li>Visualisation graphique de données de décarbonation</li>
+				<li>Déploiement continu en auto-hébergement</li>
+			</ul>
+			{#snippet feeling()}
+				<p>
+					Une belle occasion de monter en compétence en base de donnée et de tester SvelteKit pour
+					un application réelle. J'ai été étonné de la rapidité à laquelle le premier prototype a pu
+					être déployé !
+				</p>
+			{/snippet} -->
+		</Experience>
+		<Experience
 			title="Vaisso"
 			start={new Date('2025-06')}
+			end={new Date('2025-09')}
 			role="Développeur Full-stack Freelance"
 			technologies={[
 				'Svelte (SvelteKit)',

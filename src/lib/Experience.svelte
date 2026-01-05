@@ -35,9 +35,12 @@
 	}
 
 	function formatDuration(start: Date, end: Date = new Date()) {
-		const years = end.getFullYear() - start.getFullYear();
-		const months = end.getMonth() - start.getMonth() + 1;
-
+		let years = end.getFullYear() - start.getFullYear();
+		let months = end.getMonth() - start.getMonth() + 1;
+		if (months < 0) {
+			years -= 1;
+			months += 12;
+		}
 		const durationFormatter = new Intl.DurationFormat('fr-FR', { style: 'long' });
 		return durationFormatter.format({ years, months }, 'year');
 	}
