@@ -31,8 +31,8 @@ const config = {
 	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
 
 	kit: {
-		// adapter: adapterCloudflare({})
-		adapter: adapterStatic({})
+		adapter: adapterCloudflare({})
+		// adapter: adapterStatic({})
 	},
 
 	extensions: ['.svelte', '.md']

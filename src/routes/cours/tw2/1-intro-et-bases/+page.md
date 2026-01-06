@@ -6,7 +6,6 @@
 	import Slides from './slides.svelte';
 	import losange from './losange.png';
 	import { showSolution } from '$lib/showSolution.ts';
-	showSolution.set(true);
 	const props = $props();
 </script>
 
@@ -48,38 +47,6 @@ function categorieVehicule(hauteur) {
 
 ### Exercice 2
 
-Écrire un algorithme qui demande à l'utilisateur un nombre compris entre 1 et 10 jusqu'à ce que la réponse convienne.
-
-Vous pourrez utiliser la fonction `prompt` pour demander à l'utilisateur de saisir un nombre et la fonction `alert` pour afficher un message à l'utilisateur.
-
-```js
-const guess = prompt('Entrez un nombre entre 1 et 10');
-// ...
-alert('Bravo !');
-```
-
-Le nombre pourra être determiné aléatoirement à l'aide de la fonction [`Math.random`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Math/random) et de la fonction [`Math.ceil`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Math/ceil).
-
-Vous aurez à utiliser la fonction [`parseInt`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/parseInt) pour convertir la chaîne de caractères saisie par l'utilisateur en nombre.
-
-<Solution>
-
-```js
-function guessingGame() {
-	const number = Math.ceil(Math.random() * 10);
-	let guess;
-	while (guess !== number) {
-		parseInt(prompt('Entrez un nombre entre 1 et 10'), 10);
-	}
-	alert('Bravo !');
-}
-guessingGame();
-```
-
-</Solution>
-
-### Exercice 3
-
 Écrire un programme capable de calculer la factorielle d’un nombre donné par l’utilisateur.
 
 <Solution>
@@ -98,7 +65,7 @@ function factorial(n) {
 
 </Solution>
 
-### Exercice 4
+### Exercice 3
 
 Écrire une fonction qui prend en paramètre un tableau de nombres et qui retourne la moyenne de ces nombres.
 
@@ -116,7 +83,7 @@ function average(numbers) {
 
 </Solution>
 
-### Exercice 5
+### Exercice 4
 
 #### 5.1
 
@@ -124,12 +91,12 @@ function average(numbers) {
 
 ```js
 const operations = [
-  { credit: 550, date: new Date('2023-01-01') },
-  { debit: 50, date: new Date('2023-01-02') },
-  { debit: 200, date: new Date('2023-01-03') }
-  { credit: 400, date: new Date('2023-01-08') }
+	{ credit: 550, date: new Date('2023-01-01') },
+	{ debit: 50, date: new Date('2023-01-02') },
+	{ debit: 200, date: new Date('2023-01-03') },
+	{ credit: 400, date: new Date('2023-01-08') }
 ];
-getBalance(operations); // 700
+getBalance(operations); //= 700
 ```
 
 <Solution>
@@ -216,7 +183,7 @@ function getBalance({ operations, initialValue: balance = 0, until = new Date() 
 
 </Solution>
 
-### Exercice 6
+### Exercice 5
 
 Nous allons pour cet exercice utiliser le REPL du navigateur. Pour y accéder, il suffit d'ouvrir le débugueur de votre navigateur (F12) et de cliquer sur l'onglet "Console".
 
@@ -226,6 +193,38 @@ Nous allons pour cet exercice utiliser le REPL du navigateur. Pour y accéder, i
 Pour pouvoir coller du code dans la console du navigateur, vous devrez au préalabable écrire manuellement la phrase « autoriser le collage » et appuyer sur la touche « Entrée ».
 
 </Message>
+
+Écrire un algorithme qui demande à l'utilisateur un nombre compris entre 1 et 10 jusqu'à ce que la réponse convienne.
+
+Vous pourrez utiliser la fonction `prompt` pour demander à l'utilisateur de saisir un nombre et la fonction `alert` pour afficher un message à l'utilisateur.
+
+```js
+let guess = prompt('Entrez un nombre entre 1 et 10');
+// ...
+alert('Bravo !');
+```
+
+Le nombre pourra être determiné aléatoirement à l'aide de la fonction [`Math.random`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Math/random) et de la fonction [`Math.ceil`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Math/ceil).
+
+Vous aurez à utiliser la fonction [`parseInt`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/parseInt) pour convertir la chaîne de caractères saisie par l'utilisateur en nombre.
+
+<Solution>
+
+```js
+function guessingGame() {
+	const number = Math.ceil(Math.random() * 10);
+	let guess;
+	while (guess !== number) {
+		parseInt(prompt('Entrez un nombre entre 1 et 10'), 10);
+	}
+	alert('Bravo !');
+}
+guessingGame();
+```
+
+</Solution>
+
+### Exercice 6
 
 Pour commencer, nous allons changer la police d'écriture pour une police monospace. Pour cela, nous allons utiliser la propriété `fontFamily` de l'objet `document.body.style` :
 
