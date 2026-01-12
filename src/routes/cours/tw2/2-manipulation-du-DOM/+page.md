@@ -4,7 +4,6 @@
 	import Slides from './slides.svelte';
 	import Message from '$lib/Message.svelte';
 	import { showSolution } from '$lib/showSolution.ts';
-	showSolution.set(true);
 </script>
 
 <Reveal>
@@ -89,7 +88,6 @@ Nous allons réaliser une diapositive d'images qui changent toutes les 2 seconde
    </div>
 
    `defer` est un attribut booléen qui indique au navigateur de différer l'exécution du script après le chargement de la page. Cela permet de garantir
-
    - que le script ne bloque pas le rendu de la page
    - que les éléments du DOM sont bien chargés avant l'exécution du script
 
@@ -111,11 +109,12 @@ Nous allons réaliser une diapositive d'images qui changent toutes les 2 seconde
 
    Dans la fonction, générez un id aléatoire entre 1 et 500 et utilisez cet id pour construire l'url de l'image. Par exemple, si l'id aléatoire est 3, l'url vers la nouvelle image sera `https://picsum.photos/id/3/400/400`.
 
-   Changez l'attribut `src` de l'image pour pointer vers cette nouvelle url.
+   Faire en sorte que la fonction change l'attribut `src` de l'image pour pointer vers cette nouvelle url.
 
 1. Appelez la fonction `changeImage()` toutes les 2 secondes en utilisant la fonction [`setInterval`](https://developer.mozilla.org/fr/docs/Web/API/WindowOrWorkerGlobalScope/setInterval).
 
    ```js
+   // setInterval va appeler la fonction changeImage toutes les 2 secondes
    setInterval(changeImage, 2000);
    ```
 
@@ -134,7 +133,7 @@ setInterval(changeImage, 2000);
 
 ### Exercice 3 : Modifier le style d'éléments avec du code JavaScript
 
-Écrire un script qui cache tous les éléments avec la class `hidden` par un rectangle noir (on pourra utiliser l'attribut `style` pour changer la couleur de fond).
+Écrire un script qui cache tous les éléments avec la class `hidden` par un rectangle noir (on pourra utiliser l'attribut `style` pour changer la couleur de fond en noir).
 
 <Solution >
 
@@ -147,7 +146,7 @@ confidentialElements.forEach((element) => {
 
 </Solution>
 
-### Exercice 4 : Un memory en JavaScript
+### Exercice 4 : Un jeu de mémoire en JavaScript
 
 Nous allons développer un petit jeu de mémoire.
 
@@ -155,36 +154,49 @@ Le but est de faire apparaitre 5 cartes contenant des emojis aléatoires pendant
 
 #### 1. Selections des emojis
 
-Créez une fonction `getRandomEmojis()` qui retourne un tableau de 5 emojis aléatoires. Pour cela vous pourrez utiliser le tableau de base suivant :
+Créez la fonction `getRandomEmojis()` qui retourne un tableau de 5 emojis aléatoires différentes. Voici son code (à compléter)
 
 ```js
 // prettier-ignore
 const emojis = [ '⛔️', '❇️', '🏰', '🐺', '⚜', '😅', '🚳', '🕞', '❣', '🏬', '🛎', '🌕', '🌃', '🏡', '🎑', '🍯', '🐍', '🔕', '🐿', '💮', '😹', '↕️', '🌵', '♒️', '🚽', '🕋', '📔', '🛂', '🎒', '🐼', '♏️', '⏸', '🅰️', '🌈', '🌂', '🚣', '🎇', '❄️', '👙', '🌹', '🍸', '🛳', '🎟', '😱',  '👳', '😑', '⌚️', '💛', '🆚', '🔼', '🈯️', '☀️', '😳', '♊️', '🌖', '♋️', '🚀', '🚱', '🚊', '📿', '⏫', '9️⃣', '🗾', '🏜', '🍦', '✋', '🍀', '🗿', '🙎', '✖️', '🆕', '🎮', '🔒', '💸', '👲', '🏢', '🔑', '🐶', '👪', '😻', '🌼', '👠', '🧀', '👎', '🙌', '🐻',  '👯',  '😺', '😈', '💴', '🎾', '🚙', '❤️', '♑️', '🌲'];
+function getRandomEmojis() {
+	const randomEmojis = [];
+	while (randomEmojis.length < 5) {
+		// 1. On selectionne un index aléatoire entre 0 et la longueur du tableau emojis
+		const randomIndex = ?
+		// 2. On récupère l'emoji correspondant à cet index
+		const randomEmoji = ?
+		// 3. On vérifie si l'emoji n'est pas déjà dans le tableau (utiliser includes)
+		const isAlreadyInArray = ?
+		if (!isAlreadyInArray) {
+		  // 4. Si l'emoji n'est pas déjà dans le tableau, on l'ajoute
+		}
+	}
+	// On retourne le tableau
+	return randomEmojis;
+}
 ```
-
-Cette fonction peut être implémentée de la manière suivante :
-
-- Créer un tableau vide `randomEmojis`
-- Tant que la longueur de `randomEmojis` est inférieure à 5 :
-  - Générer un index aléatoire entre 0 et la longueur du tableau `emojis`
-  - Récupérer l'emoji correspondant à cet index
-  - Si l'emoji n'est pas déjà dans `randomEmojis`, l'ajouter
-- Une fois que `randomEmojis` contient 5 emojis, retourner le tableau
-
-Testez cette fonction en l'appelant avec `console.log(getRandomEmojis())`, et vérifiez que 5 emojis différents sont affichés dans la console du navigateur.
 
 <Solution >
 
 ```js
+// prettier-ignore
+const emojis = [ '⛔️', '❇️', '🏰', '🐺', '⚜', '😅', '🚳', '🕞', '❣', '🏬', '🛎', '🌕', '🌃', '🏡', '🎑', '🍯', '🐍', '🔕', '🐿', '💮', '😹', '↕️', '🌵', '♒️', '🚽', '🕋', '📔', '🛂', '🎒', '🐼', '♏️', '⏸', '🅰️', '🌈', '🌂', '🚣', '🎇', '❄️', '👙', '🌹', '🍸', '🛳', '🎟', '😱',  '👳', '😑', '⌚️', '💛', '🆚', '🔼', '🈯️', '☀️', '😳', '♊️', '🌖', '♋️', '🚀', '🚱', '🚊', '📿', '⏫', '9️⃣', '🗾', '🏜', '🍦', '✋', '🍀', '🗿', '🙎', '✖️', '🆕', '🎮', '🔒', '💸', '👲', '🏢', '🔑', '🐶', '👪', '😻', '🌼', '👠', '🧀', '👎', '🙌', '🐻',  '👯',  '😺', '😈', '💴', '🎾', '🚙', '❤️', '♑️', '🌲'];
 function getRandomEmojis() {
 	const randomEmojis = [];
 	while (randomEmojis.length < 5) {
+		// 1. On selectionne un index aléatoire entre 0 et la longueur du tableau emojis
 		const randomIndex = Math.floor(Math.random() * emojis.length);
+		// 2. On récupère l'emoji correspondant à cet index
 		const randomEmoji = emojis[randomIndex];
-		if (!randomEmojis.includes(randomEmoji)) {
+		// 3. On vérifie si l'emoji n'est pas déjà dans le tableau (utiliser includes)
+		const isAlreadyInArray = randomEmojis.includes(randomEmoji);
+		if (!isAlreadyInArray) {
+			// 4. Si l'emoji n'est pas déjà dans le tableau, on l'ajoute
 			randomEmojis.push(randomEmoji);
 		}
 	}
+	// On retourne le tableau
 	return randomEmojis;
 }
 ```
@@ -193,14 +205,25 @@ function getRandomEmojis() {
 
 #### 2. Affichage des emojis
 
-Creer une fonction `displayCards(emojis)` qui prend en paramètre un tableau d'emojis et qui les affiche dans le navigateur, en les ajoutant à la liste ordonnée (`ol`) avec l'id `emoji-game`.
+Creer une fonction `displayCards(emojis)` qui prend en paramètre un tableau d'emojis à afficher. Cette fonction va créer des éléments HTML `<li>` pour chacune des emojis et les insérer dans le DOM.
 
-- Selectionnez cet élément dans une variable `emojisContainer` grâce à la fonction `document.querySelector`.
-- Réinitialisez le contenu de cet élément avec la propriété `innerHTML` à une chaîne vide.
-- Pour chaque emoji du tableau passé en argument
-  - créer un élément `li` avec `document.createElement`
-  - modifier son contenu avec la propriété `textContent`
-  - ajouter cet élément à `emojisContainer` avec la méthode `appendChild`
+```js
+function displayCards(emojis) {
+  // 1. Selectionner l'élement du DOM `<ol id="emoji-game"> dans la variable emojisContainer
+	const emojisContainer = ?
+	// 2. Supprimer son contenu (réinitialise la liste)
+	emojisContainer.innerHTML = '';
+	// 3. Pour chacune des emoji du tableau
+	for (const emoji of emojis) {
+	  // a. Créer un nouvel element HTML de type `li` (element de liste)
+		const emojiNode = ?
+		// b. Remplir son contenu par l'emoji courante
+		?
+		// c. Ajouter l'élément comme enfant de l'élément emojiContainer (à l'intérieur)
+		?
+	}
+}
+```
 
 Testez cette fonction en appelant `displayCards(getRandomEmojis())`. Vous devriez voir les emojis s'afficher dans le navigateur.
 
@@ -222,11 +245,16 @@ function displayCards(emojis) {
 
 #### 3. Cacher les emojis
 
-Créer une fonction `hideEmojis` qui cache le contenu en modifiant la couleurd de chacune des cartes à `transparent`.
+Créer une fonction `hideEmojis` qui cache le contenu en modifiant la couleur de chacune des cartes à `transparent`.
 
-Pour sélectionner les cartes, on pourra utiliser la méthode `querySelectorAll` avec le sélecteur CSS approprié.
+Pour sélectionner toutes les éléments contenant des emojis, on pourra utiliser la méthode `querySelectorAll` avec le sélecteur CSS approprié.
 
-Testez cette fonction en appelant `hideEmojis` après avoir affiché les emojis.
+Testez cette fonction avec le code suivant
+
+```js
+displayCards(getRandomEmojis());
+setTimeout(hideEmojis, 2000); // Appel la fonction hideEmojis après 2 secondes
+```
 
 <Solution>
 
@@ -245,13 +273,21 @@ function hideEmojis() {
 
 Créer une fonction `askQuestion` avec les spécifications suivantes : , et pose la question à l'utilisateur : « Quelle est le numéro de la carte avec l'emoji <x> ? » (avec <x> l'emoji choisie).
 
-- Cette fonction prend en paramètre le tableau des emojis affichés.
-- Un emoji est choisi aléatoirement dans ce tableau.
-- On pose à l'utilisateur la question « Quelle est le numéro de la carte avec l'emoji <x> ? ». (avec <x> l'emoji choisie). On pourra utiliser la fonction `prompt` pour cela.
-- Si l'utilisateur répond correctement, la fonction affiche un message de félicitation :
-  - Ajoutez une classe `success` à la liste ordonnée contenant les emojis (cela lancera une animation CSS).
-  - Ajouter un message de félicitation dans la `div` avec l'id `emoji-game-message` (par exemple : « Bravo 🎉 ! »).
-- Si l'utilisateur répond incorrectement, alors réafficher tous les emojis et afficher un message d'échec dans la `div` avec l'id `emoji-game-message` (par exemple : « Perdu 😔 »).
+```js
+/**
+ * @param {string[]} randomEmojis - Tableau d'emojis aléatoires affiché à l'utilisateur.
+ */
+function askQuestion(randomEmojis) {
+	// 1. On choisi un emoji aléatoirement dans ce tableau
+	// 2. On pose la question à l'utilisateur : « sous quel carte se trouve l'emoji <emoji> ? »
+	// 3. Si l'utilisateur répond correctement, alors :
+	//    a. On ajoute la classe `success` à l'élement <ol id="emoji-game">
+	//    b. On affiche le text "Bravo 🎉 !" dans l'élément <div id="emoji-game-message">
+	// 4. Sinon :
+	//    a. On réaffiche toutes les emojis
+	//    b. On affiche le texte 'Perdu 😔' dans l'élément <div id="emoji-game-message">
+}
+```
 
 Testez que la fonction `askQuestion` fonctionne en l'appelant avec un tableau d'emojis (vous pouvez afficher la solution dans le texte de la question pour tester le cas où l'utilisateur répond correctement).
 

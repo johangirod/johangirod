@@ -13,7 +13,7 @@
 		<h1>Rappel sur les éléments HTML</h1>
 	</section>
 	<section>
-		<h2>Squelette d'un document HTML</h2>
+		<h2>Document HTML</h2>
 		<ul>
 			<li>Un document HTML est composé d'éléments imbriqués les uns dans les autres</li>
 			<li>Ces éléments sont délimités par des balises ouvrantes et fermantes.</li>
@@ -23,7 +23,7 @@
 				et <code>&lt;body&gt;</code>
 			</li>
 		</ul>
-		<h3>Exemple de document</h3>
+		<h3>Exemple</h3>
 		<pre><code class="language-html" data-trim>
 <script type="text/template">
 					<html>
@@ -42,7 +42,7 @@
 	</code></pre>
 	</section>
 	<section>
-		<h2>Que trouve-t-on dans la balise <code>&lt;head&gt;</code> ?</h2>
+		<h2>Que trouve-t-on dans l'élément <code>&lt;head&gt;</code> ?</h2>
 		<div class="fragment lead text-2xl">
 			<strong>Des métadonnées</strong> (tout ce qui n'est pas visible sur la page)
 		</div>
@@ -56,7 +56,7 @@
 			<li>Et bien d'autres (favicon, scripts, données pour les réseaux sociaux, etc.)</li>
 		</ul>
 	</section>
-	<section>
+	<section data-auto-animate="true">
 		<style>
 			.fragment.grow-width {
 				display: inline-flex;
@@ -74,7 +74,7 @@
 				max-width: 400px;
 			}
 		</style>
-		<h2>Anatomie d'une balise</h2>
+		<h2>Anatomie d'un élément</h2>
 		<div class="flex flex-col items-center gap-8">
 			<div class="font-mono text-3xl">
 				<span class="fragment custom grow-width" data-fragment-index="1">
@@ -93,22 +93,34 @@
 					</span>
 					&gt;
 				</span>
-
 				<span class="fragment custom grow-width mx-2" data-fragment-index="2"
 					>Revenir à l'accueil</span
 				>
+
 
 				<span class="fragment custom grow-width" data-fragment-index="1"
 					>&lt;/<span class="font-bold text-blue-500">a</span>&gt;</span
 				>
 			</div>
 			<div class="text-2xl italic text-gray-600">
-				<span class="fragment custom grow-width" data-fragment-index="1">Nom de l'élément</span>
+				<span class="fragment custom grow-width" data-fragment-index="1">Type de l'élément</span>
 				<span class="fragment custom grow-width" data-fragment-index="3">⋅ Attributs</span>
 				<span class="fragment custom grow-width" data-fragment-index="2">⋅ Contenu</span>
 			</div>
 		</div>
 	</section>
+	<section data-auto-animate="true">
+	<h2>Anatomie d'un élément</h2>
+	    <p>Un élément peut contenir d'autres éléments</p>
+					<pre><code class="language-html" data-trim>
+<script type="text/template">
+							<a class="ma-class" href="/" >
+							    Revenir à <strong>l'accueil</strong>
+							</a>
+							</script>
+				</code></pre>
+	</section>
+
 </section>
 
 <section>
@@ -117,17 +129,15 @@
 	</section>
 	<section data-auto-animate="true">
 		<h1>Qu'est-ce que le DOM ?</h1>
-		<p class="lead" style="font-size: 1.8rem; line-height: 1.5">
+		<blockquote>
 			Le DOM (Document Object Model) est une
 			<strong>interface de programmation pour manipuler des documents HTML</strong>
 			en Javascript
-		</p>
-		<br />
-		<ul class="small text-gray-600">
-			<li class="fragment">Le document HTML est représenté sous <strong>forme d'arbre</strong></li>
-			<li class="fragment"><strong>Tous les navigateurs</strong> implémentent le DOM</li>
+		</blockquote>
+		<ul class="small">
+			<li class="fragment">Tous les navigateurs <strong>implémentent</strong> le DOM (standard web)</li>
 			<li class="fragment">
-				Les scripts JavaScript l'utilisent pour <strong>lire et modifier</strong> le document HTLM
+				Les <strong>scripts JavaScript</strong> l'utilisent pour lire et modifier le HTLM affiché à l'écran
 			</li>
 		</ul>
 	</section>

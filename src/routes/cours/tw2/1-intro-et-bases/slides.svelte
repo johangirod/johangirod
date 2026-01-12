@@ -725,11 +725,11 @@ maConstante = 42; // Erreur
 		<h2>Objet: destructuration</h2>
 		<pre data-id="obj-destructuring"><code class="language-js" data-trim data-noescape>
 		<script type="text/template">
-					const person = { firstName: 'Bob', lastName: 'Dylan' };
-
 					function greet(person) {
 						console.log(`Hello ${person.firstName} ${person.lastName}!`);
 					}
+
+					greet({ firstName: 'Bob', lastName: 'Dylan' };);
 				</script>
 		</code></pre>
 	</section>
@@ -737,12 +737,12 @@ maConstante = 42; // Erreur
 		<h2>Objet: destructuration</h2>
 		<pre data-id="obj-destructuring"><code class="language-js" data-trim data-noescape>
 		<script type="text/template">
-					const person = { firstName: 'Bob', lastName: 'Dylan' };
-
 					function greet(person) {
 						const { firstName, lastName } = person;
 						console.log(`Hello ${firstName} ${lastName}!`);
 					}
+
+					greet({ firstName: 'Bob', lastName: 'Dylan' };);
 				</script>
 		</code></pre>
 	</section>
@@ -750,11 +750,11 @@ maConstante = 42; // Erreur
 		<h2>Objet: destructuration</h2>
 		<pre data-id="obj-destructuring"><code class="language-js" data-trim data-noescape>
 		<script type="text/template">
-					const person = { firstName: 'Bob', lastName: 'Dylan' };
-
 					function greet({ firstName, lastName }) {
 						console.log(`Hello ${firstName} ${lastName}!`);
 					}
+
+					greet({ firstName: 'Bob', lastName: 'Dylan' };);
 				</script>
 		</code></pre>
 	</section>

@@ -158,9 +158,10 @@ const operations = [
   { debit: 200, date: new Date('2023-01-03') }
   { credit: 400, date: new Date('2023-01-08') }
 ];
-getBalance({ operations }); // 700
-getBalance({ operations, initialValue: 100 }); // 800
-getBalance({ operations, until: new Date('2023-01-05') }); // 300
+
+getBalance({ operations: operations }); // 700
+getBalance({ operations: operations, initialValue: 100 }); // 800
+getBalance({ operations: operations, until: new Date('2023-01-05') }); // 300
 ```
 
 <Solution>
