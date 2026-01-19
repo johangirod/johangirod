@@ -109,6 +109,7 @@
 		word-wrap: break-word;
 		box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
 		outline: 2px solid rgba(0, 0, 0, 0.15);
+		font-size: 1.5rem;
 	}
 	:global(.reveal pre code) {
 		display: block;

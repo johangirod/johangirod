@@ -7,6 +7,7 @@
 	import losange from './losange.png';
 	import { showSolution } from '$lib/showSolution.ts';
 	const props = $props();
+	showSolution.set(true)
 </script>
 
 <Reveal>

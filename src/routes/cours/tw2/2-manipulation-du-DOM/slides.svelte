@@ -14,15 +14,7 @@
 	</section>
 	<section>
 		<h2>Document HTML</h2>
-		<ul>
-			<li>Un document HTML est composé d'éléments imbriqués les uns dans les autres</li>
-			<li>Ces éléments sont délimités par des balises ouvrantes et fermantes.</li>
-			<li>
-				Les éléments racines sont <code>&lt;html&gt;</code>,
-				<code>&lt;head&gt;</code>
-				et <code>&lt;body&gt;</code>
-			</li>
-		</ul>
+
 		<h3>Exemple</h3>
 		<pre><code class="language-html" data-trim>
 <script type="text/template">
@@ -40,6 +32,15 @@
 					</html>;
 				</script>
 	</code></pre>
+		<ul>
+			<li class="fragment">Un document HTML est composé d'éléments imbriqués les uns dans les autres</li>
+			<li class="fragment">Ces éléments sont délimités par des balises ouvrantes et fermantes.</li>
+			<li class="fragment">
+				Les éléments racines sont <code>&lt;html&gt;</code>,
+				<code>&lt;head&gt;</code>
+				et <code>&lt;body&gt;</code>
+			</li>
+		</ul>
 	</section>
 	<section>
 		<h2>Que trouve-t-on dans l'élément <code>&lt;head&gt;</code> ?</h2>
