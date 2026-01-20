@@ -103,7 +103,7 @@
 			{#if i === 2}
 							<script type="text/template">
 								document.querySelector('#parent').addEventListener('click', () => {
-									console.log('Il y a eu un click dans l'élément #parent');
+									console.log('Il y a eu un click dans l\'élément #parent (y compris l\'élément #enfant)');
 								});
 							</script>
 						{/if}

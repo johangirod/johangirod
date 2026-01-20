@@ -140,9 +140,9 @@ setInterval(changeImage, 2000);
 
 ```js
 const confidentialElements = document.querySelectorAll('.hidden');
-confidentialElements.forEach((element) => {
+for (element of confidentialElements) {
 	element.style.backgroundColor = 'black';
-});
+}
 ```
 
 </Solution>
@@ -232,14 +232,19 @@ Testez cette fonction en appelant `displayCards(getRandomEmojis())`. Vous devrie
 
 ```js
 function displayCards(emojis) {
+  // 1. Selectionner l'élement du DOM `<ol id="emoji-game"> dans la variable emojisContainer
 	const emojisContainer = document.querySelector('ol#emoji-game');
+	// 2. Supprimer son contenu (réinitialise la liste)
 	emojisContainer.innerHTML = '';
-	emojis.forEach((emoji) => {
+	// 3. Pour chacune des emoji du tableau
+	for (const emoji of emojis) {
+	  // a. Créer un nouvel element HTML de type `li` (element de liste)
 		const emojiNode = document.createElement('li');
+		// b. Remplir son contenu par l'emoji courante
 		emojiNode.textContent = emoji;
-		emojisNode.appendChild(emojiNode);
-	});
-}
+		// c. Ajouter l'élément comme enfant de l'élément emojiContainer (à l'intérieur)
+		emojisContainer.appendChild(emojiNode);
+	}
 ```
 
 </Solution>
@@ -247,7 +252,7 @@ function displayCards(emojis) {
 #### 3. Cacher les emojis
 
 Créer une fonction `hideEmojis` qui cache le contenu en modifiant la couleur de chacune des cartes à `transparent`.
-
+emojiCard of emojiCards
 Pour sélectionner toutes les éléments contenant des emojis, on pourra utiliser la méthode `querySelectorAll` avec le sélecteur CSS approprié.
 
 Testez cette fonction avec le code suivant
@@ -261,8 +266,8 @@ setTimeout(hideEmojis, 2000); // Appel la fonction hideEmojis après 2 secondes
 
 ```js
 function hideEmojis() {
-	const emojiCards = document.querySelectorAll('ol > li');
-	emojiCards.forEach((emojiCard) => {
+	const emojiCards = document.querySelectorAll('ol#emoji-game > li');
+	for (emojiCard of emojiCards) {
 		emojiCard.style.color = 'transparent';
 	});
 }
@@ -299,7 +304,7 @@ function askQuestion(randomEmojis) {
 	const randomIndex = Math.floor(Math.random() * randomEmojis.length);
 	const randomEmoji = randomEmojis[randomIndex];
 	const answer = prompt(`Sous quelle carte se trouve l'emoji ${randomEmoji} ?`);
-	if (Number.parseInt(answer) === randomIndex) {
+	if (Number.parseInt(answer) === randomIndex + 1) {
 		// Ajoute la classe success pour lancer l'animation CSS
 		document.querySelector('ol#emoji-game').classList.add('success');
 		// Affiche un message de félicitation
@@ -315,7 +320,7 @@ function askQuestion(randomEmojis) {
 
 #### 5. Assemblage du jeu
 
-1. Créer une fonction `startGame` qui appelle successivement les fonctions `getRandomEmojis` et `displayEmojis`.
+1. Créer une fonction `startGame` qui appelle successivement les fonctions `getRandomEmojis` et `displayCards`.
 
 2. Utilisez la fonction `setTimeout` pour appeler la fonction `hideEmojis` après 5 secondes.
 
@@ -331,7 +336,7 @@ function askQuestion(randomEmojis) {
 ```js
 function startGame() {
 	const emojis = getRandomEmojis();
-	displayEmojis(emojis);
+	displayCards(emojis);
 
 	setTimeout(hideEmojis, 5000);
 
