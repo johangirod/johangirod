@@ -3,9 +3,10 @@
 	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
-	import { showSolution } from '$lib/showSolution.ts';
+	
+	import consigneSVG from './consigne.svg';
+	import consigneVideo from './consigne.mp4';
 
-	showSolution.set(true);
 </script>
 
 <Reveal>
@@ -35,11 +36,11 @@ cd tp-4
 code .
 ```
 
-Ce projet contient un fichier `index.html` et un fichier `script.js`. Le fichier `script.js` est vide. C'est dans ce fichier que vous allez écrire votre code JavaScript.
+Ce projet contient un fichier `index.html` et un fichier `script.js` (dans lequel vous allez écrire votre code JavaScript).
 
 Vous pouvez ouvrir le fichier `index.html` dans votre navigateur pour voir le rendu de la page. Elle contient une liste de lieux abandonnés à explorer, avec des images, des descriptions, des avis, etc.
 
-1. **En fin de TP**, pensez à sauvegarder votre travail sur le dépôt gitlab de l'université. Pour cela, ouvrez un terminal dans le dossier `tp-4` et tapez les commandes suivantes, en remplaçant `prenom` et `nom` par votre prénom et nom :
+1. **En fin de TP**, pensez à sauvegarder votre travail sur le dépôt gitlab de l'université. Pour cela, ouvrez un terminal dans le dossier `tp-4` et tapez les commandes suivantes, **en remplissant vos informations**
 
 ```bash
 git config --global user.name "Votre nom"
@@ -47,7 +48,7 @@ git config --global user.email "votremail@univ-jfc.fr"
 ```
 
 ```bash
-git checkout -b prenom.nom
+git checkout -b votre_identifiant
 git add :/
 git commit -m "TP 4 - seance 1"
 git push -u
@@ -63,22 +64,32 @@ git checkout prenom.nom
 
 ### Exercice 1 : Ajouter et enlever la modale d'avertissement
 
-Au tout début du fichier `index.html`, vous trouverez le code de la modale d'avertissement. Une modale est une fenêtre qui s'affiche par dessus le reste de la page. Ici, elle est implémentée en utilisant l'élément HTML `<dialog>`, qui est celui à utiliser pour implémenter une modale.
+Au tout début du fichier `index.html`, vous trouverez le code de la modale d'avertissement.
 
-1. Faire en sorte que la modale s'affiche au chargement de la page :
+Une modale est une fenêtre qui s'affiche par dessus le reste de la page.
 
-   - Créer une fonction `displayModal` dans le fichier `script.js`.
-   - Dans cette fonction, récupérez l'élément HTML `<dialog>` dans une variable `modal`.
-   - Utilisez la méthode `modal.showModal()` pour afficher la modale.
-   - Appelez `displayModal`.
+Ici, elle est implémentée en utilisant l'élément HTML `<dialog>`, qui est celui à utiliser pour implémenter une modale.
 
-2. Faire en sorte que la modale se ferme quand on clique sur le bouton "J'ai compris"
+1. **Faire en sorte que la modale s'affiche au chargement de la page**
 
-   - Dans la même fonction, récupérez le noeud DOM du bouton "J'ai compris" dans une variable `button`.
-   - Ajoutez un écouteur d'événement "click" sur le bouton (avec la méthode `addEventListener`).
-   - Dans la fonction de rappel de l'écouteur d'événement, appelez la méthode `modal.close()` pour fermer la modale.
+```js
+function displayModal() {
+	const modal =  ? // Récupérer l'élement HTML de type dialog
+	modal.showModal();
+}
 
-3. Tester que tout fonctionne correctement : la modale doit s'afficher au chargement de la page, et se fermer quand on clique sur le bouton "J'ai compris".
+displayModal();
+```
+
+> `showModal` est une fonction native du DOM qui permet d'afficher un élément HTML `<dialog>`
+
+2. **Faire en sorte que la modale se ferme quand on clique sur le bouton "J'ai compris"**
+   Modifiez la fonction `displayModal` :
+   1. Une fois la modale affichée, récupérez le noeud DOM `<button>` à l'intérieur de `<dialog>` dans une variable
+   2. Ajoutez un écouteur d'événement "click" sur le bouton (avec la méthode `addEventListener`).
+   3. Dans la fonction de rappel de l'écouteur, appelez la méthode `modal.close()` pour fermer la modale.
+
+Tester que tout fonctionne correctement : la modale doit s'afficher au chargement de la page, et se fermer quand on clique sur le bouton "J'ai compris".
 
 _**Astuce** : pour éviter d'avoir à refermer la modale à chaque fois que vous rechargez la page pour les exercices suivants, vous pouvez commenter l'appel à la fonction `displayModal`._
 
@@ -101,20 +112,34 @@ displayModal();
 
 ### Exercice 2 : faire défiler les images au hover
 
-Dans le fichier `index.html`, vous pourrez voir que chaque lieu est représenté par un élément `<article>`. Chaque article contient un titre, ainsi que plusieurs images. Seule l'image avec la classe `displayed` est visible. L'objectif de cet exercice est de faire défiler les images au survol de la souris.
+Dans le fichier `index.html`, vous pourrez voir que chaque lieu est représenté par un élément `<article>`.
+
+Chaque article contient un titre, ainsi que plusieurs images. Le but de cet exercice est que les **images défilent lorsque la souris passe au-dessus**
+
+<video src={consigneVideo} autoplay loop muted class="h-96"></video>
 
 #### Première étape : créer la fonction de défilement
 
-Nous allons créer une fonction qui change l'image affichée à chaque fois qu'elle est appellée. Pour cela, elle déplacera la classe `displayed` sur l'image suivante.
+Nous allons créer une fonction qui change l'image affichée à chaque fois qu'elle est appellée. Pour cela, elle déplacera la classe `displayed` sur l'image suivante. Voici le comportement attendu
 
-1. Créer une fonction `loopImage` dans le fichier `script.js`. Cette fonction prendra en paramètre `article`, l'élément DOM `<article>` sur lequel elle doit opérer.
-2. Dans cette fonction, récupérez l'image actuellement affichée dans l'élément `article` (on pourra utiliser `article.querySelector`) dans une variable `currentImage`.
-3. Supprimez la classe `displayed` de l'image actuelle.
-4. Récupérez l'image suivante dans une variable `nextImage` (on pourra utiliser la propriété `nextElementSibling` par exemple).
-5. Si `nextElementSibling` est `null`, cela signifie que l'image actuelle est la dernière. Dans ce cas, faire en sorte que la variable `nextImage` contienne la première image de l'élément `article`.
-6. Ajoutez la classe `displayed` à l'image suivante.
+<img src={consigneSVG} class="displayed">
 
-Testez que cette fonction fonctionne en appelant par exemple `loopImage(document.querySelector('article'))` dans la console de votre navigateur.
+```js
+function loopImages(article) {
+  // 1. Récupérer l'élément `<img>` avec la classe `displayed` de l'article passé en paramètre
+  const currentImage = ?
+  // 2. Supprimer la classe `displayed` de l'image courante
+  ?
+  // 3. Récupérer l'image juste après l'image courante
+  let nextImage =
+  // 3.b Traiter le cas limite où l'image n'a pas d'image suivante (on recommence au début)
+  ?
+  // Ajouter la classe `displayed` a `nextImage`
+}
+
+// Tester que la fonction marche en l'appelant toutes les secondes sur le premier article de la page
+setInterval(() => loopImages(document.querySelector('article')), 1000)
+```
 
 <Solution>
 
@@ -136,21 +161,15 @@ loopImages(document.querySelector('article'));
 
 </Solution>
 
-#### Deuxième étape : faire défiler les images
-
-1. Faire en sorte que les images du premier lieu défilent automatiquement chaque seconde. Pour cela, appelez-la fonction `loopImage` toute les secondes avec `setInterval`
-
-2. Généraliser le défilement automatique à tous les lieux.
-
-#### Troisième étape : les images défilent seulement au survol de la souris
+#### Deuxième étape : les images défilent seulement au survol de la souris
 
 Nous allons maintenant faire en sorte que les images ne défilent que lorsque la souris est sur le lieu. Pour cela, nous allons utiliser les événements `mouseenter` et `mouseleave`.
 
-`mouseenter` est déclenché quand la souris entre dans un élément, et `mouseleave` quand elle en sort.
+1. Itérer sur chacun des articles (avec une boucle for)
 
-1. **Débuter le défilement au survol**. Ajoutez un écouteur d'événement sur chaque élément `<article>`, et déplacez l'appel à `setInterval` dans la fonction de rappel de cet écouteur,
+2. **Débuter le défilement au survol**. Ajoutez un écouteur d'événement sur chaque élément `<article>`, et déplacez l'appel à `setInterval` dans la fonction de rappel de cet écouteur,
 
-2. **Arrêter le défilement quand la souris quitte le lieu**. Il vous faudra annuler le `setInterval` débuté précédement. Comment ? En utilisant la fonction `clearInterval`, avec comme paramètre l'identifiant de l'intervalle retourné par `setInterval`.
+3. **Arrêter le défilement quand la souris quitte le lieu**. Il vous faudra annuler le `setInterval` débuté précédement. Comment ? En utilisant la fonction `clearInterval`, avec comme paramètre l'identifiant de l'intervalle retourné par `setInterval`.
 
    ```js
    // exemple
@@ -160,8 +179,6 @@ Nous allons maintenant faire en sorte que les images ne défilent que lorsque la
 
    clearInterval(intervalId); // arrête l'intervalle
    ```
-
-3. Pour plus de réactivité, vous pouvez faire en sorte que la fonction `loopImage` soit appelée immédiatement au survol de la souris, puis toute les secondes.
 
 Tester que tout fonctionne correctement : les images doivent défiler au survol de la souris, et s'arrêter quand la souris quitte le lieu.
 
@@ -195,28 +212,39 @@ Chaque lieu contient des données structurées dans des attributs `data-`. Par e
 	Les attributs `data-&lt;*&gt;` en HTML
 </div>
 
-    Les attributs commençant par `data-` sont des attributs personnalisés qui permettent de stocker des données supplémentaires dans un élément HTML. Ils sont très utiles pour stocker des données structurées dans une page web.
+    Les attributs commençant par `data-` sont des attributs personnalisés. Ils permettent de stocker des données supplémentaires qui seront utilisées par le votre javascript, sans être affichés par le navigateur par défaut.
 
-    On peut accéder à ces données directement en utilisant la propriété `dataset` de l'élément.
+    On peut accéder y accéder avec la propriété `dataset` de l'élément.
 
     Par exemple, `element.dataset.category` permet de récupérer la valeur de l'attribut `data-category` de l'élément `element`.
 
 </Message>
 
-L'objectif de cet exercice est de faire en sorte que l'utilisateur puisse filtrer les lieux par type.
+L'objectif de cet exercice est de faire en sorte que l'utilisateur puisse **filtrer les lieux par type**.
 
 Le bouton de filtre est déjà présent dans le fichier `index.html`. Il est représenté par un élément `<select>` qui a comme id `category`.
 
-1. Créer une fonction `filterByCategory` dans le fichier `script.js`. Cette fonction prendra le type de lieu à filtrer en paramètre. Elle devra cacher les lieux qui ne correspondent pas et afficher ceux qui correspondent.
+1. Créer une fonction `filterByCategory`
 
-   - `filterByCategory("industriel")` doit cacher les lieux qui ne sont pas de type "industriel" et afficher ceux qui le sont.
-   - `filterByCategory("all")` doit afficher tous les lieux.
+```javascript
+/**
+ * Filtrer les lieux par type.
+ * @param {string} category - Le type de lieu à filtrer.
+ *
+ * @example
+ * filterByCategory("industriel") // Cacher les articles qui n'ont pas la catégory "industriel"
+ * filterByCategory("all") // Afficher tous les lieux.
+ */
+function filterByCategory(category) {
+	// A compléter
+}
 
-   Pour cacher un élément, vous pouvez utiliser la méthode `style.display = "none"`. Pour le réafficher, on utilisera `style.display = ""`.
+filterByCategory('militaire'); // Test (à supprimer ensuite)
+```
 
-2. Tester cette fonction en appelant `filterByCategory('militaire')` dans la console de votre navigateur.
-3. Ajouter un écouteur d'événement "change" sur l'élément `<select>`. Dans la fonction de rappel de cet écouteur, appelez la fonction `filterByCategory` avec la valeur de l'élément `<select>` en paramètre.
-4. Tester que tout fonctionne correctement : les lieux doivent se filtrer en fonction du type sélectionné.
+_Pour cacher un élément, vous pouvez utiliser la méthode `style.display = "none"`. Pour le réafficher, on utilisera `style.display = ""`._
+
+2. Créer un écouteur d'événement `change` sur l'élément `<select>`. Dans la fonction de rappel de cet écouteur, appelez la fonction `filterByCategory` avec la `value` de l'élément `<select>`.
 
 <Solution>
 
@@ -259,7 +287,6 @@ Le bouton de tri est déjà présent dans le fichier `index.html`. Il est repré
    **A noter** : un élément du DOM ne peut pas se retrouver à deux endroits en même temps. Pour le déplacer, il suffit juste de l'insérer à un autre endroit (il sera automatiquement retiré de son emplacement précédent).
 
 3. Tester cette fonction en appelant `sortBy` dans la console de votre navigateur.
-   _\*\*A noter : il y a une erreur dans le code HTML : la riziere n'a pas la bonne valeur pour le data-diffulty_
 
 4. Ajouter un écouteur d'événement "change" pour les boutons de selection du tri.
 5. Dans la fonction de rappel de cet écouteur, récupérez la nature du tri a effectuer (difficulté ou avis)
