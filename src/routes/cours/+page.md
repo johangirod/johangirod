@@ -11,12 +11,13 @@
 2. [Manipulation du DOM](./tw2/2-manipulation-du-DOM/)
 3. [Utilisations des fonctions en JavaScript](./tw2/3-fonctions/)
 4. [Les événements du DOM](./tw2/4-evenements/)
-5. [**Evaluation**](./tw2/eval/2025)
+5. **Evaluation**
+   - [Sujet 2025](./tw2/eval/2025/1)
+   - [Sujet 2024](https://sources.univ-jfc.fr/techno-web-2/evaluation-2024-1/-/blob/master/REAMDE.md)
 6. [Les modules et classes](./tw2/5-modules-et-classes)
 7. [Asynchronicité et thread](./tw2/6-asynchronicite-et-thread/)
 8. [JSON et stockage local](./tw2/7-json-et-stockage-local/)
-9. [Evaluation 2024 (entraînement)](https://sources.univ-jfc.fr/techno-web-2/evaluation-2024-2/-/blob/master/REAMDE.md)
-10. [Récapitulatif (cheatsheet)](./tw2/cheatsheet/)
+9. [Récapitulatif (cheatsheet)](./tw2/cheatsheet/)
 
 ## Technologie web 3
 

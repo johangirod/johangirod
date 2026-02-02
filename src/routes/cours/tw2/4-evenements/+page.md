@@ -93,7 +93,7 @@ Tester que tout fonctionne correctement : la modale doit s'afficher au chargemen
 
 _**Astuce** : pour éviter d'avoir à refermer la modale à chaque fois que vous rechargez la page pour les exercices suivants, vous pouvez commenter l'appel à la fonction `displayModal`._
 
-<Solution>
+<Solution showAnyway>
 
 ```js
 function displayModal() {
@@ -141,7 +141,7 @@ function loopImages(article) {
 setInterval(() => loopImages(document.querySelector('article')), 1000)
 ```
 
-<Solution>
+<Solution showAnyway>
 
 ```js
 function loopImages(article) {
@@ -182,10 +182,10 @@ Nous allons maintenant faire en sorte que les images ne défilent que lorsque la
 
 Tester que tout fonctionne correctement : les images doivent défiler au survol de la souris, et s'arrêter quand la souris quitte le lieu.
 
-<Solution>
+<Solution showAnyway>
 
 ```js
-for (article of document.querySelectorAll('article')) {
+for (const article of document.querySelectorAll('article')) {
 	let intervalId;
 
 	article.addEventListener('mouseenter', () => {

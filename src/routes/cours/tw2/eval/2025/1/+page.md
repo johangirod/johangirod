@@ -30,19 +30,6 @@
 
 **Toute infraction à ces règles entraînera une note de 0/20 et une saisie des instances disciplinaires de l'université.**
 
-<div class="important">
-
-### Style de code exigé
-
-Pour cette évaluation, vous devez respecter les règles de style suivantes :
-
-- Préfixer toutes les variables avec leur type (ex: strNom, numAge, arrLivres)
-- Ajouter un commentaire "Proposition d'implémentation pour [nom de la fonction]" au début de chaque fonction
-- Ne pas utiliser de fonctions fléchées
-- Utiliser uniquement des boucles for classiques (pas de forEach, map, etc.)
-
-</div>
-
 ### Conseils
 
 Si quelque chose ne marche pas :
