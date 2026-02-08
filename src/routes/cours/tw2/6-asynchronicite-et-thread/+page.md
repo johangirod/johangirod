@@ -3,7 +3,6 @@
 	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
-	import particles from './canvas.png';
 	import { showSolution } from '$lib/showSolution.ts';
 
 	showSolution.set(true);
@@ -13,207 +12,489 @@
     <Slides/>
 </Reveal>
 
-<!-- TODO : un memory -->
+## TP 5 : Balatro simplifié
 
-## TP-6 : Un système de particules
+Créer une version simplifiée du jeu de cartes Balatro en JavaScript, où le but est de former les meilleures combinaisons de poker possible.
 
-Nous allons implémenter un système de particules en JavaScript, grâce à la balise `canvas`.
+**Principes du jeu**
 
-Voici une capture d'écran de ce que nous allons réaliser :
+- Le joueur reçoit une main de **5 cartes** piochées aléatoirement dans un deck de 52 cartes standard.
+- À chaque manche, le joueur dispose de **3 échanges** pour améliorer sa main en remplaçant des cartes individuelles.
+- Une fois satisfait de sa main (ou après avoir utilisé tous ses échanges), le joueur valide sa main et un **score** est calculé en fonction de la combinaison de poker obtenue.
+- Les combinaisons reconnues sont (du plus faible au plus fort) :
+  - **Paire** (5 points) : deux cartes de même valeur
+  - **Double Paire** (10 points) : deux paires différentes
+  - **Brelan** (15 points) : trois cartes de même valeur
+  - **Suite** (25 points) : cinq cartes consécutives
+  - **Couleur** (30 points) : cinq cartes de la même couleur (♠, ♥, ♦, ♣)
+  - **Full** (40 points) : un brelan + une paire
+  - **Carré** (60 points) : quatre cartes de même valeur
+  - **Quinte Flush** (100 points) : une suite de la même couleur
+- Le score total s'accumule au fil des manches.
 
-<div style="background-color: black">
+### Partie 1 : le moteur de jeu
 
-![]({particles})
+Wip
 
-</div>
+<!--
 
-Bien sûr dans notre cas, les particules se déplaceront.
 
-### 1. Création du canvas
+Nous allons créer un moteur de jeu qui simule les mécaniques de base de Balatro : tirage de cartes, formation de main de poker, et calcul de score.
 
-Le `canvas` est une balise HTML qui permet de dessiner des graphiques en 2D ou en 3D. Il est très utilisé pour les jeux vidéo ou les animations.
+Créer un fichier `balatro.js` qui contiendra le moteur de jeu.
 
-Dans un fichier `index.js`, créez deux constantes `WIDTH` et `HEIGHT` qui définiront la taille du canvas. Vous pouvez les initialiser à 800 et 600 par exemple. Créez un élément canvas avec ces dimensions et ajoutez-le au `body` de la page.
+Créer une classe `BalatroSimplifie` qui contiendra les méthodes suivantes :
 
-Pour mieux voir les particules, vous pouvez ajouter un fond noir au canvas, dans un fichier `style.css` :
+- `constructor()` : initialise le jeu avec un deck de 52 cartes
+- `melanger()` : mélange le deck
+- `piocher(nombre)` : pioche `nombre` cartes du deck
+- `echanger(index)` : échange la carte à l'index donné
+- `calculerScore()` : calcule le score basé sur les combinaisons de poker
+- `getMain()` : retourne la main actuelle
+- `getScore()` : retourne le score total
+- `mancheSuivante()` : passe à la manche suivante
 
-```css
-canvas {
-	background-color: black;
-}
-```
+La main sera représentée par un tableau de 5 cartes. Chaque carte est un objet avec une `valeur` (1 pour As, 13 pour Roi) et une `couleur` (♠, ♥, ♦, ♣).
 
-### 2. Création de la classe `Particle`
+#### 1. `constructor()`
 
-Créer une classe `Particle` qui contiendra les méthodes suivantes :
-
-- `constructor(x, y, dx, dy, color)` : initialise une nouvelle particule avec les paramètres suivants :
-
-  - `x` : la position en x de la particule
-  - `y` : la position en y de la particule
-  - `dx` : la vitesse en x de la particule
-  - `dy` : la vitesse en y de la particule
-
-  Cette méthode initialisera également la couleur de la particule. Pour générer une couleur aléatoire, vous pouvez utiliser la fonction suivante :
-
-  ```javascript
-  function randomColor() {
-  	return `hsl(${Math.random() * 360}, ${50 + Math.random() * 50}%, ${50 + Math.random() * 50}%)`;
-  }
-  ```
-
-- `update()` : met à jour la position de la particule en fonction de sa vitesse
-  Lorsque la particule atteint le bord du canvas, elle doit rebondir.
-
-- `draw(ctx)` : dessine la particule sur le canvas
-  Pour la couleur, vous pouvez utiliser la méthode `fillStyle` du contexte 2D.
-  Vous pouvez utiliser la méthode `fillRect` du contexte 2D du canvas (ctx) pour dessiner un rectangle de 2 pixels de côté.
-
-### 3. Création du système de particules
-
-Initialisez un tableau de particules dans le fichier `index.js`. Ce tableau sera initialisé avec un nombre de particules spécifié dans une constante `PARTICLE_COUNT`.
-
-Pour cela, on crée une fonction `renderParticles` qui dessinera toutes les particules du tableau. Elle appellera la méthode `update` de chaque particule pour les faire bouger, puis la méthode `draw` pour les dessiner.
-
-Cette fonction devra être appellée à intervalles réguliers pour animer les particules. Vous pouvez utiliser la fonction `requestAnimationFrame` pour cela. Elle est plus adaptée que `setInterval` pour les animations, car elle est synchronisée avec le taux de rafraîchissement du navigateur.
-
-### 4. Explosion au clic
-
-Ajoutez un écouteur d'événement sur le canvas pour détecter les clics de souris. Lorsque l'utilisateur clique, une explosion de particules doit se produire à l'endroit du clic.
-
-Pour cela, vous pouvez ajouter une méthode `explode(x, y)` qui ajoutera des particules autour du point `(x, y)`.
-
-### 5. Champs de force gravitationnel
-
-Ajoutez un champ de force gravitationnel autour de la souris. Lorsque l'utilisateur bouge la souris, les particules doivent être repoussées par la souris.
-
-Pour cela, vous devrez modifier la vitesse par rapport à la position de souris.
-
-Vous pouvez utiliser la formule suivante :
-
-```js
-const angle = Math.atan2(mouseY - this.y, mouseX - this.x);
-this.dx += Math.cos(angle);
-this.dy += Math.sin(angle);
-```
-
-- Faire en sorte que le champs de force ne s'applique qu'à une certaine distance de la souris.
-- Faire en sorte que les particules hors de cette distance rallentissent progressivement.
-- Faire en sorte de pouvoir paramétrer la force du champs de force.
-- Faire en sorte que le champs de force dépende de la distance à la souris.
-- Modifier les différents paramètres jusq'à obtenir un résultat qui vous plait.
-
-## Corrigé
-
-<Solution>
+Le constructeur initialisera le deck avec les 52 cartes standard et créera une main vide.
 
 ```javascript
-const WIDTH = 1000;
-const HEIGHT = 800;
-const NUMBER_PARTICLES = 1500;
+export class Balatro {
+	#deck = [];
+	#hand = [];
+	#score = 0;
+	#echangesRestants = 3;
 
-class Particle {
-	constructor(x, y, dx, dy, color) {
-		this.x = x;
-		this.y = y;
-		this.dx = dx;
-		this.dy = dy;
-		this.color = color;
+	constructor() {
+		const couleurs = ['♠', '♥', '♦', '♣'];
+		// Initialisation du deck : 54 cartes, valeurs 1 à 13 (As à Roi), 4 couleurs
+		// @ TODO
+		this.melanger();
+		this.piocher(5); // Pioche initiale de 5 cartes
 	}
 
-	update(mouseX, mouseY) {
-		if (mouseX && mouseY) {
-			// Cette partie permet de repousser les particules de la souris (exercice 5)
-			const distance = Math.sqrt((mouseX - this.x) ** 2 + (mouseY - this.y) ** 2);
-			if (distance < 300) {
-				const angle = Math.atan2(mouseY - this.y, mouseX - this.x);
-				const force = distance / 1000;
-				this.dx += Math.cos(angle) * force;
-				this.dy += Math.sin(angle) * force;
-			} else {
-				this.dx *= 0.995;
-				this.dy *= 0.995;
+	melanger() {
+		// @TODO
+	}
+	echanger(index) {
+		// @TODO
+	}
+	calculerScore() {
+		// @TODO
+	}
+	getMain() {
+		// @TODO
+	}
+	getScore() {
+		// @TODO
+	}
+}
+```
+
+<Solution >
+
+```javascript
+	constructor() {
+		// Création du deck : valeurs 1-13 (As à Roi), 4 couleurs
+		const couleurs = ['♠', '♥', '♦', '♣'];
+		for (let valeur = 1; valeur <= 13; valeur++) {
+			for (const couleur of couleurs) {
+				this.#deck.push({ valeur, couleur });
 			}
 		}
-
-		this.x += this.dx;
-		this.y += this.dy;
-		if (this.x < 0 || this.x > WIDTH) {
-			this.dx = -this.dx;
-		}
-		if (this.y < 0 || this.y > HEIGHT) {
-			this.dy = -this.dy;
-		}
+		this.melanger();
+		this.piocher(5); // Pioche initiale de 5 cartes
 	}
 
-	draw(context) {
-		context.fillStyle = this.color;
-		context.beginPath();
-		context.rect(this.x, this.y, 2, 2);
-		context.fill();
-	}
-}
+```
 
-class RandomParticle extends Particle {
-	constructor() {
-		super(
-			Math.random() * WIDTH,
-			Math.random() * HEIGHT,
-			Math.random() * 3 - 1,
-			Math.random() * 3 - 1,
-			`hsl(${random(0, 360)}, ${random(50, 100)}%, ${random(50, 100)}%)`
-		);
-	}
-}
+</Solution>
 
-const canvas = document.createElement('canvas');
-canvas.width = WIDTH;
-canvas.height = HEIGHT;
+#### 2. `melanger()`
 
-document.body.appendChild(canvas);
+Vous pourrez utiliser la fonction `.sort((a, b) => Math.random() - 0.5)` pour trier le deck avec un ordre aléatoire.
 
-const context = canvas.getContext('2d');
-let particles = Array.from({ length: NUMBER_PARTICLES }, () => new RandomParticle());
+<Solution >
 
-let mouseX = 0;
-let mouseY = 0;
-
-canvas.addEventListener('mousemove', (event) => {
-	mouseX = event.x;
-	mouseY = event.y;
-});
-
-function renderParticles() {
-	context.clearRect(0, 0, WIDTH, HEIGHT);
-	particles.forEach((particle) => {
-		particle.update(mouseX, mouseY);
-		particle.draw(context);
-	});
-	requestAnimationFrame(renderParticles);
-}
-
-renderParticles();
-
-canvas.addEventListener('click', (event) => {
-	const { x, y } = event;
-	const RADIUS = 20;
-	particles = particles.concat(
-		Array.from(
-			{ length: 100 },
-			() =>
-				new Particle(
-					random(x - RADIUS, x + RADIUS),
-					random(y - RADIUS, y + RADIUS),
-					random(-2, 2),
-					random(-2, 2)
-				)
-		)
-	);
-});
-
-function random(a, b) {
-	return Math.random() * (b - a) + a;
+```javascript
+melanger() {
+	this.#deck.sort((a, b) => Math.random() - 0.5);
 }
 ```
 
 </Solution>
+
+#### 3. `piocher(nombre)`
+
+Pioche `nombre` cartes du deck et les ajoute à la main. La méthode retourne `true` si le tirage a réussi.
+
+**Note** Pour piocher une carte, il faut l'enlever de `this.#deck` et l'ajouter à `this.#hand`.
+
+<Solution>
+
+```javascript
+piocher(nombre) {
+	if (this.#deck.length < nombre) return false;
+
+	for (let i = 0; i < nombre; i++) {
+		this.#hand.push(this.#deck.pop());
+	}
+	return true;
+}
+```
+
+</Solution>
+
+#### 4. `echanger(index)`
+
+Échange la carte à l'index donné (0-4) pour une nouvelle carte du deck. Le nombre d'échanges est limité à 3 par manche.
+
+<Solution >
+
+```javascript
+echanger(index) {
+	if (this.#echangesRestants <= 0 || index < 0 || index > 4) return false;
+
+	this.#hand[index] = this.#deck.pop();
+	this.#echangesRestants--;
+	return true;
+}
+```
+
+</Solution>
+
+#### 5. `calculerScore()`
+
+Analyse la main et retourne le score basé sur les combinaisons de poker (paire, double paire, brelan, suite, couleur, full, carré, quinte flush).
+
+````javascript
+calculerScore() {
+  // 1. Vérifie si toutes les cartes sont de la même couleur
+  const estCouleur = ??
+
+  // 2. Compte les occurrences de chaque valeur (retourne un objet)
+  let occurrences;
+
+	// Compte les occurrences de chaque valeur
+	const comptes = {};
+	valeurs.forEach(v => comptes[v] = (comptes[v] || 0) + 1);
+	const occurrences = Object.values(comptes).sort((a, b) => b - a);
+
+	const estCouleur = couleurs.every(c => c === couleurs[0]);
+	const estSuite = valeurs.every((v, i) => i === 0 || v === valeurs[i-1] + 1);
+
+	let score = 0;
+	let combo = 'Rien';
+
+	if (estSuite && estCouleur) {
+		score = 100;
+		combo = 'Quinte Flush !';
+	} else if (occurrences[0] === 4) {
+		score = 60;
+		combo = 'Carré !';
+	} else if (occurrences[0] === 3 && occurrences[1] === 2) {
+		score = 40;
+		combo = 'Full !';
+	} else if (estCouleur) {
+		score = 30;
+		combo = 'Couleur !';
+	} else if (estSuite) {
+		score = 25;
+		combo = 'Suite !';
+	} else if (occurrences[0] === 3) {
+		score = 15;
+		combo = 'Brelan !';
+	} else if (occurrences[0] === 2 && occurrences[1] === 2) {
+		score = 10;
+		combo = 'Double Paire !';
+	} else if (occurrences[0] === 2) {
+		score = 5;
+		combo = 'Paire !';
+	}
+
+	return { score, combo, main: [...this.#hand] };
+}
+<Solution >
+
+```javascript
+calculerScore() {
+  // 1. Vérifie si toutes les cartes sont de la même couleur
+  const estCouleur
+
+	const valeurs = this.#hand.map(c => c.valeur).sort((a, b) => a - b);
+	const couleurs = this.#hand.map(c => c.couleur);
+
+	// Compte les occurrences de chaque valeur
+	const comptes = {};
+	valeurs.forEach(v => comptes[v] = (comptes[v] || 0) + 1);
+	const occurrences = Object.values(comptes).sort((a, b) => b - a);
+
+	const estCouleur = couleurs.every(c => c === couleurs[0]);
+	const estSuite = valeurs.every((v, i) => i === 0 || v === valeurs[i-1] + 1);
+
+	let score = 0;
+	let combo = 'Rien';
+
+	if (estSuite && estCouleur) {
+		score = 100;
+		combo = 'Quinte Flush !';
+	} else if (occurrences[0] === 4) {
+		score = 60;
+		combo = 'Carré !';
+	} else if (occurrences[0] === 3 && occurrences[1] === 2) {
+		score = 40;
+		combo = 'Full !';
+	} else if (estCouleur) {
+		score = 30;
+		combo = 'Couleur !';
+	} else if (estSuite) {
+		score = 25;
+		combo = 'Suite !';
+	} else if (occurrences[0] === 3) {
+		score = 15;
+		combo = 'Brelan !';
+	} else if (occurrences[0] === 2 && occurrences[1] === 2) {
+		score = 10;
+		combo = 'Double Paire !';
+	} else if (occurrences[0] === 2) {
+		score = 5;
+		combo = 'Paire !';
+	}
+
+	return { score, combo, main: [...this.#hand] };
+}
+````
+
+</Solution>
+
+### Partie 2 : l'interface
+
+1. Créer un fichier `balatro.html` et `index.js` pour l'interface.
+
+   ```html
+   <!doctype html>
+   <html lang="fr">
+   	<head>
+   		<meta charset="UTF-8" />
+   		<title>Balatro Simplifié</title>
+   		<link rel="stylesheet" href="style.css" />
+   	</head>
+   	<body>
+   		<h1>Balatro Simplifié</h1>
+   		<div id="score">Score : 0</div>
+   		<div id="echanges">Échanges restants : 3</div>
+   		<div id="main"></div>
+   		<div id="combo"></div>
+   		<button id="nouvelleManche">Nouvelle Manche</button>
+   		<script src="index.js" type="module"></script>
+   	</body>
+   </html>
+   ```
+
+1. Implémenter l'affichage des 5 cartes avec leurs valeurs et couleurs.
+
+<Solution>
+
+```javascript
+// index.js
+import { BalatroSimplifie } from './balatro.js';
+
+const jeu = new BalatroSimplifie();
+const mainDiv = document.querySelector('#hand');
+const scoreDiv = document.querySelector('#score');
+const comboDiv = document.querySelector('#combo');
+const echangesDiv = document.querySelector('#echanges');
+const btnNouvelleManche = document.querySelector('#nouvelleManche');
+
+function afficherMain() {
+	mainDiv.innerHTML = '';
+	jeu.getMain().forEach((carte, index) => {
+		const carteDiv = document.createElement('div');
+		carteDiv.className = 'carte';
+		carteDiv.dataset.index = index;
+
+		const valeurDiv = document.createElement('div');
+		valeurDiv.textContent =
+			carte.valeur === 1
+				? 'A'
+				: carte.valeur === 11
+					? 'J'
+					: carte.valeur === 12
+						? 'Q'
+						: carte.valeur === 13
+							? 'K'
+							: carte.valeur;
+
+		const couleurDiv = document.createElement('div');
+		couleurDiv.textContent = carte.couleur;
+		couleurDiv.className = `couleur ${carte.couleur}`;
+
+		carteDiv.appendChild(valeurDiv);
+		carteDiv.appendChild(couleurDiv);
+
+		carteDiv.addEventListener('click', () => {
+			jeu.echanger(index);
+			mettreAJourUI();
+		});
+
+		mainDiv.appendChild(carteDiv);
+	});
+}
+
+function mettreAJourUI() {
+	afficherMain();
+	const resultat = jeu.calculerScore();
+	comboDiv.textContent = resultat.combo;
+	echangesDiv.textContent = `Échanges restants : ${jeu._echangesRestants}`;
+}
+
+btnNouvelleManche.addEventListener('click', () => {
+	jeu.mancheSuivante();
+	scoreDiv.textContent = `Score : ${jeu.getScore()}`;
+	mettreAJourUI();
+});
+
+mettreAJourUI();
+```
+
+</Solution>
+
+1. Styliser les cartes avec `style.css`.
+
+<Solution>
+
+```css
+#hand {
+	display: flex;
+	gap: 10px;
+	margin: 20px;
+}
+
+.carte {
+	width: 80px;
+	height: 120px;
+	border: 2px solid #333;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: white;
+	cursor: pointer;
+	transition: transform 0.2s;
+	font-size: 24px;
+}
+
+.carte:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.couleur.♠,
+.couleur.♣ {
+	color: black;
+}
+
+.couleur.♥,
+.couleur.♦ {
+	color: red;
+}
+
+#combo {
+	font-size: 32px;
+	font-weight: bold;
+	margin: 20px;
+	color: #4caf50;
+}
+
+button {
+	padding: 10px 20px;
+	font-size: 18px;
+	cursor: pointer;
+}
+```
+
+</Solution>
+
+### Partie 3 : Améliorations
+
+1. **Ajouter une animation de tirage** : lorsqu'une nouvelle carte est piochée, elle apparaît avec un effet de flip.
+
+<Solution>
+
+```css
+@keyframes flip {
+	from {
+		transform: rotateY(0deg);
+		opacity: 0;
+	}
+	to {
+		transform: rotateY(360deg);
+		opacity: 1;
+	}
+}
+
+.carte.nouvelle {
+	animation: flip 0.5s ease;
+}
+```
+
+```javascript
+// Dans afficherMain(), ajouter après la création de carteDiv:
+if (carte.nouvelle) {
+	carteDiv.classList.add('nouvelle');
+	setTimeout(() => carteDiv.classList.remove('nouvelle'), 500);
+}
+```
+
+</Solution>
+
+1. **Système de multiplicateurs** : ajouter des cartes spéciales qui multiplient le score.
+
+<Solution>
+
+```javascript
+// Dans calculerScore(), ajouter:
+let multiplicateur = 1;
+// Vérifier si main contient des cartes "multi"
+this.#hand.forEach((carte) => {
+	if (carte.multiplicateur) {
+		multiplicateur *= carte.multiplicateur;
+	}
+});
+return { score: score * multiplicateur, combo, main };
+```
+
+</Solution>
+
+1. **Choix du thème** : permettre aux joueurs de choisir les couleurs des cartes.
+
+<Solution>
+
+```html
+<input type="color" id="couleurFond" value="#ffffff" />
+<input type="color" id="couleurBordure" value="#333333" />
+```
+
+```javascript
+document.querySelector('#couleurFond').addEventListener('input', (e) => {
+	document.documentElement.style.setProperty('--couleur-fond', e.target.value);
+});
+```
+
+```css
+:root {
+	--couleur-fond: #ffffff;
+	--couleur-bordure: #333333;
+}
+
+.carte {
+	background: var(--couleur-fond);
+	border-color: var(--couleur-bordure);
+}
+```
+
+</Solution>
+```-->

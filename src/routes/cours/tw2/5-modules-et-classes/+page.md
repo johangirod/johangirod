@@ -3,468 +3,213 @@
 	import Solution from '$lib/Solution.svelte';
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
-	import { showSolution } from '$lib/showSolution.ts';
-
-	showSolution.set(true);
+	import particles from './canvas.png';
 </script>
 
 <Reveal>
     <Slides/>
 </Reveal>
 
-## TP 5 : puissance 4
+<!-- TODO : un memory -->
 
-Créer un jeu de puissance 4 en JavaScript.
+## TP-5 : Un système de particules
 
-### Partie 1 : le moteur de jeu
+Nous allons implémenter un système de particules en JavaScript, grâce à la balise `canvas`.
 
-Nous allons créer un moteur de jeu qui permet de jouer une partie de [puissance 4](https://www.jeu-puissance-4.com/).
+Voici une capture d'écran de ce que nous allons réaliser :
 
-Créer un fichier `puissance4.js` qui contiendra le moteur de jeu.
+<div style="background-color: black">
 
-Créer une classe `Puissance4` qui contiendra les méthodes suivantes :
+![]({particles})
 
-- `constructor()` : initialise le jeu
-- `play(column)` : joue un coup dans la colonne `column`
-- `getCurrentPlayer()` : retourne le joueur dont c'est le tour
-- `getWinner()` : retourne le joueur gagnant (ou `null` si personne n'a gagné)
-- `getBoard()` : retourne le plateau de jeu (le tableau de tableau)
-- `logBoard()` : affiche le tableau de jeu dans la console (on pourra utiliser `console.table`)
+</div>
 
-Le plateau de jeu sera représenté par un tableau de 6 lignes et 7 colonnes. Chaque case pourra contenir un des trois états suivants : `null` (case vide), `A` (joueur A) ou `B` (joueur B).
+Bien sûr dans notre cas, les particules se déplaceront.
 
-#### 1. `constructor()`
+### 1. Création du canvas
 
-Le constructeur initialisera le plateau de jeu avec toutes les cases vides (initialisées à `null`).
+Le `canvas` est une balise HTML qui permet de dessiner des graphiques en 2D ou en 3D. Il est très utilisé pour les jeux vidéo ou les animations.
 
-Le plateau est représenté par un tableau de 6 lignes, chaque ligne contenant un tableau de 7 éléments représentant les cases de chaque colonnes.
+Dans un fichier `index.js`, créez deux constantes `WIDTH` et `HEIGHT` qui définiront la taille du canvas. Vous pouvez les initialiser à 800 et 600 par exemple. Créez un élément canvas avec ces dimensions et ajoutez-le au `body` de la page.
 
-Ainsi, pour accéder à la case en ligne 3 et colonne 4, on pourra utiliser `this.#grid[3][4]`.
+Pour mieux voir les particules, vous pouvez ajouter un fond noir au canvas, dans un fichier `style.css` :
 
-Pour cela, on pourra utiliser la méthode [`Array.from`](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/from).
-
-**Exemple d'utilisation de `Array.from`**
-
-```javascript
-const nombreJusqua10 = Array.from({ length: 10 }, (v, i) => i);
+```css
+canvas {
+	background-color: black;
+}
 ```
 
-<Solution >
+### 2. Création de la classe `Particle`
 
-```javascript
-export class Puissance4 {
-	#winner = null;
+Créer une classe `Particle` dans un fichier `particle.js` qui contiendra les méthodes suivantes :
 
-	#grid;
+- `constructor(x, y, dx, dy, color)` : initialise une nouvelle particule avec les paramètres suivants :
+  - `x` : la position en x de la particule
+  - `y` : la position en y de la particule
+  - `dx` : la vitesse en x de la particule
+  - `dy` : la vitesse en y de la particule
 
+  Cette méthode initialisera également la couleur de la particule. Pour générer une couleur aléatoire, vous pouvez utiliser la fonction suivante :
+
+  ```javascript
+  function randomColor() {
+  	return `hsl(${Math.random() * 360}, ${50 + Math.random() * 50}%, ${50 + Math.random() * 50}%)`;
+  }
+  ```
+
+- `update()` : met à jour la position de la particule en fonction de sa vitesse
+  Lorsque la particule atteint le bord du canvas, elle doit rebondir.
+
+- `draw(ctx)` : dessine la particule sur le canvas passé en argument
+  Pour la couleur, vous pouvez utiliser la méthode `fillStyle` du contexte 2D.
+  Vous pouvez utiliser la méthode `fillRect` du contexte 2D du canvas (ctx) pour dessiner un rectangle de 2 pixels de côté.
+
+### 3. Création du système de particules
+
+Initialisez un tableau de particules dans le fichier `index.js`. Ce tableau sera initialisé avec un nombre de particules spécifié dans une constante `PARTICLE_COUNT`. Chaque élément du tableau sera une instance de la classe `Particle`.
+
+Creer une fonction `renderParticles` qui dessinera toutes les particules du tableau. Elle appellera la méthode `update` de chaque particule pour les faire bouger, puis la méthode `draw` pour les dessiner.
+
+Cette fonction devra être appellée à intervalles réguliers pour animer les particules. Vous pouvez utiliser la fonction `requestAnimationFrame` pour cela. Elle est plus adaptée que `setInterval` pour les animations, car elle est synchronisée avec le taux de rafraîchissement du navigateur.
+
+### 4. Explosion au clic
+
+Ajoutez un écouteur d'événement sur le canvas pour détecter les clics de souris. Lorsque l'utilisateur clique, une explosion de particules doit se produire à l'endroit du clic.
+
+Pour cela, vous pouvez ajouter une méthode `explode(x, y)` qui ajoutera des particules autour du point `(x, y)`.
+
+### 5. Champs de force gravitationnel
+
+Ajoutez un champ de force gravitationnel autour de la souris. Lorsque l'utilisateur bouge la souris, les particules doivent être repoussées par la souris.
+
+Pour cela, vous devrez modifier la vitesse par rapport à la position de souris.
+
+Vous pouvez utiliser la formule suivante :
+
+```js
+const angle = Math.atan2(mouseY - this.y, mouseX - this.x);
+this.dx += Math.cos(angle);
+this.dy += Math.sin(angle);
+```
+
+- Faire en sorte que le champs de force ne s'applique qu'à une certaine distance de la souris.
+- Faire en sorte que les particules hors de cette distance rallentissent progressivement.
+- Faire en sorte de pouvoir paramétrer la force du champs de force.
+- Faire en sorte que le champs de force dépende de la distance à la souris.
+- Modifier les différents paramètres jusq'à obtenir un résultat qui vous plait.
+
+## Corrigé
+
+<Solution>
+
+```js
+const WIDTH = 1000;
+const HEIGHT = 800;
+const NUMBER_PARTICLES = 1500;
+
+class Particle {
+	constructor(x, y, dx, dy, color) {
+		this.x = x;
+		this.y = y;
+		this.dx = dx;
+		this.dy = dy;
+		this.color = color;
+	}
+
+	update(mouseX, mouseY) {
+		if (mouseX && mouseY) {
+			// Cette partie permet de repousser les particules de la souris (exercice 5)
+			const distance = Math.sqrt((mouseX - this.x) ** 2 + (mouseY - this.y) ** 2);
+			if (distance < 300) {
+				const angle = Math.atan2(mouseY - this.y, mouseX - this.x);
+				const force = distance / 1000;
+				this.dx += Math.cos(angle) * force;
+				this.dy += Math.sin(angle) * force;
+			} else {
+				this.dx *= 0.995;
+				this.dy *= 0.995;
+			}
+		}
+
+		this.x += this.dx;
+		this.y += this.dy;
+		if (this.x < 0 || this.x > WIDTH) {
+			this.dx = -this.dx;
+		}
+		if (this.y < 0 || this.y > HEIGHT) {
+			this.dy = -this.dy;
+		}
+	}
+
+	draw(context) {
+		context.fillStyle = this.color;
+		context.beginPath();
+		context.rect(this.x, this.y, 2, 2);
+		context.fill();
+	}
+}
+
+class RandomParticle extends Particle {
 	constructor() {
-		// On crée un tableau de 6 lignes contenant chacune un tableau de 7 cases
-		// Il est initialisé à null
-
-		// Pour atteindre la case positionnée en ligne 3 et colonne 4
-		// this.#grid[3][4]
-		this.#grid = Array.from({ length: 6 }, () => Array.from({ length: 7 }, () => null));
+		super(
+			Math.random() * WIDTH,
+			Math.random() * HEIGHT,
+			Math.random() * 3 - 1,
+			Math.random() * 3 - 1,
+			`hsl(${random(0, 360)}, ${random(50, 100)}%, ${random(50, 100)}%)`
+		);
 	}
 }
-```
 
-</Solution>
+const canvas = document.createElement('canvas');
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
 
-#### 2. `logBoard()`
+document.body.appendChild(canvas);
 
-La méthode `logBoard()` permettra d'afficher le plateau de jeu dans la console. On pourra utiliser la méthode `console.table` pour afficher le tableau.
+const context = canvas.getContext('2d');
+let particles = Array.from({ length: NUMBER_PARTICLES }, () => new RandomParticle());
 
-Vérifier que votre code fonctionne en initialisant une instance de la classe `Puissance4` et en affichant le plateau de jeu dans la console.
+let mouseX = 0;
+let mouseY = 0;
 
-```javascript
-const game = new Puissance4();
-game.logBoard();
-```
+canvas.addEventListener('mousemove', (event) => {
+	mouseX = event.x;
+	mouseY = event.y;
+});
 
-<Solution >
-
-```javascript
-	logBoard() {
-		console.table(this.#grid);
-	}
-```
-
-</Solution>
-
-#### 3. `getCurrentPlayer()`
-
-Le premier joueur sera le joueur A. La méthode `getCurrentPlayer()` retournera le joueur dont c'est le tour. Ce dernier changera à chaque coup joué.
-
-Faire en sorte que le joueur courant ne puisse pas être modifié directement depuis l'extérieur de la classe (on pourra utiliser le mot-clé `private`).
-
-<Solution >
-
-```javascript
-	#currentPlayer = 'A';
-
-	getCurrentPlayer() {
-		return this.#currentPlayer;
-	}
-```
-
-</Solution>
-
-#### 4. `play()`
-
-La méthode `play(column)` permettra de jouer un coup dans la colonne `column`. Le coup sera joué par le joueur dont c'est le tour (joueur A ou joueur B). La méthode retournera `true` si le coup a été joué, `false` sinon.
-
-Vérifier que votre code fonctionne en jouant un coup dans une colonne.
-
-```javascript
-const game = new Puissance4();
-game.play(3);
-game.logBoard();
-```
-
-<Solution >
-
-```javascript
-
-	play(column) {
-		// Si la colonne est pleine, on ne peut pas jouer
-		if (this.#grid[0][column]) {
-			return false;
-		}
-		// On cherche la première case vide en partant du bas
-		const ligneCaseVide = this.#grid.findLastIndex((ligne) => ligne[column] === null);
-		// On ajoute un jeton correspondant au joueur actuel
-		this.#grid[ligneCaseVide][column] = this.#currentPlayer;
-		// On change le joueur courant
-		this.#currentPlayer = this.#currentPlayer === 'A' ? 'B' : 'A';
-	}
-```
-
-</Solution>
-
-#### 5. `getWinner()`
-
-La méthode `getWinner()` retournera le joueur gagnant (ou `null` si personne n'a gagné).
-
-_Indice : on pourra utiliser une méthode privée `#checkWin(row, column)` qui vérifiera si un joueur a gagné à la fin de la méthode `play`. De cette manière, on sait à partir de quel jeton il faut vérifier les alignements._
-
-Vérifier que votre code fonctionne :
-
-```javascript
-const game = new Puissance4();
-game.play(3); // A
-game.play(1);
-game.play(3); // A
-game.play(6);
-game.play(3); // A
-game.play(4);
-game.play(3); // A
-game.logBoard();
-console.log(game.getWinner()); // A
-```
-
-<Solution >
-
-```javascript
-
-	getWinner() {
-		return this.#winner;
-	}
-
-	#checkWin(row, column) {
-		if (this.#winner) {
-			return;
-		}
-		const directions = [
-			[0, 1],
-			[1, 0],
-			[1, 1],
-			[1, -1]
-		];
-		// Pour chacune des direction possible (vertical, horizontal, diagonale montante, diagonale descendante)
-		for (const [dx, dy] of directions) {
-			let count = 1;
-			// On compte le nombre de jeton aligné après le jeton joué
-			for (let i = 1; i < 4; i++) {
-				const x = column + i * dx;
-				const y = row + i * dy;
-				if (this.#grid[y]?.[x] !== this.#currentPlayer) {
-					break;
-				}
-				count++;
-			}
-			// On compte le nombre de jeton aligné avant le jeton joué
-			for (let i = 1; i < 4; i++) {
-				const x = column - i * dx;
-				const y = row - i * dy;
-
-				if (this.#grid[y]?.[x] !== this.#currentPlayer) {
-					break;
-				}
-				count++;
-			}
-
-			// Si on a 4 jetons alignés (ou plus), on a un gagnant
-			if (count >= 4) {
-				this.#winner = this.#currentPlayer;
-				break;
-			}
-		}
-	}
-```
-
-</Solution>
-
-### Partie deux : l'interface
-
-1. Créer un fichier `puissance4.html` qui contiendra l'interface du jeu, et un fichier `index.js` qui contiendra le code JavaScript permettant d'interagir avec le moteur de jeu.
-
-   Vous pouvez utiliser le code HTML suivant :
-
-   ```html
-   <!doctype html>
-   <html lang="fr">
-   	<head>
-   		<meta charset="UTF-8" />
-   		<title>Puissance 4</title>
-   		<link rel="stylesheet" href="style.css" />
-   	</head>
-   	<body>
-   		<script src="index.js" type="module"></script>
-   		<h1>Puissance 4</h1>
-   		<div id="board"></div>
-   	</body>
-   </html>
-   ```
-
-1. Pour pouvoir utiliser les modules avec votre projet, il faudra installer une extension VSCode qui permet de lancer un serveur local. Vous pouvez installer l'extension `Live Server` par exemple. Puis, faire un clic droit sur le fichier `puissance4.html` et choisir `Open with Live Server`.
-1. Créer une fonction `renderBord` qui affiche le plateau de jeu dans la div `board`. **Cette fonction devra créer les éléments HTML du plateau de jeu**. Le plateau sera représenté par plusieurs `div` représentant les colonnes et les cases du jeu.
-
-```html
-<div id="board">
-	<div class="column">
-		<div class="case"></div>
-		...
-	</div>
-</div>
-```
-
-Les case seront représentées par des `div` avec la classe `case`. Les cases du joueur A auront en plus la classe `player-A`, les cases du joueur B auront la classe `player-B`.
-
-Pour styliser le plateau de jeu, vous pouvez utiliser le fichier `style.css` suivant :
-
-```css
-#board {
-	display: flex;
+function renderParticles() {
+	context.clearRect(0, 0, WIDTH, HEIGHT);
+	particles.forEach((particle) => {
+		particle.update(mouseX, mouseY);
+		particle.draw(context);
+	});
+	requestAnimationFrame(renderParticles);
 }
 
-.column {
-	display: flex;
-	flex-direction: column;
-}
+renderParticles();
 
-.case {
-	width: 50px;
-	height: 50px;
-	border: 1px solid black;
-}
-
-.case.player-A {
-	background: radial-gradient(circle at 50% 50%, #ff0000 50%, #990000 50%, #990000 70%, white 70%);
-}
-.case.player-B {
-	background: radial-gradient(circle at 50% 50%, #0000ff 50%, #000099 50%, #000099 70%, white 70%);
-}
-```
-
-1. Faire en sorte que le jeu puisse être joué en cliquant sur les colonnes du plateau :
-   - Afficher en haut le joueur dont c'est le tour.
-   - Jouer un coup dans la colonne en cliquant dessus
-   - Si un joueur a gagné, on affichera un message de victoire
-
-<Solution>
-
-```javascript
-// Fichier index.js
-import { Puissance4 } from './puissance4.js';
-
-const game = new Puissance4();
-renderBoard();
-
-function renderBoard() {
-	const boardElem = document.querySelector('#board');
-	if (!boardElem) {
-		throw new Error("Impossible de trouver l'élément #board");
-	}
-	boardElem.innerHTML = '';
-	const board = game.getBoard();
-
-	const numberOfRow = board.length;
-	const numberOfColumn = board[0].length;
-
-	for (let j = 0; j < numberOfColumn; j++) {
-		// On crée chaque colonne dans une boucle
-		const columnDiv = document.createElement('div');
-		columnDiv.classList.add('column');
-
-		for (let i = 0; i < numberOfRow; i++) {
-			// Pour chaque colonne, on ajoute les cases avec les jetons,
-			// en commençant par la dernière ligne
-			const caseDiv = document.createElement('div');
-			caseDiv.classList.add('case');
-
-			const jetonJoueur = board[i][j];
-
-			if (jetonJoueur === 'A') {
-				caseDiv.classList.add('player-A');
-				caseDiv.innerText = 'A';
-			} else if (jetonJoueur === 'B') {
-				caseDiv.classList.add('player-B');
-				caseDiv.innerText = 'B';
-			}
-
-			columnDiv.appendChild(caseDiv);
-		}
-
-		// On ajoute un écouteur d'événement pour chaque colonne
-		columnDiv.addEventListener('click', () => {
-			game.play(j);
-			// On réaffiche le plateau après chaque coup
-			renderBoard();
-		});
-		boardElem.appendChild(columnDiv);
-	}
-
-	// Affiche le joueur dont c'est le tour
-	let playerInfo = document.querySelector('.player-info');
-	if (!playerInfo) {
-		playerInfo = document.createElement('div');
-		playerInfo.classList.add('player-info');
-		document.body.appendChild(playerInfo);
-	}
-	playerInfo.textContent = `C'est au joueur ${game.getCurrentPlayer()} de jouer`;
-
-	// Affiche un message de victoire si un joueur a gagné
-	if (game.getWinner()) {
-		const message = document.createElement('div');
-		message.textContent = `Le joueur ${game.getWinner()} a gagné !`;
-		document.body.appendChild(message);
-	}
-}
-```
-
-</Solution>
-
-### Partie 3 : Améliorations
-
-Ces améliorations vous familiariseront avec des notions CSS plus avancées. Ces notions ne seront pas vues en cours, mais elles vous seront très utiles si vous souhaitez vous spécialiser en développement front-end.
-
-1. Ajouter un **jeton de la couleur du joueur** au dessus de la colonne survolée par la souris. Vous pouvez le faire uniquement en CSS en utilisant la pseudo-classe `:hover` et la propriété `::before`. Pour connaître la changer la couleur du jeton en fonction du joueur, vous pouvez ajouter une classe CSS à la grille de jeu contenant le joueur courant.
-
-   - Voir la documentation sur [::before](https://developer.mozilla.org/en-US/docs/Web/CSS/::before)
-   - Tutoriel sur [l'utilisation des pseudo-classes CSS](https://web.dev/learn/css/pseudo-classes?hl=fr)
-   - Tutoriel sur [les pseudo-éléments CSS](https://web.dev/learn/css/pseudo-elements?hl=fr)
-
-<Solution>
-
-```css
-#board[data-player='A'] .column:hover::before,
-.case.player-A {
-	background: radial-gradient(circle at 50% 50%, #ff0000 50%, #990000 50%, #990000 70%, white 70%);
-}
-
-#board[data-player='B'] .column:hover::before,
-.case.player-B {
-	background: radial-gradient(circle at 50% 50%, #0000ff 50%, #000099 50%, #000099 70%, white 70%);
-}
-
-.column:hover::before {
-	content: '';
-	position: absolute;
-	top: -50px;
-	width: 50px;
-	height: 50px;
-}
-
-.column {
-	display: flex;
-	position: relative;
-	flex-direction: column;
-	margin-top: 50px;
-}
-```
-
-```javascript
-// Fichier index.js
-
-// ...
-boardElem.dataset.player = game.getCurrentPlayer();
-// ...
-```
-
-</Solution>
-
-2. Faire en sorte que les joueurs puissent **choisir la couleur de leur jeton**.
-
-   - Utiliser un `input` de type `color` pour permettre aux joueurs de choisir leur couleurs
-   - Lorsque les couleurs seront modifiée, le code javascript devra mettre à jour une variable CSS contenant la couleur du joueur A et B. Les classes CSS des jetons devront être modifiées pour utiliser ces variables CSS.
-
-   - Voir la documentation sur les [input de type color](https://developer.mozilla.org/fr/docs/Web/HTML/Element/Input/color)
-   - Voir une [explication sur les variables CSS](https://developer.mozilla.org/fr/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties)
-
-<Solution>
-
-```html
-<div>
-	<label for="colorA">Couleur joueur A</label>
-	<input type="color" id="colorA" value="#ff0000" />
-	<label for="colorB">Couleur joueur B</label>
-	<input type="color" id="colorB" value="#0000ff" />
-</div>
-```
-
-```css
-#board[data-player='A'] .column:hover::before,
-.case.player-A {
-	--color-jeton: var(--color-player-A);
-}
-#board[data-player='B'] .column:hover::before,
-.case.player-B {
-	--color-jeton: var(--color-player-B);
-}
-.column:hover::before,
-.case.player-A,
-.case.player-B {
-	--color-jeton-fonce: hsl(from var(--color-jeton) h s l / 50%);
-	background: radial-gradient(
-		circle at 50% 50%,
-		var(--color-jeton) 50%,
-		var(--color-jeton-fonce) 50%,
-		var(--color-jeton-fonce) 70%,
-		white 70%
+canvas.addEventListener('click', (event) => {
+	const { x, y } = event;
+	const RADIUS = 20;
+	particles = particles.concat(
+		Array.from(
+			{ length: 100 },
+			() =>
+				new Particle(
+					random(x - RADIUS, x + RADIUS),
+					random(y - RADIUS, y + RADIUS),
+					random(-2, 2),
+					random(-2, 2)
+				)
+		)
 	);
-}
-```
+});
 
-```javascript
-const colorA = document.querySelector('#colorA');
-const colorB = document.querySelector('#colorB');
-
-function updateColorA() {
-	document.documentElement.style.setProperty('--color-player-A', colorA.value);
+function random(a, b) {
+	return Math.random() * (b - a) + a;
 }
-function updateColorB() {
-	document.documentElement.style.setProperty('--color-player-B', colorB.value);
-}
-
-colorA.addEventListener('input', updateColorA);
-colorB.addEventListener('input', updateColorB);
-updateColorA();
-updateColorB();
 ```
 
 </Solution>
-
-3. **Ajouter une animation** lorsqu'un jeton est joué. Le jeton doit tomber depuis le haut et rebondir très lègerement sur le jeton du dessous. Pour cela, vous pourrez utiliser une **animation CSS**. Il vous faudra vous souvenir du dernier coup joué pour ajouter une classe spécifique déclenchant l'animation sur la case correspondante.
-
-   - Voir la documentation sur les [animations CSS](https://developer.mozilla.org/fr/docs/Web/CSS/animation)
-   - Tutoriel sur [l'utilisation des animations CSS](https://web.dev/learn/css/animations?hl=fr)

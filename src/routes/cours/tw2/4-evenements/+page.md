@@ -6,7 +6,9 @@
 	
 	import consigneSVG from './consigne.svg';
 	import consigneVideo from './consigne.mp4';
+	import { showSolution } from '$lib/showSolution.ts';
 
+	showSolution.set(true);
 </script>
 
 <Reveal>
@@ -93,7 +95,7 @@ Tester que tout fonctionne correctement : la modale doit s'afficher au chargemen
 
 _**Astuce** : pour éviter d'avoir à refermer la modale à chaque fois que vous rechargez la page pour les exercices suivants, vous pouvez commenter l'appel à la fonction `displayModal`._
 
-<Solution showAnyway>
+<Solution >
 
 ```js
 function displayModal() {
@@ -141,7 +143,7 @@ function loopImages(article) {
 setInterval(() => loopImages(document.querySelector('article')), 1000)
 ```
 
-<Solution showAnyway>
+<Solution >
 
 ```js
 function loopImages(article) {
@@ -182,7 +184,7 @@ Nous allons maintenant faire en sorte que les images ne défilent que lorsque la
 
 Tester que tout fonctionne correctement : les images doivent défiler au survol de la souris, et s'arrêter quand la souris quitte le lieu.
 
-<Solution showAnyway>
+<Solution >
 
 ```js
 for (const article of document.querySelectorAll('article')) {
