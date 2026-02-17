@@ -30,7 +30,7 @@ Bien sûr dans notre cas, les particules se déplaceront.
 
 Le `canvas` est une balise HTML qui permet de dessiner des graphiques en 2D ou en 3D. Il est très utilisé pour les jeux vidéo ou les animations.
 
-Dans un fichier `index.js`, créez deux constantes `WIDTH` et `HEIGHT` qui définiront la taille du canvas. Vous pouvez les initialiser à 800 et 600 par exemple. Créez un élément canvas avec ces dimensions et ajoutez-le au `body` de la page.
+Dans un fichier `index.js`, créez deux constantes `WIDTH` et `HEIGHT` qui définiront la taille du canvas. Vous pouvez les initialiser à 800 et 600 par exemple. Faire en sorte qu'un élément canvas soit présent dans la page, avec ces dimensions.
 
 Pour mieux voir les particules, vous pouvez ajouter un fond noir au canvas, dans un fichier `style.css` :
 
@@ -39,6 +39,14 @@ canvas {
 	background-color: black;
 }
 ```
+
+#### Lancer le projet dans le navigateur
+
+Pour lancer le projet, il faudra utiliser l'extension `Live Server` de VSCode, afin de servir les fichiers via le protocol HTTP. En effet, il n'est pas possible d'utiliser les modules JavaScript si on ouvrre le fichier `html` directement dans le navigateur.
+
+1. Ouvrir le dossier de travail dans VSCode.
+2. Installer l'extension `Live server`
+3. Faire une click droit sur `index.html` dans l'explorer VSCode et selectionner `Ouvrir avec Live Server` (premier élément de la liste).
 
 ### 2. Création de la classe `Particle`
 
@@ -58,7 +66,7 @@ Créer une classe `Particle` dans un fichier `particle.js` qui contiendra les m�
   }
   ```
 
-- `update()` : met à jour la position de la particule en fonction de sa vitesse
+- `update(max_width, max_height)` : met à jour la position de la particule en fonction de sa vitesse et de la taille du canvas
   Lorsque la particule atteint le bord du canvas, elle doit rebondir.
 
 - `draw(ctx)` : dessine la particule sur le canvas passé en argument
@@ -76,8 +84,6 @@ Cette fonction devra être appellée à intervalles réguliers pour animer les p
 ### 4. Explosion au clic
 
 Ajoutez un écouteur d'événement sur le canvas pour détecter les clics de souris. Lorsque l'utilisateur clique, une explosion de particules doit se produire à l'endroit du clic.
-
-Pour cela, vous pouvez ajouter une méthode `explode(x, y)` qui ajoutera des particules autour du point `(x, y)`.
 
 ### 5. Champs de force gravitationnel
 
