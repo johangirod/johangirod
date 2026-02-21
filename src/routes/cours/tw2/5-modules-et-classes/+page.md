@@ -4,6 +4,9 @@
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
 	import particles from './canvas.png';
+	import { showSolution } from '$lib/showSolution.ts';
+
+	showSolution.set(true);
 </script>
 
 <Reveal>
@@ -126,7 +129,7 @@ class Particle {
 	update(mouseX, mouseY) {
 		if (mouseX && mouseY) {
 			// Cette partie permet de repousser les particules de la souris (exercice 5)
-			const distance = Math.sqrt((mouseX - this.x) ** 2 + (mouseY - this.y) ** 2);
+			const distance = Math.hypot(mouseX - this.x, mouseY - this.y);
 			if (distance < 300) {
 				const angle = Math.atan2(mouseY - this.y, mouseX - this.x);
 				const force = distance / 1000;
@@ -150,9 +153,7 @@ class Particle {
 
 	draw(context) {
 		context.fillStyle = this.color;
-		context.beginPath();
-		context.rect(this.x, this.y, 2, 2);
-		context.fill();
+		context.fillRect(this.x, this.y, 2, 2);
 	}
 }
 
