@@ -12,20 +12,19 @@ class Puissance4 {
 		this.#grid = Array.from({ length: 6 }, () => Array.from({ length: 7 }, () => null));
 	}
 
-    logBoard() {
+	logBoard() {
 		console.table(this.#grid);
 	}
 
-    #currentPlayer = 'A';
+	#currentPlayer = 'A';
 
 	getCurrentPlayer() {
 		return this.#currentPlayer;
 	}
-    getBoard() {
-        return this.#grid;
-    }
-    play(column) {
-
+	getBoard() {
+		return this.#grid;
+	}
+	play(column) {
 		// Si la colonne est pleine, on ne peut pas jouer
 		if (this.#grid[0][column] || this.getWinner()) {
 			return false;
@@ -34,12 +33,12 @@ class Puissance4 {
 		const ligneCaseVide = this.#grid.findLastIndex((ligne) => ligne[column] === null);
 		// On ajoute un jeton correspondant au joueur actuel
 		this.#grid[ligneCaseVide][column] = this.#currentPlayer;
-        this.#checkWin(ligneCaseVide, column);
-        // On change le joueur courant
+		this.#checkWin(ligneCaseVide, column);
+		// On change le joueur courant
 		this.#currentPlayer = this.#currentPlayer === 'A' ? 'B' : 'A';
 	}
 
-    getWinner() {
+	getWinner() {
 		return this.#winner;
 	}
 
@@ -93,7 +92,7 @@ function renderBoard() {
 	if (!boardElem) {
 		throw new Error("Impossible de trouver l'élément #board");
 	}
-    boardElem.dataset.player = game.getCurrentPlayer();
+	boardElem.dataset.player = game.getCurrentPlayer();
 
 	boardElem.innerHTML = '';
 	const board = game.getBoard();
@@ -128,7 +127,6 @@ function renderBoard() {
 			game.play(j);
 			// On réaffiche le plateau après chaque coup
 			renderBoard();
-
 		});
 		boardElem.appendChild(columnDiv);
 	}
@@ -154,13 +152,13 @@ const colorA = document.querySelector('#colorA');
 const colorB = document.querySelector('#colorB');
 
 function updateColorA() {
-    document.documentElement.style.setProperty('--color-player-A', colorA.value);
+	document.documentElement.style.setProperty('--color-player-A', colorA.value);
 }
 function updateColorB() {
-    document.documentElement.style.setProperty('--color-player-B', colorB.value);
+	document.documentElement.style.setProperty('--color-player-B', colorB.value);
 }
 
-colorA.addEventListener('input',updateColorA);
+colorA.addEventListener('input', updateColorA);
 colorB.addEventListener('input', updateColorB);
 updateColorA();
 updateColorB();

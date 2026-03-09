@@ -108,16 +108,16 @@ const questions = JSON.parse(localStorage.getItem('questions')) ?? [];
 const form = document.querySelector('form');
 
 form.addEventListener('submit', (event) => {
-  event.preventDefault(); // Empêche le rechargement de la page
-  const data = new FormData(form); // Récupère les données du formulaire
-  const question = {
-    question: data.get('question'),
-    correct: Number.parseInt(data.get('correct')),
-    answers: [data.get('answer1'), data.get('answer2'), data.get('answer3'), data.get('answer4')]
-  }
-  questions.push(question);
-  localStorage.setItem('questions', JSON.stringify(questions)); // Stocke les questions dans le localStorage
-  form.reset(); // Réinitialise le formulaire
+	event.preventDefault(); // Empêche le rechargement de la page
+	const data = new FormData(form); // Récupère les données du formulaire
+	const question = {
+		question: data.get('question'),
+		correct: Number.parseInt(data.get('correct')),
+		answers: [data.get('answer1'), data.get('answer2'), data.get('answer3'), data.get('answer4')]
+	};
+	questions.push(question);
+	localStorage.setItem('questions', JSON.stringify(questions)); // Stocke les questions dans le localStorage
+	form.reset(); // Réinitialise le formulaire
 });
 ```
 
@@ -142,15 +142,14 @@ function renderQuestion(questions)
 ```js
 // à appeler juste avant form.reset()
 function renderQuestion(questions) {
-  const list = document.querySelector('#questions-container');
-  list.innerHTML = '';
-  questions.forEach((question, index) => {
-    const item = document.createElement('li');
-    item.textContent = `${question.question}`;
-    list.appendChild(item);
-  });
+	const list = document.querySelector('#questions-container');
+	list.innerHTML = '';
+	questions.forEach((question, index) => {
+		const item = document.createElement('li');
+		item.textContent = `${question.question}`;
+		list.appendChild(item);
+	});
 }
-
 ```
 
 </Solution>
@@ -172,133 +171,106 @@ Pour cela, vous allez :
 <Solution>
 
 **play.html**
+
 ```html
 <!doctype html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Quiz Creator - Création</title>
-        <link rel="stylesheet" href="style.css" />
-        <script src="play.js" type="module"></script>
-    </head>
-    <body>
-        <header>
-            <h1>Quizz Creator</h1>
-            <nav>
-                <a href="create.html">Créer</a>
-                <a href="play.html" aria-current="page">Jouer</a>
-            </nav>
-        </header>
-        <main>
-            <h2>Quizz</h2>
-            <form id="question-form">
-                <div id="question">
-                </div>
-                <fieldset>
-                    <legend>Réponses</legend>
-                    <div class="form-group">
-                        <input
-                            type="radio"
-                            id="answer1"
-                            name="answer"
-                            value="0"
-                            required
-                        />
-                        <label for="answer1">
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <input
-                            type="radio"
-                            id="answer2"
-                            name="answer"
-                            value="1"
-                            required
-                        />
-                        <label for="answer2">
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <input
-                            type="radio"
-                            id="answer3"
-                            name="answer"
-                            value="2"
-                            required
-                        />
-                        <label for="answer3"></label>
-                    </div>
-                    <div class="form-group">
-                        <input
-                            type="radio"
-                            id="answer4"
-                            name="answer"
-                            value="3"
-                            required
-                        />
-                    </div>
-                    <label for="answer4"></label>
-                </fieldset>
-                <button type="submit">Valider</button>
-            </form>
-        </main>
-    </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Quiz Creator - Création</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="play.js" type="module"></script>
+	</head>
+	<body>
+		<header>
+			<h1>Quizz Creator</h1>
+			<nav>
+				<a href="create.html">Créer</a>
+				<a href="play.html" aria-current="page">Jouer</a>
+			</nav>
+		</header>
+		<main>
+			<h2>Quizz</h2>
+			<form id="question-form">
+				<div id="question"></div>
+				<fieldset>
+					<legend>Réponses</legend>
+					<div class="form-group">
+						<input type="radio" id="answer1" name="answer" value="0" required />
+						<label for="answer1"> </label>
+					</div>
+					<div class="form-group">
+						<input type="radio" id="answer2" name="answer" value="1" required />
+						<label for="answer2"> </label>
+					</div>
+					<div class="form-group">
+						<input type="radio" id="answer3" name="answer" value="2" required />
+						<label for="answer3"></label>
+					</div>
+					<div class="form-group">
+						<input type="radio" id="answer4" name="answer" value="3" required />
+					</div>
+					<label for="answer4"></label>
+				</fieldset>
+				<button type="submit">Valider</button>
+			</form>
+		</main>
+	</body>
 </html>
 ```
 
 **play.js**
+
 ```javascript
-const questions = JSON.parse(localStorage.getItem("questions"));
+const questions = JSON.parse(localStorage.getItem('questions'));
 
 const quizzQuestions = questions
-    .sort(() => Math.random() - 0.5) // Mélange le tableau questions
-    .slice(0, 5); // Récupère les cinq premières questions
+	.sort(() => Math.random() - 0.5) // Mélange le tableau questions
+	.slice(0, 5); // Récupère les cinq premières questions
 
 let indice = 0;
 let score = 0;
 
-const formElement = document.querySelector("form");
-formElement.addEventListener("submit", (event) => {
-  // Empecher que la page se recharge
-  event.preventDefault();
+const formElement = document.querySelector('form');
+formElement.addEventListener('submit', (event) => {
+	// Empecher que la page se recharge
+	event.preventDefault();
 
-  // Récupérer les données du formulaire
-  const data = new FormData(formElement);
+	// Récupérer les données du formulaire
+	const data = new FormData(formElement);
 
-  // Récupérer la réponse selectionnée par l'utilisateur
-  const answer = data.get("answer");
+	// Récupérer la réponse selectionnée par l'utilisateur
+	const answer = data.get('answer');
 
-  // Récupérer la réponse correcte à la question
-  const correctAnswer = quizzQuestions[indice].correct;
+	// Récupérer la réponse correcte à la question
+	const correctAnswer = quizzQuestions[indice].correct;
 
-  if (Number.parseInt(answer) === correctAnswer) {
-    score++;
-  }
+	if (Number.parseInt(answer) === correctAnswer) {
+		score++;
+	}
 
-  formElement.reset(); // Réinitialise le formulaire
-  indice++; // On passe à la question suivante
-  renderQuestion(); // On affiche la question suivante
+	formElement.reset(); // Réinitialise le formulaire
+	indice++; // On passe à la question suivante
+	renderQuestion(); // On affiche la question suivante
 });
 
 function renderQuestion() {
-  const currentQuestion = quizzQuestions[indice];
-  const questionContainer = document.querySelector("#question");
-  questionContainer.textContent = currentQuestion.question;
+	const currentQuestion = quizzQuestions[indice];
+	const questionContainer = document.querySelector('#question');
+	questionContainer.textContent = currentQuestion.question;
 
-  // Affiche les réponse
-  document.querySelector('label[for="answer1"]').textContent = currentQuestion.answers[0];
-  document.querySelector('label[for="answer2"]').textContent = currentQuestion.answers[1];
-  document.querySelector('label[for="answer3"]').textContent = currentQuestion.answers[2];
-  document.querySelector('label[for="answer4"]').textContent = currentQuestion.answers[3];
+	// Affiche les réponse
+	document.querySelector('label[for="answer1"]').textContent = currentQuestion.answers[0];
+	document.querySelector('label[for="answer2"]').textContent = currentQuestion.answers[1];
+	document.querySelector('label[for="answer3"]').textContent = currentQuestion.answers[2];
+	document.querySelector('label[for="answer4"]').textContent = currentQuestion.answers[3];
 }
 
 renderQuestion();
-
 ```
 
 </Solution>
-
 
 #### `sessionStorage`
 

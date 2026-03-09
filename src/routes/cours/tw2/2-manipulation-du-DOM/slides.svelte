@@ -33,7 +33,9 @@
 				</script>
 	</code></pre>
 		<ul>
-			<li class="fragment">Un document HTML est composé d'éléments imbriqués les uns dans les autres</li>
+			<li class="fragment">
+				Un document HTML est composé d'éléments imbriqués les uns dans les autres
+			</li>
 			<li class="fragment">Ces éléments sont délimités par des balises ouvrantes et fermantes.</li>
 			<li class="fragment">
 				Les éléments racines sont <code>&lt;html&gt;</code>,
@@ -98,7 +100,6 @@
 					>Revenir à l'accueil</span
 				>
 
-
 				<span class="fragment custom grow-width" data-fragment-index="1"
 					>&lt;/<span class="font-bold text-blue-500">a</span>&gt;</span
 				>
@@ -111,17 +112,16 @@
 		</div>
 	</section>
 	<section data-auto-animate="true">
-	<h2>Anatomie d'un élément</h2>
-	    <p>Un élément peut contenir d'autres éléments</p>
-					<pre><code class="language-html" data-trim>
+		<h2>Anatomie d'un élément</h2>
+		<p>Un élément peut contenir d'autres éléments</p>
+		<pre><code class="language-html" data-trim>
 <script type="text/template">
-							<a class="ma-class" href="/" >
-							    Revenir à <strong>l'accueil</strong>
-							</a>
-							</script>
+					<a class="ma-class" href="/">
+						Revenir à <strong>l'accueil</strong>
+					</a>;
+				</script>
 				</code></pre>
 	</section>
-
 </section>
 
 <section>
@@ -136,7 +136,9 @@
 			en Javascript
 		</blockquote>
 		<ul class="small">
-			<li class="fragment">Tous les navigateurs <strong>implémentent</strong> le DOM (standard web)</li>
+			<li class="fragment">
+				Tous les navigateurs <strong>implémentent</strong> le DOM (standard web)
+			</li>
 			<li class="fragment">
 				Les <strong>scripts JavaScript</strong> l'utilisent pour lire et modifier le HTLM affiché à l'écran
 			</li>

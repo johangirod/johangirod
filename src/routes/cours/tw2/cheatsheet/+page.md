@@ -396,15 +396,15 @@ Exemple de formulaire HTML:
 
 ```html
 <form id="mon-formulaire">
-  <!-- Un champs de type texte avec un label -->
-  <label for="nom">Votre nom</label>
+	<!-- Un champs de type texte avec un label -->
+	<label for="nom">Votre nom</label>
 	<input type="text" id="nom" name="nom" placeholder="Votre nom" />
 
-  <!-- Une checkbox -->
+	<!-- Une checkbox -->
 	<label for="abonnement">S'abonner à la newsletter</label>
 	<input type="checkbox" id="abonnement" name="abonnement" />
 
-  <!--  Un ensemble de boutons radio -->
+	<!--  Un ensemble de boutons radio -->
 	<fieldset>
 		<legend>Comment préférez-vous être désigné(e) ?</legend>
 		<input type="radio" id="option1" name="designation" value="monsieur" />
@@ -415,18 +415,18 @@ Exemple de formulaire HTML:
 		<label for="option3">Aucun des deux</label>
 	</fieldset>
 
-  <!--  Une liste déroulante -->
+	<!--  Une liste déroulante -->
 	<select id="pays" name="pays">
 		<option value="fr">France</option>
 		<option value="be">Belgique</option>
 		<option value="ch">Suisse</option>
 	</select>
 
-  <!--  Une zone de texte -->
-  <label for="commentaire">Votre commentaire</label>
-  <textarea id="commentaire" name="commentaire"></textarea>
+	<!--  Une zone de texte -->
+	<label for="commentaire">Votre commentaire</label>
+	<textarea id="commentaire" name="commentaire"></textarea>
 
-  <!-- Bouton de soumission du formulaire -->
+	<!-- Bouton de soumission du formulaire -->
 	<button type="submit">Envoyer</button>
 </form>
 ```
@@ -460,7 +460,6 @@ form.addEventListener('submit', (event) => {
 	const abonnement = formData.get('abonnement');
 	const message = formData.get('designation');
 	const pays = formData.get('pays');
-
 });
 
 // Réinitialiser les champs du formulaire
