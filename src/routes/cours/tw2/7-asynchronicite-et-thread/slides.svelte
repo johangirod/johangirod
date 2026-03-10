@@ -170,17 +170,17 @@
 		<h2>`setTimeout`</h2>
 		<pre><code class="language-js" data-trim data-noescape>
 		<script type="text/template">
-					console.log('A');
+					setTimeout(() => {
+						console.log('A');
+					}, 0);
 					const array = ['B', 'C'];
 					array.forEach((item) => {
-						setTimeout(() => {
-							console.log(item);
-						}, 0);
+						console.log(item);
 					});
 					console.log('D');
 				</script>
 			</code></pre>
-		<p class="fragment text-gray-500">Le code est exécuté dans l'ordre A, D, B, C</p>
+		<p class="fragment text-gray-500">Le code est exécuté dans l'ordre B, C, D, A</p>
 	</section>
 
 	<section>

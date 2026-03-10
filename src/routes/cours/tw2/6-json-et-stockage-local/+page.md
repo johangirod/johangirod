@@ -4,7 +4,7 @@
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
   import { showSolution } from '$lib/showSolution.ts';
-  showSolution.set(true);
+  
 </script>
 
 <Reveal>
@@ -66,7 +66,7 @@ Pour cela, vous allez ajouter un écouteur d'événement sur le formulaire pour 
 
 ```js
 document.querySelector('form').addEventListener('submit', (event) => {
-	event.preventDefault();
+	event.preventDefault(); // Empêcher le comportement par défaut du formulaire (rechargement de la page)
 	const formData = new FormData(event.target);
 	console.log(formData);
 	console.log(formData.get('question'));
@@ -74,8 +74,6 @@ document.querySelector('form').addEventListener('submit', (event) => {
 ```
 
 A quoi ressemble l'objet `formData` ? Comment est-il créé à votre avis ? Que fait `formData.get` ?
-
-#### 2. Stockage des données
 
 Les questions vont être stockées sous forme d'un tableau d'objets dans le `localStorage`.
 
@@ -89,19 +87,64 @@ Chaque question est représentée par un objet avec la structure suivante :
 }
 ```
 
-Faire en sorte que les questions soient stockées dans le `localStorage` sous la clé `questions`, à chaque fois qu'une question est ajoutée.
+Compléter le code suivant de telle sorte à ce qu'une nouvelle question soit ajoutée au tableau `questions` à chaque soumission du formulaire.
 
-Vous devrez penser à :
+```js
+const questions = [];
+const form = document.querySelector('form');
+form.addEventListener('submit', (event) => {
+	event.preventDefault();
+	const formData = new FormData(form);
+	// 1. Créer l'objet question à partir des données du formulaire
+	const question = {
+		question: '?', // A COMPLETER
+		answers: '?', // A COMPLETER
+		correct: '?' // A COMPLETER
+	};
+	// 2. Ajouter la question au tableau
+	// A COMPLETER
 
-- Récupérer les questions déjà enregistrées
-- Ajouter la nouvelle question
-- Stocker le tout dans le `localStorage`
-- Réinitialiser le formulaire après l'ajout de la question
-- Gérer le cas où il n'y a pas de questions déjà existantes
+	form.reset(); // Réinitialise le formulaire après soumission
+});
+```
 
-N'oubliez pas, pour stocker un objet dans le `localStorage`, vous devez le transformer en chaîne de caractères avec `JSON.stringify`.
+#### 2. Affichage des questions
 
-<Solution showAnyway>
+Nous souhaitons afficher les questions précédemment ajoutées sous forme de liste en dessous du formulaire. Seule le texte de la question doit être affiché, pas les réponses.
+
+Pour cela, vous allez créer une fonction `renderQuestions` qui sera appelée à chaque fois qu'une question est ajoutée avec la liste des questions en paramètre.
+
+```js
+/**
+ * Affiche les questions dans la liste
+ * @param {Array<string>} questions - Les questions à afficher
+ */
+function renderQuestion(questions)
+```
+
+Cette fonction sera appelée juste avant form.reset().
+
+<Solution>
+
+```js
+function renderQuestion(questions) {
+	const list = document.querySelector('#questions-container');
+	list.innerHTML = '';
+	questions.forEach((question, index) => {
+		const item = document.createElement('li');
+		item.textContent = `${question.question}`;
+		list.appendChild(item);
+	});
+}
+```
+
+</Solution>
+
+#### 3. Sauvegarde des questions
+
+Maintenant, faire en sorte de sauvegarder les questions dans le `localStorage` à chaque ajout, et de charger les questions à partir du `localStorage` au chargement de la page. Si le localStorage est vide, utiliser un tableau vide par défaut.
+
+<Solution>
 
 ```js
 const questions = JSON.parse(localStorage.getItem('questions')) ?? [];
@@ -119,37 +162,6 @@ form.addEventListener('submit', (event) => {
 	localStorage.setItem('questions', JSON.stringify(questions)); // Stocke les questions dans le localStorage
 	form.reset(); // Réinitialise le formulaire
 });
-```
-
-</Solution>
-
-#### 3. Affichage des questions
-
-Nous souhaitons afficher les questions précédemment ajoutées sous forme de liste en dessous du formulaire.
-
-Pour cela, vous allez créer une fonction `renderQuestions` qui sera appelée à chaque fois qu'une question est ajoutée avec la liste des questions en paramètre.
-
-```js
-/**
- * Affiche les questions dans la liste
- * @param {Array<string>} questions - Les questions à afficher
- */
-function renderQuestion(questions)
-```
-
-<Solution>
-
-```js
-// à appeler juste avant form.reset()
-function renderQuestion(questions) {
-	const list = document.querySelector('#questions-container');
-	list.innerHTML = '';
-	questions.forEach((question, index) => {
-		const item = document.createElement('li');
-		item.textContent = `${question.question}`;
-		list.appendChild(item);
-	});
-}
 ```
 
 </Solution>

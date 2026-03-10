@@ -15,8 +15,8 @@
    - [Sujet 2025](./tw2/eval/2025/1)
    - [Sujet 2024](https://sources.univ-jfc.fr/techno-web-2/evaluation-2024-1/-/blob/master/REAMDE.md)
 6. [Les modules et classes](./tw2/5-modules-et-classes)
-7. [Asynchronicité et thread](./tw2/6-asynchronicite-et-thread/)
-8. [JSON et stockage local](./tw2/7-json-et-stockage-local/)
+7. [JSON et stockage local](./tw2/6-json-et-stockage-local/)
+8. [Asynchronicité et thread](./tw2/7-asynchronicite-et-thread/)
 9. [Récapitulatif (cheatsheet)](./tw2/cheatsheet/)
 
 ## Technologie web 3
