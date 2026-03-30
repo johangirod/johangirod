@@ -5,7 +5,6 @@
 	import Slides from './slides.svelte';
 	import { showSolution } from '$lib/showSolution.ts';
 
-	showSolution.set(true);
 </script>
 
 <Reveal>
@@ -21,114 +20,61 @@ Créer une version simplifiée du jeu de cartes Balatro en JavaScript, où le bu
 - Le joueur reçoit une main de **5 cartes** piochées aléatoirement dans un deck de 52 cartes standard.
 - À chaque manche, le joueur dispose de **3 échanges** pour améliorer sa main en remplaçant des cartes individuelles.
 - Une fois satisfait de sa main (ou après avoir utilisé tous ses échanges), le joueur valide sa main et un **score** est calculé en fonction de la combinaison de poker obtenue.
-- Les combinaisons reconnues sont (du plus faible au plus fort) :
-  - **Paire** (5 points) : deux cartes de même valeur
-  - **Double Paire** (10 points) : deux paires différentes
-  - **Brelan** (15 points) : trois cartes de même valeur
-  - **Suite** (25 points) : cinq cartes consécutives
-  - **Couleur** (30 points) : cinq cartes de la même couleur (♠, ♥, ♦, ♣)
-  - **Full** (40 points) : un brelan + une paire
-  - **Carré** (60 points) : quatre cartes de même valeur
-  - **Quinte Flush** (100 points) : une suite de la même couleur
-- Le score total s'accumule au fil des manches.
+
+**Calcul du score**
+
+Le score est calculé selon la formule : **(jetons de base + jetons des cartes gagnantes) × multiplicateur**
+
+Chaque carte a une valeur en jetons :
+
+- **As** = 11 jetons
+- **Têtes** (Valet, Dame, Roi) = 10 jetons
+- **Autres** (2 à 10) = valeur faciale
+
+Les combinaisons reconnues sont (du plus faible au plus fort) :
+
+| Combinaison      | Jetons de base | Multiplicateur | Cartes gagnantes                              |
+| ---------------- | -------------- | -------------- | --------------------------------------------- |
+| **Carte Haute**  | 5              | ×1             | la carte la plus haute                        |
+| **Paire**        | 10             | ×2             | les 2 cartes de même valeur                   |
+| **Double Paire** | 20             | ×2             | les 4 cartes des 2 paires                     |
+| **Brelan**       | 30             | ×3             | les 3 cartes de même valeur                   |
+| **Suite**        | 30             | ×4             | les 5 cartes consécutives                     |
+| **Couleur**      | 35             | ×4             | les 5 cartes de même couleur (♠, ♥, ♦, ♣) |
+| **Full**         | 40             | ×4             | les 5 cartes (brelan + paire)                 |
+| **Carré**        | 60             | ×7             | les 4 cartes de même valeur                   |
+| **Quinte Flush** | 100            | ×8             | les 5 cartes (suite + couleur)                |
+
+**Exemple** : une paire de 7 donne (10 + 7 + 7) × 2 = **48 points**.
+
+Le score total s'accumule au fil des manches.
+
+### Installation
+
+```bash
+git clone https://sources.univ-jfc.fr/techno-web-2/tp8-balatro.git
+cd tp8-balatro
+npm install
+npm run dev
+```
+
+Ce TP se rapproche d'un exercice en conditions réel. Vous arrivez sur un projet avec un certain nombre de fichiers / fonctions déjà définis. Le but est de savoir les réutiliser à bon escient. Prenez un petit temps pour examiner l'architecture des fichiers. Arrivez-vous à voir comment ils sont organisés ?
+
+Ce TP utilise un bundler ([`vite`](https://vite.dev/)) pour servir les fichiers de développement et faire de la compilation de contenu (comme du CSS).
+
+> A savoir : tous les projets javascript moderne utilisent un bundler, et `vite` est le plus moderne / populaire d'entre eux.
 
 ### Partie 1 : le moteur de jeu
 
-Wip
-
-<!--
-
-
 Nous allons créer un moteur de jeu qui simule les mécaniques de base de Balatro : tirage de cartes, formation de main de poker, et calcul de score.
-
-Créer un fichier `balatro.js` qui contiendra le moteur de jeu.
-
-Créer une classe `BalatroSimplifie` qui contiendra les méthodes suivantes :
-
-- `constructor()` : initialise le jeu avec un deck de 52 cartes
-- `melanger()` : mélange le deck
-- `piocher(nombre)` : pioche `nombre` cartes du deck
-- `echanger(index)` : échange la carte à l'index donné
-- `calculerScore()` : calcule le score basé sur les combinaisons de poker
-- `getMain()` : retourne la main actuelle
-- `getScore()` : retourne le score total
-- `mancheSuivante()` : passe à la manche suivante
 
 La main sera représentée par un tableau de 5 cartes. Chaque carte est un objet avec une `valeur` (1 pour As, 13 pour Roi) et une `couleur` (♠, ♥, ♦, ♣).
 
-#### 1. `constructor()`
+Des tests sont disponibles, vous pouvez les lancer avec la commande `npm test`
 
-Le constructeur initialisera le deck avec les 52 cartes standard et créera une main vide.
+#### 2. `piocher(nombre)`
 
-```javascript
-export class Balatro {
-	#deck = [];
-	#hand = [];
-	#score = 0;
-	#echangesRestants = 3;
-
-	constructor() {
-		const couleurs = ['♠', '♥', '♦', '♣'];
-		// Initialisation du deck : 54 cartes, valeurs 1 à 13 (As à Roi), 4 couleurs
-		// @ TODO
-		this.melanger();
-		this.piocher(5); // Pioche initiale de 5 cartes
-	}
-
-	melanger() {
-		// @TODO
-	}
-	echanger(index) {
-		// @TODO
-	}
-	calculerScore() {
-		// @TODO
-	}
-	getMain() {
-		// @TODO
-	}
-	getScore() {
-		// @TODO
-	}
-}
-```
-
-<Solution >
-
-```javascript
-	constructor() {
-		// Création du deck : valeurs 1-13 (As à Roi), 4 couleurs
-		const couleurs = ['♠', '♥', '♦', '♣'];
-		for (let valeur = 1; valeur <= 13; valeur++) {
-			for (const couleur of couleurs) {
-				this.#deck.push({ valeur, couleur });
-			}
-		}
-		this.melanger();
-		this.piocher(5); // Pioche initiale de 5 cartes
-	}
-
-```
-
-</Solution>
-
-#### 2. `melanger()`
-
-Vous pourrez utiliser la fonction `.sort((a, b) => Math.random() - 0.5)` pour trier le deck avec un ordre aléatoire.
-
-<Solution >
-
-```javascript
-melanger() {
-	this.#deck.sort((a, b) => Math.random() - 0.5);
-}
-```
-
-</Solution>
-
-#### 3. `piocher(nombre)`
-
-Pioche `nombre` cartes du deck et les ajoute à la main. La méthode retourne `true` si le tirage a réussi.
+Pioche `nombre` cartes du deck et les ajoute à la main (`this.#hand`). La méthode retourne `true` si le tirage a réussi, `false` s'il n'y a pas assez de cartes dans le deck.
 
 **Note** Pour piocher une carte, il faut l'enlever de `this.#deck` et l'ajouter à `this.#hand`.
 
@@ -147,9 +93,9 @@ piocher(nombre) {
 
 </Solution>
 
-#### 4. `echanger(index)`
+#### 3. `echanger(index)`
 
-Échange la carte à l'index donné (0-4) pour une nouvelle carte du deck. Le nombre d'échanges est limité à 3 par manche.
+Échange la carte à l'index donné (0-4) pour une nouvelle carte du deck. Le nombre d'échanges est limité à 3 par manche. Retourne `true` si l'échange a réussi, `false` sinon.
 
 <Solution >
 
@@ -165,336 +111,210 @@ echanger(index) {
 
 </Solution>
 
-#### 5. `calculerScore()`
+### Partie 2 : le calcul du score (`score.js`)
 
-Analyse la main et retourne le score basé sur les combinaisons de poker (paire, double paire, brelan, suite, couleur, full, carré, quinte flush).
+Le calcul du score est séparé dans un module `score.js`. Ce module utilise la fonction `calculMainGagnante` du fichier fourni `detecter-main/index.js` et ajoute la logique de calcul du score.
 
-````javascript
-calculerScore() {
-  // 1. Vérifie si toutes les cartes sont de la même couleur
-  const estCouleur = ??
+Le fichier `score.js` contient deux fonctions à implémenter :
 
-  // 2. Compte les occurrences de chaque valeur (retourne un objet)
-  let occurrences;
+1. **`valeurJetons(carte)`** : retourne la valeur en jetons d'une carte (As = 11, têtes = 10, autres = valeur faciale).
+2. **`calculerScore(main)`** : prend une main de 5 cartes et retourne un objet `{ score, multiplier, jetons, typeMain }`.
 
-	// Compte les occurrences de chaque valeur
-	const comptes = {};
-	valeurs.forEach(v => comptes[v] = (comptes[v] || 0) + 1);
-	const occurrences = Object.values(comptes).sort((a, b) => b - a);
+#### `valeurJetons(carte)`
 
-	const estCouleur = couleurs.every(c => c === couleurs[0]);
-	const estSuite = valeurs.every((v, i) => i === 0 || v === valeurs[i-1] + 1);
+<Solution>
 
-	let score = 0;
-	let combo = 'Rien';
-
-	if (estSuite && estCouleur) {
-		score = 100;
-		combo = 'Quinte Flush !';
-	} else if (occurrences[0] === 4) {
-		score = 60;
-		combo = 'Carré !';
-	} else if (occurrences[0] === 3 && occurrences[1] === 2) {
-		score = 40;
-		combo = 'Full !';
-	} else if (estCouleur) {
-		score = 30;
-		combo = 'Couleur !';
-	} else if (estSuite) {
-		score = 25;
-		combo = 'Suite !';
-	} else if (occurrences[0] === 3) {
-		score = 15;
-		combo = 'Brelan !';
-	} else if (occurrences[0] === 2 && occurrences[1] === 2) {
-		score = 10;
-		combo = 'Double Paire !';
-	} else if (occurrences[0] === 2) {
-		score = 5;
-		combo = 'Paire !';
-	}
-
-	return { score, combo, main: [...this.#hand] };
+```javascript
+export function valeurJetons(carte) {
+	if (carte.valeur === 1) return 11; // As
+	if (carte.valeur >= 11) return 10; // Valet, Dame, Roi
+	return carte.valeur;
 }
+```
+
+</Solution>
+
+#### `calculerScore(main)`
+
+Cette fonction doit :
+
+1. Appeler `calculMainGagnante(main)` pour obtenir le type de combinaison et les cartes gagnantes
+2. Calculer jetons de base et le multiplicateur
+3. Calculer les jetons totaux : jetons de base + somme des jetons des cartes gagnantes
+4. Calculer le score total (score = jetons totaux × multiplicateur)
+5. Retourner `{ score, multiplier, jetons, typeMain }`
+
 <Solution >
 
 ```javascript
-calculerScore() {
-  // 1. Vérifie si toutes les cartes sont de la même couleur
-  const estCouleur
+import { calculMainGagnante, TYPES_MAIN } from './detecter-main/index.js';
 
-	const valeurs = this.#hand.map(c => c.valeur).sort((a, b) => a - b);
-	const couleurs = this.#hand.map(c => c.couleur);
+const COMBOS = {
+	[TYPES_MAIN.QUINTE_FLUSH]: { jetons: 100, mult: 8 },
+	[TYPES_MAIN.CARRE]: { jetons: 60, mult: 7 },
+	[TYPES_MAIN.FULL]: { jetons: 40, mult: 4 },
+	[TYPES_MAIN.COULEUR]: { jetons: 35, mult: 4 },
+	[TYPES_MAIN.SUITE]: { jetons: 30, mult: 4 },
+	[TYPES_MAIN.BRELAN]: { jetons: 30, mult: 3 },
+	[TYPES_MAIN.DOUBLE_PAIRE]: { jetons: 20, mult: 2 },
+	[TYPES_MAIN.PAIRE]: { jetons: 10, mult: 2 },
+	[TYPES_MAIN.CARTE_HAUTE]: { jetons: 5, mult: 1 }
+};
 
-	// Compte les occurrences de chaque valeur
-	const comptes = {};
-	valeurs.forEach(v => comptes[v] = (comptes[v] || 0) + 1);
-	const occurrences = Object.values(comptes).sort((a, b) => b - a);
+export function calculerScore(main) {
+	const { type, cartes } = calculMainGagnante(main);
+	const combo = COMBOS[type];
+	const jetonsCartes = cartes.reduce((somme, c) => somme + valeurJetons(c), 0);
+	const jetons = combo.jetons + jetonsCartes;
+	const multiplicateur = combo.mult;
 
-	const estCouleur = couleurs.every(c => c === couleurs[0]);
-	const estSuite = valeurs.every((v, i) => i === 0 || v === valeurs[i-1] + 1);
-
-	let score = 0;
-	let combo = 'Rien';
-
-	if (estSuite && estCouleur) {
-		score = 100;
-		combo = 'Quinte Flush !';
-	} else if (occurrences[0] === 4) {
-		score = 60;
-		combo = 'Carré !';
-	} else if (occurrences[0] === 3 && occurrences[1] === 2) {
-		score = 40;
-		combo = 'Full !';
-	} else if (estCouleur) {
-		score = 30;
-		combo = 'Couleur !';
-	} else if (estSuite) {
-		score = 25;
-		combo = 'Suite !';
-	} else if (occurrences[0] === 3) {
-		score = 15;
-		combo = 'Brelan !';
-	} else if (occurrences[0] === 2 && occurrences[1] === 2) {
-		score = 10;
-		combo = 'Double Paire !';
-	} else if (occurrences[0] === 2) {
-		score = 5;
-		combo = 'Paire !';
-	}
-
-	return { score, combo, main: [...this.#hand] };
+	return {
+		score: jetons * multiplicateur,
+		multiplier,
+		jetons,
+		typeMain: type
+	};
 }
-````
+```
 
 </Solution>
 
-### Partie 2 : l'interface
+#### Implémenter `jouerMain()`
 
-1. Créer un fichier `balatro.html` et `index.js` pour l'interface.
+Maintenant que vous avez implémenté le calcul du score d'une main, vous pouvez l'utiliser dans le moteur de jeu. Dans le fichier `balatro.js`, implémentez la méthode `jouerMain`. Cette méthode est appelée lorsque le ou la joueuse clique sur « valider ».
 
-   ```html
-   <!doctype html>
-   <html lang="fr">
-   	<head>
-   		<meta charset="UTF-8" />
-   		<title>Balatro Simplifié</title>
-   		<link rel="stylesheet" href="style.css" />
-   	</head>
-   	<body>
-   		<h1>Balatro Simplifié</h1>
-   		<div id="score">Score : 0</div>
-   		<div id="echanges">Échanges restants : 3</div>
-   		<div id="main"></div>
-   		<div id="combo"></div>
-   		<button id="nouvelleManche">Nouvelle Manche</button>
-   		<script src="index.js" type="module"></script>
-   	</body>
-   </html>
-   ```
+Elle :
 
-1. Implémenter l'affichage des 5 cartes avec leurs valeurs et couleurs.
+1. Calcule le score de la main via `calculerScore()` (du module `score.js`)
+2. Ajoute le score au total
+3. Vide la main, réinitialise les échanges, mélange et pioche une nouvelle main
+
+### Partie 3 : l'interface
+
+#### Approche composant
+
+Nous avons adopté une approche **composant** pour l'affichage. L'idée est de regrouper dans une fonction tout ce qui concerne l'affichage d'un élément : sa création DOM, son style, ses événements. L'approche composant est systématiquement utilisés dans les « vrais » projets, car elle permet d'organiser le code efficacement.
+
+Un composant est une fonction qui prend des paramètre et retourne un noeud DOM, prêt à être inséré dans la page.
+
+Dans ce TP, deux composants vous sont fournis : `carte` et `score`. Vous pouvez regarder le fichier `main.js` pour voir un exemple de leur utilisation.
+
+#### Boucle de jeu
+
+Maintenant que nous avons le moteur de jeu et les composants, assemblons le tout dans `main.js`.
+Le HTML est déjà fourni dans `index.html`.
+L'interface doit :
+
+1. Afficher la main en utilisant le composant `carte`. Chaque carte a un `onClick` qui appelle `jeu.echanger(index)` puis rafraîchit l'affichage.
+2. Afficher en permanence la combinaison actuelle (sans le total) via le composant `affichageScore`.
+3. Au clic sur « Valider la main » :
+   - Calculer le score et afficher le panneau **avec le total** (`avecTotal: true`)
+   - Désactiver le bouton et les cartes
+   - Après **2 secondes** (`setTimeout`), appeler `jeu.jouerMain()`, incrémenter la manche, et rafraîchir l'interface
 
 <Solution>
 
 ```javascript
-// index.js
+// main.js
+import './style.css';
 import { BalatroSimplifie } from './balatro.js';
+import { calculerScore } from './score.js';
+import { carte } from './carte/index.js';
+import { affichageScore } from './affichage-score/index.js';
 
 const jeu = new BalatroSimplifie();
-const mainDiv = document.querySelector('#hand');
-const scoreDiv = document.querySelector('#score');
+
+const mainDiv = document.querySelector('#main');
+const scoreSpan = document.querySelector('#score');
+const mancheSpan = document.querySelector('#manche');
 const comboDiv = document.querySelector('#combo');
-const echangesDiv = document.querySelector('#echanges');
-const btnNouvelleManche = document.querySelector('#nouvelleManche');
+const echangesSpan = document.querySelector('#echanges');
+const btnValider = document.querySelector('#validerMain');
 
 function afficherMain() {
 	mainDiv.innerHTML = '';
-	jeu.getMain().forEach((carte, index) => {
-		const carteDiv = document.createElement('div');
-		carteDiv.className = 'carte';
-		carteDiv.dataset.index = index;
+	const main = jeu.getMain();
+	const disabled = jeu.getEchangesRestants() <= 0;
 
-		const valeurDiv = document.createElement('div');
-		valeurDiv.textContent =
-			carte.valeur === 1
-				? 'A'
-				: carte.valeur === 11
-					? 'J'
-					: carte.valeur === 12
-						? 'Q'
-						: carte.valeur === 13
-							? 'K'
-							: carte.valeur;
-
-		const couleurDiv = document.createElement('div');
-		couleurDiv.textContent = carte.couleur;
-		couleurDiv.className = `couleur ${carte.couleur}`;
-
-		carteDiv.appendChild(valeurDiv);
-		carteDiv.appendChild(couleurDiv);
-
-		carteDiv.addEventListener('click', () => {
-			jeu.echanger(index);
-			mettreAJourUI();
+	main.forEach((carteData, index) => {
+		const carteEl = carte(carteData, {
+			onClick: () => {
+				if (jeu.echanger(index)) {
+					afficherMain();
+					mettreAJourCombo();
+				}
+			},
+			disabled
 		});
-
-		mainDiv.appendChild(carteDiv);
+		mainDiv.appendChild(carteEl);
 	});
 }
 
-function mettreAJourUI() {
-	afficherMain();
-	const resultat = jeu.calculerScore();
-	comboDiv.textContent = resultat.combo;
-	echangesDiv.textContent = `Échanges restants : ${jeu._echangesRestants}`;
+function mettreAJourCombo() {
+	const scoreData = calculerScore(jeu.getMain());
+	comboDiv.innerHTML = '';
+	comboDiv.appendChild(affichageScore(scoreData));
 }
 
-btnNouvelleManche.addEventListener('click', () => {
-	jeu.mancheSuivante();
-	scoreDiv.textContent = `Score : ${jeu.getScore()}`;
-	mettreAJourUI();
+function mettreAJourInfo() {
+	echangesSpan.textContent = jeu.getEchangesRestants();
+	scoreSpan.textContent = jeu.getScore();
+	mancheSpan.textContent = jeu.getManche();
+}
+
+btnValider.addEventListener('click', () => {
+	// Afficher le score avec le total
+	const scoreData = calculerScore(jeu.getMain());
+	comboDiv.innerHTML = '';
+	comboDiv.appendChild(affichageScore(scoreData, { avecTotal: true }));
+
+	// Après un délai, passer à la manche suivante
+	setTimeout(() => {
+		jeu.jouerMain();
+
+		afficherMain();
+		mettreAJourInfo();
+		mettreAJourCombo();
+	}, 2000);
 });
 
-mettreAJourUI();
+// Rendu initial
+afficherMain();
+mettreAJourInfo();
+mettreAJourCombo();
 ```
 
 </Solution>
 
-1. Styliser les cartes avec `style.css`.
+### Partie 4 : Nouvelles règles !
 
-<Solution>
+#### 1. Un Balatro plus grand
 
-```css
-#hand {
-	display: flex;
-	gap: 10px;
-	margin: 20px;
-}
+Dans le jeu Balatro, il y a deux mains :
 
-.carte {
-	width: 80px;
-	height: 120px;
-	border: 2px solid #333;
-	border-radius: 8px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background: white;
-	cursor: pointer;
-	transition: transform 0.2s;
-	font-size: 24px;
-}
+- Les cartes affichées face visible (main visible), au nombre de 8
+- Les cartes selectionnées pour être jouées (main jouée), au nombre de 5
 
-.carte:hover {
-	transform: translateY(-5px);
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
+Lors de l'échange, on selectionne le nombre de carte à changer (de 1 à la taille de la main visible, soit 8), puis on clique sur « échanger » pour confirmer l'échange.
 
-.couleur.♠,
-.couleur.♣ {
-	color: black;
-}
+Lorsqu'une main est jouée, elle est défaussé. Puis, on garde les cartes visibles non jouée dans la main, et on pioche pour compléter la main visible jusqu'à son nombre de base (8).
 
-.couleur.♥,
-.couleur.♦ {
-	color: red;
-}
+Modifier votre code pour implémenter ce nouveau comportement.
 
-#combo {
-	font-size: 32px;
-	font-weight: bold;
-	margin: 20px;
-	color: #4caf50;
-}
+#### 2. Conditions de fin
 
-button {
-	padding: 10px 20px;
-	font-size: 18px;
-	cursor: pointer;
-}
-```
+Le Balatro actuel n'a pas de conditions de fin, on peut continuer à jouer indéfiniment sans savoir si on a perdu ou gagné.
 
-</Solution>
+Nous allons modifier cela, en limitant le nombre d'échange possible **sur plusieurs manches** (plutôt que à chaque manche)
 
-### Partie 3 : Améliorations
+Par ailleurs nous allons ajouter un **compteur de manches** (compteur de main jouées).
 
-1. **Ajouter une animation de tirage** : lorsqu'une nouvelle carte est piochée, elle apparaît avec un effet de flip.
+Le nombre d'échange est limité à 4, et le nombre de main jouées à 3.
 
-<Solution>
+Quand le compteur d'échange est à zéro, on ne peut plus jouer de nouvelles cartes.
 
-```css
-@keyframes flip {
-	from {
-		transform: rotateY(0deg);
-		opacity: 0;
-	}
-	to {
-		transform: rotateY(360deg);
-		opacity: 1;
-	}
-}
+Quand le compteur de manche est à zéro, le jeu est terminé, on affiche le score.
 
-.carte.nouvelle {
-	animation: flip 0.5s ease;
-}
-```
+#### 3. Highscore
 
-```javascript
-// Dans afficherMain(), ajouter après la création de carteDiv:
-if (carte.nouvelle) {
-	carteDiv.classList.add('nouvelle');
-	setTimeout(() => carteDiv.classList.remove('nouvelle'), 500);
-}
-```
-
-</Solution>
-
-1. **Système de multiplicateurs** : ajouter des cartes spéciales qui multiplient le score.
-
-<Solution>
-
-```javascript
-// Dans calculerScore(), ajouter:
-let multiplicateur = 1;
-// Vérifier si main contient des cartes "multi"
-this.#hand.forEach((carte) => {
-	if (carte.multiplicateur) {
-		multiplicateur *= carte.multiplicateur;
-	}
-});
-return { score: score * multiplicateur, combo, main };
-```
-
-</Solution>
-
-1. **Choix du thème** : permettre aux joueurs de choisir les couleurs des cartes.
-
-<Solution>
-
-```html
-<input type="color" id="couleurFond" value="#ffffff" />
-<input type="color" id="couleurBordure" value="#333333" />
-```
-
-```javascript
-document.querySelector('#couleurFond').addEventListener('input', (e) => {
-	document.documentElement.style.setProperty('--couleur-fond', e.target.value);
-});
-```
-
-```css
-:root {
-	--couleur-fond: #ffffff;
-	--couleur-bordure: #333333;
-}
-
-.carte {
-	background: var(--couleur-fond);
-	border-color: var(--couleur-bordure);
-}
-```
-
-</Solution>
-```-->
+Faire en sorte de sauvegarder les highscore dans le `localStorage`, et de les afficher.

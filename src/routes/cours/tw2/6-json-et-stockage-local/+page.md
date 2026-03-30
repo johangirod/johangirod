@@ -4,7 +4,7 @@
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
   import { showSolution } from '$lib/showSolution.ts';
-  
+  showSolution.set(true)
 </script>
 
 <Reveal>
