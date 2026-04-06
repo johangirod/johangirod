@@ -86,25 +86,8 @@ switch (jour) {
 }
 ```
 
-### Boucles
 
-```js
-// for...of (itère sur les valeurs)
-const fruits = ['pomme', 'banane', 'orange'];
-for (const fruit of fruits) {
-	console.log(fruit); // Affiche "pomme", "banane", "orange"
-}
-
-// for...in (itère sur les clés/indices)
-const personne = { nom: 'Dupont', prenom: 'Jean', age: 30 };
-for (const propriete in personne) {
-	console.log(`${propriete}: ${personne[propriete]}`);
-}
-```
-
-## Fonctions
-
-### Déclaration et appel de fonctions
+## Déclaration et appel de fonctions
 
 ```js
 // Déclaration de fonction
@@ -172,6 +155,12 @@ nombres.sort((a, b) => b - a); // Tri numérique décroissant
 
 // forEach - exécute une fonction pour chaque élément
 nombres.forEach((n) => console.log(n));
+
+// for...of (itère sur les valeurs)
+const fruits = ['pomme', 'banane', 'orange'];
+for (const fruit of fruits) {
+	console.log(fruit); // Affiche "pomme", "banane", "orange"
+}
 ```
 
 ## Manipulation d'objets
@@ -225,24 +214,36 @@ const personneComplete = { ...personne, ...info };
 ```
 
 ## Manipulation du DOM
+### Selecteur CSS
+
+- `#mon-id` ⇿ `<div id="mon-id">`
+- `.ma-classe` ⇿ `<div class="ma-classe">`
+- `h1` ⇿ `<h1>`
+- `[attribut="valeur"]` ⇿ `<div attribut="valeur">`
+
+### Combinaison de sélecteurs
+
+- `parent enfant` (espace) ⇿ Sélectionne tous les descendants
+  - `div p` ⇿ Tous les `<p>` qui sont enfants d'un `<div>` 
+  - `#container .item` ⇿ Tous les éléments avec la classe `item` à l'intérieur de `#container`
+
+- `selecteur1selecteur2` (sans espace, combinaison) ⇿ Cumule les conditions sur le même élément
+  - `div#container` ⇿ Les `<div>` qui ont l'id `container`
+  - `input[type="text"]` ⇿ Les `<input>` dont l'attribut `type` égale `text`
+  - `p.texte.rouge` ⇿ Les `<p>` qui ont les classes `texte` ET `rouge`
+
+
 
 ### Sélection d'éléments
 
 ```js
-// Sélectionner un élément par son ID
-const titre = document.getElementById('titre');
-// ou
-const titre = document.querySelector('#titre');
-
 // Sélectionner le premier élément correspondant à un sélecteur CSS
 const premierParagraphe = document.querySelector('p');
-
 // Séléctionner les éléments enfants d'un élément
 const elementRougeDansPremierParagraphe = premierParagraphe.querySelector('.rouge');
 
 // Sélectionner tous les éléments correspondant à un sélecteur CSS
 const paragraphes = document.querySelectorAll('p');
-const elementsRouges = document.querySelectorAll('.rouge');
 
 // Accéder aux éléments d'une liste de nœuds
 paragraphes.forEach((p) => {
@@ -344,26 +345,6 @@ element.addEventListener('click', (event) => {
 });
 ```
 
-### Types d'événements courants
-
-```js
-// Événements de souris
-element.addEventListener('click', handler); // Clic simple
-element.addEventListener('mouseenter', handler); // Souris entre dans l'élément
-element.addEventListener('mouseleave', handler); // Souris quitte l'élément
-
-// Événements de clavier
-document.addEventListener('keydown', handler); // Touche enfoncée
-document.addEventListener('keyup', handler); // Touche relâchée
-document.addEventListener('keypress', handler); // Touche pressée (caractère)
-
-// Événements de formulaire
-form.addEventListener('submit', handler); // Soumission de formulaire
-input.addEventListener('input', handler); // Saisie dans un champ
-input.addEventListener('focus', handler); // Champ prend le focus
-input.addEventListener('blur', handler); // Champ perd le focus
-```
-
 ### Objet Event
 
 ```js
@@ -371,11 +352,9 @@ element.addEventListener('click', (event) => {
 	// Informations générales
 	console.log(event.type); // Type d'événement ('click')
 	console.log(event.target); // Élément qui a déclenché l'événement
-	console.log(event.currentTarget); // Élément sur lequel l'écouteur est attaché
 
 	// Pour les événements de souris
 	console.log(event.clientX, event.clientY); // Coordonnées dans la fenêtre
-	console.log(event.button); // Bouton de souris utilisé
 
 	// Pour les événements de clavier
 	console.log(event.key); // Touche pressée ('a', 'Enter', etc.)

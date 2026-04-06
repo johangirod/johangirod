@@ -78,7 +78,7 @@ Pioche `nombre` cartes du deck et les ajoute à la main (`this.#hand`). La méth
 
 **Note** Pour piocher une carte, il faut l'enlever de `this.#deck` et l'ajouter à `this.#hand`.
 
-<Solution>
+<Solution showAnyway>
 
 ```javascript
 piocher(nombre) {
@@ -97,7 +97,7 @@ piocher(nombre) {
 
 Échange la carte à l'index donné (0-4) pour une nouvelle carte du deck. Le nombre d'échanges est limité à 3 par manche. Retourne `true` si l'échange a réussi, `false` sinon.
 
-<Solution >
+<Solution showAnyway>
 
 ```javascript
 echanger(index) {
@@ -122,7 +122,7 @@ Le fichier `score.js` contient deux fonctions à implémenter :
 
 #### `valeurJetons(carte)`
 
-<Solution>
+<Solution showAnyway>
 
 ```javascript
 export function valeurJetons(carte) {
@@ -144,7 +144,7 @@ Cette fonction doit :
 4. Calculer le score total (score = jetons totaux × multiplicateur)
 5. Retourner `{ score, multiplier, jetons, typeMain }`
 
-<Solution >
+<Solution showAnyway>
 
 ```javascript
 import { calculMainGagnante, TYPES_MAIN } from './detecter-main/index.js';
@@ -183,11 +183,27 @@ export function calculerScore(main) {
 
 Maintenant que vous avez implémenté le calcul du score d'une main, vous pouvez l'utiliser dans le moteur de jeu. Dans le fichier `balatro.js`, implémentez la méthode `jouerMain`. Cette méthode est appelée lorsque le ou la joueuse clique sur « valider ».
 
-Elle :
-
+La méthode : 
 1. Calcule le score de la main via `calculerScore()` (du module `score.js`)
 2. Ajoute le score au total
 3. Vide la main, réinitialise les échanges, mélange et pioche une nouvelle main
+
+<Solution showAnyway>
+
+```js
+jouerMain() {
+ const { score } = calculerScore(this.#hand);
+ this.#score += score;
+
+ this.#hand = [];
+ this.#echangesRestants = 3;
+ this.melanger();
+ this.piocher(5);
+}
+```
+
+</Solution>
+
 
 ### Partie 3 : l'interface
 
@@ -201,12 +217,12 @@ Dans ce TP, deux composants vous sont fournis : `carte` et `score`. Vous pouvez 
 
 #### Boucle de jeu
 
-Maintenant que nous avons le moteur de jeu et les composants, assemblons le tout dans `main.js`.
-Le HTML est déjà fourni dans `index.html`.
+Maintenant que nous avons le moteur de jeu et les composants, assemblons le tout dans `main.js`. Le HTML est déjà fourni dans `index.html`.
+
 L'interface doit :
 
 1. Afficher la main en utilisant le composant `carte`. Chaque carte a un `onClick` qui appelle `jeu.echanger(index)` puis rafraîchit l'affichage.
-2. Afficher en permanence la combinaison actuelle (sans le total) via le composant `affichageScore`.
+2. Afficher la combinaison actuelle (sans le total) via le composant `affichageScore`.
 3. Au clic sur « Valider la main » :
    - Calculer le score et afficher le panneau **avec le total** (`avecTotal: true`)
    - Désactiver le bouton et les cartes
@@ -225,63 +241,60 @@ import { affichageScore } from './affichage-score/index.js';
 const jeu = new BalatroSimplifie();
 
 const mainDiv = document.querySelector('#main');
-const scoreSpan = document.querySelector('#score');
-const mancheSpan = document.querySelector('#manche');
-const comboDiv = document.querySelector('#combo');
-const echangesSpan = document.querySelector('#echanges');
-const btnValider = document.querySelector('#validerMain');
-
-function afficherMain() {
+function renderMain({ disabled = false } = {}) {
 	mainDiv.innerHTML = '';
 	const main = jeu.getMain();
-	const disabled = jeu.getEchangesRestants() <= 0;
-
+	const disabled = jeu.getEchangesRestants() <= 0 || disabled;
+	
 	main.forEach((carteData, index) => {
 		const carteEl = carte(carteData, {
 			onClick: () => {
 				if (jeu.echanger(index)) {
-					afficherMain();
-					mettreAJourCombo();
+					renderMain()
+					renderScore()
 				}
 			},
 			disabled
 		});
+		
 		mainDiv.appendChild(carteEl);
 	});
 }
 
-function mettreAJourCombo() {
+const scoreContainer = document.querySelector('#score');
+function renderScore(options) {
 	const scoreData = calculerScore(jeu.getMain());
-	comboDiv.innerHTML = '';
-	comboDiv.appendChild(affichageScore(scoreData));
+	scoreContainer.innerHTML = '';
+	scoreContainer.appendChild(affichageScore(scoreData, options));
 }
 
-function mettreAJourInfo() {
-	echangesSpan.textContent = jeu.getEchangesRestants();
-	scoreSpan.textContent = jeu.getScore();
-	mancheSpan.textContent = jeu.getManche();
+
+function renderInfo() {
+	document.querySelector('#echanges') = jeu.getEchangesRestants();
+	document.querySelector('#score-total') =.textContent = jeu.getScore();
+	document.querySelector('#manche').textContent = jeu.getManche();
 }
 
-btnValider.addEventListener('click', () => {
+document.querySelector('#validerMain').addEventListener('click', () => {
 	// Afficher le score avec le total
-	const scoreData = calculerScore(jeu.getMain());
-	comboDiv.innerHTML = '';
-	comboDiv.appendChild(affichageScore(scoreData, { avecTotal: true }));
+	renderScore({ avecTotal: true })
+	renderMain({ disabled: true })
 
 	// Après un délai, passer à la manche suivante
 	setTimeout(() => {
 		jeu.jouerMain();
-
-		afficherMain();
-		mettreAJourInfo();
-		mettreAJourCombo();
+		renderJeu()
 	}, 2000);
 });
 
-// Rendu initial
-afficherMain();
-mettreAJourInfo();
-mettreAJourCombo();
+function renderJeu() {
+  renderMain()
+  renderScore()
+  renderInfo()
+}
+
+renderJeu()
+
 ```
 
 </Solution>
