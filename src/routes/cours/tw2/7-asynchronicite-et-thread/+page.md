@@ -72,6 +72,32 @@ La main sera représentée par un tableau de 5 cartes. Chaque carte est un objet
 
 Des tests sont disponibles, vous pouvez les lancer avec la commande `npm test`
 
+#### 1. `constructor()`
+
+Complétez le constructeur en initialisant le `deck`
+
+
+<Solution showAnyway>
+
+```javascript
+constructor() {
+    const couleurs = ["♠", "♥", "♦", "♣"];
+    // Création du deck : un tableau de 52 cartes
+    // Chaque carte est un objet { valeur, couleur }
+    for (const couleur in couleurs) {
+      for (let valeur = 1; valeur <= 13; valeur ++) {
+        this.#deck.push({ couleur, valeur })
+      }
+    }
+
+    this.melanger();
+    this.piocher(5); // Pioche initiale de 5 cartes
+}
+
+```
+
+</Solution>
+
 #### 2. `piocher(nombre)`
 
 Pioche `nombre` cartes du deck et les ajoute à la main (`this.#hand`). La méthode retourne `true` si le tirage a réussi, `false` s'il n'y a pas assez de cartes dans le deck.
@@ -166,11 +192,11 @@ export function calculerScore(main) {
 	const combo = COMBOS[type];
 	const jetonsCartes = cartes.reduce((somme, c) => somme + valeurJetons(c), 0);
 	const jetons = combo.jetons + jetonsCartes;
-	const multiplicateur = combo.mult;
+	const multiplier = combo.mult;
 
 	return {
-		score: jetons * multiplicateur,
-		multiplier,
+		score: jetons * multiplier,
+		multiplicateur,
 		jetons,
 		typeMain: type
 	};
