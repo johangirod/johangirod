@@ -4,7 +4,7 @@
 	import Reveal from '$lib/Reveal.svelte';
 	import Slides from './slides.svelte';
 	import { showSolution } from '$lib/showSolution.ts';
-
+	showSolution.set(true)
 </script>
 
 <Reveal>
@@ -77,7 +77,7 @@ Des tests sont disponibles, vous pouvez les lancer avec la commande `npm test`
 Complétez le constructeur en initialisant le `deck`
 
 
-<Solution showAnyway>
+<Solution>
 
 ```javascript
 constructor() {
@@ -104,7 +104,7 @@ Pioche `nombre` cartes du deck et les ajoute à la main (`this.#hand`). La méth
 
 **Note** Pour piocher une carte, il faut l'enlever de `this.#deck` et l'ajouter à `this.#hand`.
 
-<Solution showAnyway>
+<Solution>
 
 ```javascript
 piocher(nombre) {
@@ -123,7 +123,7 @@ piocher(nombre) {
 
 Échange la carte à l'index donné (0-4) pour une nouvelle carte du deck. Le nombre d'échanges est limité à 3 par manche. Retourne `true` si l'échange a réussi, `false` sinon.
 
-<Solution showAnyway>
+<Solution>
 
 ```javascript
 echanger(index) {
@@ -148,7 +148,7 @@ Le fichier `score.js` contient deux fonctions à implémenter :
 
 #### `valeurJetons(carte)`
 
-<Solution showAnyway>
+<Solution>
 
 ```javascript
 export function valeurJetons(carte) {
@@ -170,7 +170,7 @@ Cette fonction doit :
 4. Calculer le score total (score = jetons totaux × multiplicateur)
 5. Retourner `{ score, multiplier, jetons, typeMain }`
 
-<Solution showAnyway>
+<Solution>
 
 ```javascript
 import { calculMainGagnante, TYPES_MAIN } from './detecter-main/index.js';
@@ -214,7 +214,7 @@ La méthode :
 2. Ajoute le score au total
 3. Vide la main, réinitialise les échanges, mélange et pioche une nouvelle main
 
-<Solution showAnyway>
+<Solution>
 
 ```js
 jouerMain() {
